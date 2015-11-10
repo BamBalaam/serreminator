@@ -8,7 +8,7 @@
 
 \usepackage{hyperref}
 
-\title{Modélisation et gestion dynamique d'une serre via un réseau de capteurs.} 
+\title{Modélisation et gestion dynamique d'une serre\\ via un réseau de capteurs.} 
 \author{A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine} 
 \date{ } 
 
@@ -20,7 +20,39 @@
 
 \section{Sujet}
 
+Le but du projet est de modéliser et gérer de façon dynamique l'environnement d'une serre. Plusieurs variables seront analysées et contrôlées: humidité du sol et de l'air, luminosité et température. Ces variables seront récupérées via des capteurs installés dans la serre. \\
+
+Lorsque ces variables dépassent des bornes supérieure ou inférieure données, le logiciel construit activera des dispositifs pour les rétablir entre ces bornes. C'est à dire: \\
+
+\begin{enumerate}
+	\item Si la température tombe en dessous de la borne donnée, une résistance chauffante est activée.
+	\item Si la température dépasse la borne supérieure donnée, une ventilation est activé.
+	\item Si l'humidité de l'air est trop basse, un humidificateur est lancé.
+	\item Si l'humidité de du sol est trop basse, un système d'irrigation est enclenché.
+	\item La luminosité est régulée par une lampe et un système de "stores". (Trouver un meilleur mot!)\\
+\end{enumerate}
+
 \section{Implémentation}
+
+MIMO Multiple Input Multiple Output \\
+
+Algorithme PID, variantes, et autres algorithmes.\\
+
+\section{Dispositif de présentation au Printemps des Sciences}
+
+Lors du Printemps des Sciences, on envisage de présenter le projet en montant une serre où grandissent des fraises. \\
+
+L'état des variables contrôlées dans la serre seraient affichées sur un écran, avec un historique visible et les bornes délimitées. \\
+
+<SCREENSHOT DATA HAL HERE> \\
+
+Pour rendre la présentation dynamique et interactive, on pourrait créer des simulations de "perturbation" du système. Celles-ci enclencheraient les dispositifs installés et prouveraient que la serre fonctionne théoriquement en auto-gestion. Des exemples de simulations: \\
+
+\begin{enumerate}
+	\item Allumer une lampe pour que le capteur de luminosité active les "stores".
+	\item Chauffer la serre avec un dispositif externe (par exemple, un sèche-cheveux) pour que la ventilation s'enclenche. 
+	\item Autres... \\
+\end{enumerate}
 
 \section{Bibliographie}
 
