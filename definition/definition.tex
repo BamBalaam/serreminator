@@ -1,10 +1,13 @@
 \documentclass[a4paper,10pt]{article}
-\usepackage[a4paper]{geometry}
-\geometry{hscale=0.8,vscale=0.8,centering}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{graphicx}
+\bibliography{definition}
 
 \usepackage{hyperref}
 
@@ -16,7 +19,7 @@
 
 \maketitle
 
-\vspace{2cm}
+\vspace{1cm}
 
 \section{Sujet}
 
@@ -29,7 +32,7 @@ Lorsque ces variables dépassent des bornes supérieure ou inférieure données,
 	\item Si la température dépasse la borne supérieure donnée, une ventilation est activé.
 	\item Si l'humidité de l'air est trop basse, un humidificateur est lancé.
 	\item Si l'humidité de du sol est trop basse, un système d'irrigation est enclenché.
-	\item La luminosité est régulée par une lampe et un système de "stores". (Trouver un meilleur mot!)\\
+	\item La luminosité est régulée par une lampe et un système de volets.\\
 \end{enumerate}
 
 \section{Implémentation}
@@ -38,15 +41,31 @@ MIMO Multiple Input Multiple Output \\
 
 Algorithme PID, variantes, et autres algorithmes.\\
 
+L'affichage des données sera pris en charge par un visualiseur dédié à l'affichage de données sous forme de graphes: Grafana. Il est possible d'afficher un historique avec des bornes délimitées (en bleu et rouge sur la figure suivante). \\
+
+\newpage
+
+\vspace{-2cm}
+
+\afterpage{%
+\thispagestyle{empty}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5,angle=90]{figures/Grafana2.png}
+\caption{Grafana affichant des données}
+\label{grafana}
+\end{figure}
+}
+
+\newpage
+
 \section{Dispositif de présentation au Printemps des Sciences}
 
 Lors du Printemps des Sciences, nous envisageons de présenter notre projet en exposant une serre où sont cultivées des fraises. \\
 
-L'état des variables contrôlées dans la serre seraient affichées sur un écran, avec un historique visible et les bornes délimitées. \\
+L'état des variables contrôlées dans la serre seraient affichées sur un écran, avec un historique visible et les bornes délimitées (comme détaillé dans la partie "Implémentation"). \\
 
-<SCREENSHOT DATA HAL HERE> \\
-
-Pour rendre la présentation dynamique et interactive, nous pourrions volontairement perturber le système et celui-ci se stabiliserait tout seul. Nous pourions par exemple :
+Pour rendre la présentation dynamique et interactive, nous pourrions volontairement perturber le système et celui-ci se stabiliserait tout seul. Nous pourrions par exemple :
 \begin{enumerate}
 	\item Allumer une lampe et qu'en réaction le système ferme les volets.
 	\item Chauffer la serre avec un dispositif externe (par exemple, un sèche-cheveux) pour que la ventilation s'enclenche.
@@ -54,5 +73,11 @@ Pour rendre la présentation dynamique et interactive, nous pourrions volontaire
 \end{enumerate}
 
 \section{Bibliographie}
+
+L'article principal auquel nous ferrons référence est \citetitle{Zheying2014}\cite{Zheying2014}. Il présente un cas d'étude très proche du notre en utilisant une version "fuzzy" de l'algorithme PID.\\
+
+\newpage
+
+\printbibliography
 
 \end{document}
