@@ -51,7 +51,7 @@ L'affichage des données sera pris en charge par un visualiseur dédié à l'aff
 \thispagestyle{empty}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5,angle=90]{figures/Grafana2.png}
+\includegraphics[scale=0.5]{figures/Grafana.png}
 \caption{Grafana affichant des données}
 \label{grafana}
 \end{figure}
@@ -74,7 +74,15 @@ Pour rendre la présentation dynamique et interactive, nous pourrions volontaire
 
 \section{Bibliographie}
 
-L'article principal auquel nous ferrons référence est \citetitle{Zheying2014}\cite{Zheying2014}. Il présente un cas d'étude très proche du notre en utilisant une version "fuzzy" de l'algorithme PID.\\
+Les deux premières sources sur lesquelles nous nous basons sont \citetitle{Kinnaert2013} \cite{Kinnaert2013} et \citetitle{Knospe2006} \cite{Knospe2006}, des cours détaillant les bases de l'algorithme PID. \\
+
+Ensuite, nous ferrons référence à l'article \citetitle{Zheying2014} \cite{Zheying2014}. Il présente un cas d'étude très proche du notre en utilisant une version "fuzzy" de l'algorithme PID.\\
+
+Deux documents présentent des implémentations concrètes proches de la notre: \citetitle{Ioannidis2014} \cite{Ioannidis2014} qui utilise un Raspberry Pi et \citetitle{ATMEL2005} \cite{ATMEL2005} qui utilise un microcontrôleur. \\
+
+Pour présenter des variantes à l'algorithme PID, nous nous référerons à \citetitle{Afou2014} \cite{Afou2014}, \citetitle{ballard1993pid} \cite{ballard1993pid} et \citetitle{Saletovi2014} \cite{Saletovi2014} \\
+
+Pour finir, nous envisageons d'utiliser des filtres de Kalman pour filtrer le signal en entrée du PID pour ne pas amplifier le bruit, et éventuellement prédire l'état futur du système. Nous nous basons sur l'article \citetitle{Welch2006} \cite{Welch2006}.
 
 \newpage
 
