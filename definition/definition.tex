@@ -12,7 +12,7 @@
 \usepackage{hyperref}
 
 \title{Régulation d'un système dynamique : application à une serre}
-\author{A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine}
+\author{A. Caccia \and A. Madeira Cortes \and N. Marchant \and R. Fontaine}
 \date{ }
 
 \begin{document}
@@ -31,9 +31,11 @@ Lorsque ces variables dépassent des bornes supérieure ou inférieure données,
 	\item Si la température tombe en dessous de la borne donnée, une résistance chauffante est activée.
 	\item Si la température dépasse la borne supérieure donnée, une ventilation est activé.
 	\item Si l'humidité de l'air est trop basse, un humidificateur est lancé.
-	\item Si l'humidité de du sol est trop basse, un système d'irrigation est enclenché.
+	\item Si l'humidité du sol est trop basse, un système d'irrigation est enclenché.
 	\item La luminosité est régulée par une lampe et un système de volets.\\
 \end{enumerate}
+
+\newpage
 
 \section{Implémentation}
 
@@ -43,11 +45,6 @@ Algorithme PID, variantes, et autres algorithmes.\\
 
 L'affichage des données sera pris en charge par un visualiseur dédié à l'affichage de données sous forme de graphes: Grafana. Il est possible d'afficher un historique avec des bornes délimitées (en bleu et rouge sur la figure suivante). \\
 
-\newpage
-
-\vspace{-2cm}
-
-\afterpage{%
 \thispagestyle{empty}
 \begin{figure}[H]
 \centering
@@ -55,9 +52,6 @@ L'affichage des données sera pris en charge par un visualiseur dédié à l'aff
 \caption{Grafana affichant des données}
 \label{grafana}
 \end{figure}
-}
-
-\newpage
 
 \section{Dispositif de présentation au Printemps des Sciences}
 
