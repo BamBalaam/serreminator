@@ -75,17 +75,17 @@ Pour rendre l'expérience plus visuelle, nous pouvons aussi afficher en temps r�
 \end{figure}
 
 
-\section{Bibliographie}
+\section{Sources utilisées}
 
-Les deux premières sources sur lesquelles nous nous basons sont \citetitle{Kinnaert2013} \cite{Kinnaert2013} et \citetitle{Knospe2006} \cite{Knospe2006}, des cours détaillant les bases de l'algorithme PID. \\
+Pour commencer, nous nous baserons sur des cours d'automatique détaillant les bases de la théorie du contrôle et plus particulièrement de l'algorithme PID. Ceux-ci sont les cours ``MATH-H-304 - Automatique'' \cite{Kinnaert2013} dispensé à l'École Polytechnique de l'ULB et le cours dispensé à Caltech : ``Control System Design'' \cite{Knospe2006}. \\
 
-Ensuite, nous ferrons référence à l'article \citetitle{Zheying2014} \cite{Zheying2014}. Il présente un cas d'étude très proche du notre en utilisant une version "fuzzy" de l'algorithme PID.\\
+Nous ferons un rapprochement avec un cas d'étude assez proche du notre : le contrôle de la température dans une serre, \citetitle{Zheying2014} \cite{Zheying2014} dans lequel les auteurs utilisent une version ``fuzzy'' de l'algorithme PID.
 
-Deux documents présentent des implémentations concrètes proches de la notre: \citetitle{Ioannidis2014} \cite{Ioannidis2014} qui utilise un Raspberry Pi et \citetitle{ATMEL2005} \cite{ATMEL2005} qui utilise un microcontrôleur. \\
+Ensuite, nous utiliserons deux documents détaillant des implémentations matérielles et logicielles proches de notre but: \citetitle{Ioannidis2014} \cite{Ioannidis2014} qui utilise un Raspberry Pi et \citetitle{ATMEL2005} \cite{ATMEL2005} qui utilise un microcontrôleur AVR. \\
 
-Pour présenter des variantes à l'algorithme PID, nous nous référerons à \citetitle{Afou2014} \cite{Afou2014}, \citetitle{ballard1993pid} \cite{ballard1993pid} et \citetitle{Saletovi2014} \cite{Saletovi2014} \\
+Pour étudier des variantes à l'algorithme PID, nous nous référerons à \citetitle{Afou2014} \cite{Afou2014}, \citetitle{ballard1993pid} \cite{ballard1993pid} et \citetitle{Saletovi2014} \cite{Saletovi2014} \\
 
-Pour finir, nous envisageons d'utiliser des filtres de Kalman pour filtrer le signal en entrée du PID pour ne pas amplifier le bruit, et éventuellement prédire l'état futur du système. Nous nous basons sur l'article \citetitle{Welch2006} \cite{Welch2006}.
+Parallèlement au problème du contrôle, nous envisageons d'utiliser des filtres de Kalman pour filtrer le signal en entrée de PID pour ne pas amplifier le bruit des capteurs et éventuellement prédire l'état futur du système. Pour cela, nous nous baserons sur l'article \citetitle{Welch2006} \cite{Welch2006}.
 
 \newpage
 
