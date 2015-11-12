@@ -38,6 +38,17 @@ Lorsque ces variables dépassent des bornes supérieure ou inférieure acceptabl
 
 \section{Implémentation}
 
+Le projet sera implémenté en plusieurs parties :
+
+\begin{enumerate}
+    \item La mesure des variables du système
+    \item Le filtrage de ces mesures
+    \item L'algorithme de contrôle en lui-même (probablement PID, voir \cite{Kinnaert2013})
+    \item Exécution des commandes de correction (déterminées à l'étape précédents) par le matériel.
+\end{enumerate}
+
+La mesure de l'état du système sera fait à l'aide d'un Arduino et de capteurs analogiques simples à notre disposition à UrLab (le hackerspace de l'ULB). L'Arduino transmettra ensuite ces valeurs à un ordinateur qui filtrera ces données pour
+
 MIMO Multiple Input Multiple Output \\
 
 Algorithme PID, variantes, et autres algorithmes.\\
