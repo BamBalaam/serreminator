@@ -23,15 +23,14 @@
 
 \section{Sujet}
 
-Le but du projet est de modéliser et gérer de façon dynamique l'environnement d'une serre. Plusieurs variables seront analysées et contrôlées: humidité du sol et de l'air, luminosité et température. Ces variables seront récupérées via des capteurs installés dans la serre. \\
+Le but du projet est de modéliser et gérer dynamiquement l'environnement d'une serre. Plusieurs variables seront mesurées et devront être maintenues dans des bornes acceptables pour les plantes: humidité du sol et de l'air, luminosité et température. Ces variables seront mesurées grâce des capteurs installés dans la serre. \\
 
-Lorsque ces variables dépassent des bornes supérieure ou inférieure données, le logiciel construit activera des dispositifs pour les rétablir entre ces bornes. C'est à dire: \\
+Lorsque ces variables dépassent des bornes supérieure ou inférieure acceptables, le logiciel développé activera des dispositifs pour les rétablir entre ces bornes. C'est à dire: \\
 
 \begin{enumerate}
-	\item Si la température tombe en dessous de la borne donnée, une résistance chauffante est activée.
-	\item Si la température dépasse la borne supérieure donnée, une ventilation est activé.
-	\item Si l'humidité de l'air est trop basse, un humidificateur est lancé.
-	\item Si l'humidité de du sol est trop basse, un système d'irrigation est enclenché.
+	\item La température est régulée par une résistance chauffante et un ventilateur.
+	\item L'humidité de l'air est régulée par un brumisateur et le ventilateur.
+	\item L'humidité de du sol est régulée par un système d'irrigation.
 	\item La luminosité est régulée par une lampe et un système de volets.\\
 \end{enumerate}
 
