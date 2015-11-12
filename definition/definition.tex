@@ -28,10 +28,10 @@ Le but du projet est de modéliser et gérer dynamiquement l'environnement d'une
 Lorsque ces variables dépassent des bornes supérieure ou inférieure acceptables, le logiciel développé activera des dispositifs pour les rétablir entre ces bornes. C'est à dire: \\
 
 \begin{enumerate}
-	\item La température est régulée par une résistance chauffante et un ventilateur.
-	\item L'humidité de l'air est régulée par un brumisateur et le ventilateur.
-	\item L'humidité de du sol est régulée par un système d'irrigation.
-	\item La luminosité est régulée par une lampe et un système de volets.\\
+	\item la température est régulée par une résistance chauffante et un ventilateur,
+	\item l'humidité de l'air est régulée par un brumisateur et le ventilateur,
+	\item l'humidité de du sol est régulée par un système d'irrigation,
+	\item la luminosité est régulée par une lampe et un système de volets.\\
 \end{enumerate}
 
 \newpage
@@ -41,38 +41,39 @@ Lorsque ces variables dépassent des bornes supérieure ou inférieure acceptabl
 Le projet sera implémenté en plusieurs parties :
 
 \begin{enumerate}
-    \item La mesure des variables du système
-    \item Le filtrage de ces mesures
-    \item L'algorithme de contrôle en lui-même (probablement PID, voir \cite{Kinnaert2013})
-    \item Exécution des commandes de correction (déterminées à l'étape précédents) par le matériel.
+    \item la mesure des variables du système,
+    \item le filtrage de ces mesures,
+    \item l'algorithme de contrôle en lui-même (probablement PID, voir \cite{Kinnaert2013}),
+    \item l'exécution des commandes de correction (déterminées à l'étape précédente) par le matériel.
 \end{enumerate}
 
-La mesure de l'état du système sera fait à l'aide d'un Arduino et de capteurs analogiques simples à notre disposition à UrLab (le hackerspace de l'ULB). L'Arduino transmettra ensuite ces valeurs à un ordinateur qui filtrera ces données pour
+La mesure de l'état du système sera fait à l'aide d'un Arduino et de capteurs analogiques simples à notre disposition à UrLab (le hackerspace de l'ULB). L'Arduino transmettra ensuite ces valeurs à un ordinateur qui filtrera celles-ci pour les donner en entrée à l'algorithme de contrôle. Ce dernier enverra ensuite des ordres au matériel (ventilateur, humidificateur, ...) qui seront eux aussi connectés à un Arduino.
 
-MIMO Multiple Input Multiple Output \\
+Selon les résultats obtenus avec un PID simple, nous pourrions implémenter plusieurs variantes de PID ainsi que d'autres algorithmes de contrôle pour comparer leurs avantages et inconvénients.
 
-Algorithme PID, variantes, et autres algorithmes.\\
 
 \section{Dispositif de présentation au Printemps des Sciences}
 
-Lors du Printemps des Sciences, nous envisageons de présenter notre projet en exposant une serre où sont cultivées des fraises. \\
+Lors du Printemps des Sciences, nous envisageons de présenter notre projet en exposant une serre où sont cultivées des fraises. Il est aussi envisagé d'exposer une plus grande serre que Inforsciences nous prêterait.
 
-L'affichage des données sera pris en charge par un visualiseur dédié à l'affichage de données sous forme de graphes: Grafana. Il est possible d'afficher un historique avec des bornes délimitées (en bleu et rouge sur la figure suivante). \\
+Pour rendre la présentation dynamique et interactive, nous pourrions volontairement perturber le système et celui-ci se stabiliserait tout seul. Nous pourrions par exemple :
+\begin{enumerate}
+	\item allumer une lampe et qu'en réaction le système ferme les volets,
+	\item chauffer la serre avec un dispositif externe (par exemple, un sèche-cheveux) pour que la ventilation s'enclenche,
+	\item autres.
+\end{enumerate}
+
+
+Pour rendre l'expérience plus visuelle, nous pouvons aussi afficher en temps réel des graphes des données ainsi que les consignes de contrôle données au matériel. Pour cela, nous envisageons d'utiliser Grafana, un outil libre de visualisation de données temporelles. Il serait possible d'afficher un historique avec des bornes délimitées (en bleu et rouge sur la figure suivante). \\
 
 \thispagestyle{empty}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{figures/Grafana.png}
-\caption{Grafana affichant des données}
+\caption{Grafana affichant des données temporelles}
 \label{grafana}
 \end{figure}
 
-Pour rendre la présentation dynamique et interactive, nous pourrions volontairement perturber le système et celui-ci se stabiliserait tout seul. Nous pourrions par exemple :
-\begin{enumerate}
-	\item Allumer une lampe et qu'en réaction le système ferme les volets.
-	\item Chauffer la serre avec un dispositif externe (par exemple, un sèche-cheveux) pour que la ventilation s'enclenche.
-	\item Autres... \\
-\end{enumerate}
 
 \section{Bibliographie}
 
