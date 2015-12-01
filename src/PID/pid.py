@@ -6,7 +6,7 @@ class PID():
         self.kp = kp
         self.ki = ki
         self.kd = kd
-        self.lastErr = 0.
+        self.lastMeasured = 0.
         self.integral = 0.
         self.lastTime = time()
 
@@ -15,8 +15,9 @@ class PID():
         deltaTime = now - lastTime
         error = defaultPoint - measured
         self.integral += error * deltaTime
-        res = self.kp * error + self.ki * self.integral +
-                self.kd * (error - self.lastErr) / deltaTime
-        self.lastErr = error
+        deltaMeasured = measured - self.lastMeasured
+        res = self.kp * error + self.ki * self.integral -
+                self.kd * deltaMeasured / deltaTime
+        self.lastMeasured = measured
         self.lastTime = now
         return res
