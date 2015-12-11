@@ -5,3 +5,7 @@
 	path = src/arduino/lib/hal
 	url = git@github.com:UrLab/hal-arduino.git
 	branch = addDHTSensors
+[submodule "src/driver"]
+	path = src/driver
+	url = git@github.com:UrLab/hal-driver.git
+	branch = addDHTSensors
