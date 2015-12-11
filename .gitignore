@@ -127,3 +127,6 @@ sympy-plots-for-*.tex/
 
 # FaitMain
 *.pdf
+
+# hal
+src/arduino/.build/
