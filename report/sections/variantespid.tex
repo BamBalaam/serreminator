@@ -1,6 +1,16 @@
 \section{Variantes de PID}
 
 \subsection{Integral windup}
+Le problème de l'Intgral Windup survient lorsqu'un algorithme de contrôle mal programmé demande une correction impossible, tel que l'ouverture d'une vanne au-delà de son maximum, ou encore la diminution de rythme d'un ventilateur déjà éteint. La partie \emph{Intégration} de PID sommant les corrections, ces erreurs vont s'accumuler et provoquer un \emph{overshoot}, c'est à dire une correction au-delà des limites possibles.
+
+Ce phénomène étudié depuis des années fut résolu par de nombreux moyens, comme le démontrent \cite{ControlGuruIntegralWindup}, \cite{astrom1995pid}, \cite{shin2012anti}, ou encore \cite{bohn1995analysis}.
+
+On peut citer quelques exemples de corrections, telles que:
+\begin{description}
+\item[limiter les bornes de variations] une façon simple de résoudre ce problème est de ne pas envoyer de commandes en dehors de bornes minimums et maximums; cela conduit néanmoins à des limitations de performances, ces bornes ne réglant pas suffisamment rapidement la perturbation
+\item[algorithme incrémental] la correction est d'abord calculée par un algorithme, et ensuite suivant le résultat, sera envoyée dans l'intégrateur; le windup est alors corrigé en enlevant l'action de l'intégrateur tant que la sortie est trop haute/basse
+\item[back-calculation] lorsque la sortie est en dehors des bornes, celle-ci est limitée aux bornes et sauvegardée pour être considérée dans le prochain tour de la boucle de contrôle
+\end{description}
 
 \subsection{PI controller}
 
