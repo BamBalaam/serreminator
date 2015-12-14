@@ -1,2 +1,46 @@
 %!TEX root = ../report.tex
+
 \section{Variantes de PID}
+
+\subsection{Integral windup}
+Le problème de l'Intgral Windup survient lorsqu'un algorithme de contrôle mal programmé demande une correction impossible, tel que l'ouverture d'une vanne au-delà de son maximum, ou encore la diminution de rythme d'un ventilateur déjà éteint. La partie \emph{Intégration} de PID sommant les corrections, ces erreurs vont s'accumuler et provoquer un \emph{overshoot}, c'est à dire une correction au-delà des limites possibles.
+
+Ce phénomène étudié depuis des années fut résolu par de nombreux moyens, comme le démontrent \cite{ControlGuruIntegralWindup}, \cite{astrom1995pid}, \cite{shin2012anti}, ou encore \cite{bohn1995analysis}.
+
+On peut citer quelques exemples de corrections, telles que:
+\begin{description}
+\item[limiter les bornes de variations] une façon simple de résoudre ce problème est de ne pas envoyer de commandes en dehors de bornes minimums et maximums; cela conduit néanmoins à des limitations de performances, ces bornes ne réglant pas suffisamment rapidement la perturbation
+\item[algorithme incrémental] la correction est d'abord calculée par un algorithme, et ensuite suivant le résultat, sera envoyée dans l'intégrateur; le windup est alors corrigé en enlevant l'action de l'intégrateur tant que la sortie est trop haute/basse
+\item[back-calculation] lorsque la sortie est en dehors des bornes, celle-ci est limitée aux bornes et sauvegardée pour être considérée dans le prochain tour de la boucle de contrôle
+\end{description}
+
+\subsection{Derivative kick}
+
+\subsection{Gain scheduling}
+
+\subsection{fuzzy logic}
+
+\section{Alternatives à PID}
+
+\subsection{Bang bang control}
+le \emph{Bang bang control}, aussi appelé \emph{On-Off control} ou en français, \emph{Tout ou rien}, est un controleur qui ne peut accepter que deux états de modification, tels que ouvert ou fermé, ou allumé ou éteint.
+
+Des exemples très classiques d'utilisation de ce type de contrôleur sont les thermostats: le chauffage s'allume sous une température minimale, et s'éteint au-dessus d'un seuil maximal.
+
+\subsection{P controller}
+Le \emph{Proportional Pontrol} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci. Cet algorithme se situe entre l'algorithme Bang Bang et PID: en effet, là où Bang Bang va corriger l'état simplement en allumant ou en éteignant un appareil, l'algorithme P control va lui, appliquer une réponse appropriée à la perturbation.
+
+Un tel contrôleur s'exprime par l'équation $P_{out} = K_{p}e(t) + p0$ où $e(t) = SP - SV$ est l'erreur mesurée (différence entre valeur attendue et valeur reçue), $K_{p}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale par rapport à PID.
+
+Un grand avantage à l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive: plus le paramètre $K_{p}$ est petit, plus la réaction est lente, et à l'inverse, plus il est grand, plus ce sera rapide.
+
+Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset}, un décalage par rapport aux valeurs attendues.
+
+Le choix d'un tel contrôleur par rapport à PID dépend de l'utilisation, de la précision et de la vitesse des corrections désirées. Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}.
+
+\subsection{Integral controller}
+Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller. Un tel contrôleur est caractérisé dans \cite{svrcek2006real} par l'équation $\frac{1}{T_{i}}\int e dt + MV_{0}$ où $MV_{0}$ correspond à la correspond biaisée de P controller, $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$, et $T_{i}$ est le temps intégral, défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
+
+\subsection{PI controller}
+Le contrôleur PI est un cas particulier de PID dans lequel la partie dérivée n'est pas prise en compte. 
+Un tel système sera moins réactif aux perturbations, que ce soit du point de vue réponse ou temps de correction.
