@@ -1,7 +1,8 @@
 import logging
 from math import *
 from sys import stdout
-from halpy import HAL
+from halpy.halpy import HAL
+import asyncio
 
 logging.basicConfig(
     stream=stdout, level=logging.INFO,
@@ -11,20 +12,22 @@ logger = logging.getLogger(__name__)
 
 class HALScript():
 
-    def __init__():
+    def __init__(self):
         """
         Setpoints have to be modified!!
         """
-        this.GHBOTTOM = 100
-        this.AHBOTTOM = 100
-        this.TEMPBOTTOM = 20
-        this.TEMPUPPER = 40
-        this.LIGHTBOTTOM = 100
-        this.LIGHTUPPER = 300
+        GHBOTTOM = 100
+        AHBOTTOM = 100
+        TEMPBOTTOM = 20
+        TEMPUPPER = 40
+        LIGHTBOTTOM = 100
+        LIGHTUPPER = 300
         hal = HAL("/tmp/hal")
-        hal.run()
+        asyncio.async(self.modifyAirHumidity())
+        asyncio.async(self.modifyTemperature())
+        asyncio.async(self.modifyLightIntake())
 
-    def modifyAirHumidity():
+    def modifyAirHumidity(self):
         while True:
             try:
                 airHumidity = HAL.sensors.ahs.value
@@ -34,10 +37,11 @@ class HALScript():
                     # Will puff until higher
                     # Humidifier.activate()
                     pass
+                yield from asyncio.sleep(1)
             except:
                 logger.exception("Error in air humidity.")
 
-    def modifyTemperature():
+    def modifyTemperature(self):
         while True:
             try:
                 temperature = HAL.sensors.temp.value
@@ -51,10 +55,11 @@ class HALScript():
                     # Resistance.deactivate()
                     # Ventilation.activate()
                     pass
+                yield from asyncio.sleep(1)
             except:
                 logger.exception("Error in temperature modifier.")
 
-    def modifyLightIntake():
+    def modifyLightIntake(self):
         while True:
             try:
                 luminosity = HAL.sensors.luminosity.value
@@ -62,15 +67,16 @@ class HALScript():
                 # Feed to PID -->
 
                 if lux <= LIGHTBOTTOM:
-                    # Control Servo to open
+                    # Control Servo to open blinds
                     pass
                 elif lux >= LIGHTUPPER:
-                    # Control Servo to close
+                    # Control Servo to close blinds
                     pass
+                yield from asyncio.sleep(1)
             except:
                 logger.exception("Error in shades triggering.")
 
-    def sensorToLux(val):
+    def sensorToLux(self, val):
         Ra = 10.9
         Rr = 10
         Ea = 351.0
@@ -92,6 +98,9 @@ class HALScript():
                 if groundHumidity <= GHBOTTOM:
                     # Irrigation.activate()
                     pass
+                yield from asyncio.sleep(1)
             except:
                 logger.exception("Error in irrigation.")
     """
+
+HALScript()
