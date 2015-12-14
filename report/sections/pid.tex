@@ -1,0 +1,18 @@
+%!TEX root = ../report.tex
+
+\section[PID Utilité/Pertinence]{Utilité et pertinence de PID dans le cadre de la théorie du contrôle}
+
+Le régulateur PID est un système de contrôle. Il porte ce nom à cause de ses trois actions (action proportionnelle, intégrale et dérivée). Depuis son invention, la popularité de ce régulateur a fortement augmenté. [cite: PID Control System Analysis, Design, and Technology]
+
+PID et ses variantes sont les systèmes de contrôle les plus utilisés (95\% des régulateurs dans les procédés industriels). [cite: Slides Automatique] [cite: Control System Design] 
+
+Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, celui-ci maintient sa popularité car aucun autre contrôleur ne ``match the simplicity, clear functionality, applicability, and ease of use offered by the PID controller'' [cite: PID Control System Analysis, Design, and Technology]
+
+Le rôle de PID est de calculer en continu une erreur. Cette erreur est la différence entre une variable mesurée et un point désiré. PID tente de minimiser l'erreur au long du temps en ajustant une variable qu'il est possible de contrôler. [WIKI, FIND BETTER SOURCE] %- https://en.wikipedia.org/wiki/PID_controller
+
+Le grand avantage de PID est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet. Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres: 
+\begin{enumerate}
+\item la stabilité,
+\item précision (erreur d'état d'équilibre),
+\item rapidité (lors du lancement ou du d'arrivée à la stabilité)
+\end{enumerate}
