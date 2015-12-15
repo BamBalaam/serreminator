@@ -13,8 +13,11 @@ On peut citer quelques exemples de corrections, telles que:
 \end{description}
 
 \subsection{Derivative kick}
+Comme nous l'avons vu plus haut, PID dépend de trois actions: proportionnelle, intégrale et dérivée. L'action de la partie dérivée est de décrire le taux de variation du signal d'entrée dans le temps. Bien que l'équation de cette action utilise la variation d'erreur, il est aussi possible de l'exprimer en utilisant l'opposé de la dérivée des valeurs d'entrée.
 
-\subsection{Gain scheduling}
+Cette possibilité permet d'éviter l'effet de \emph{derivative kick}, où l'initialisation ou le changement de la consigne provoque une dérivée de l'erreur égale à l'infini, résultant en un bump dans la fonction.
+
+\subsection{Séquence de gain}
 
 \subsection{fuzzy logic}
 
