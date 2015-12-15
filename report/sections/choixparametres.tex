@@ -18,9 +18,31 @@ L'algorithme se passe en 4 étapes:
 	\item Pour finir, on augmente, si nécessaire, $K_d$ jusqu'au moment où la boucle est suffisamment rapide pour atteindre sa valeur de référence après une perturbation.
 \end{enumerate}
 
-\subsection{La méthode de Ziegler–Nichols}
+\subsection{Ziegler–Nichols}
+% http://www.chem.mtu.edu/~tbco/cm416/zn.html
+Cette technique commence comme la méthode manuelle:
+\begin{enumerate}
+	\item On commence par mettre les paramètres à 0.
+	\item On augmente $K_p$ jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
+\end{enumerate}
+Par contre, maintenant on va nommer cette valeur ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
 
-\subsection{La méthode de Ziegler–Nichols inversée}
+Ensuite, il suffit de calculer les autres paramètres grâce au tableau\ref{tab:ZieglerNicholsTuningFormulas}
+
+\begin{table}[ht]
+	\begin{center}	
+		\begin{tabular}{|c | c | c | c|}
+			\hline
+			& $K_p$ & $K_i$ & $K_d$\\ \hline
+			P & \(\frac{K_u}{2}\) & &\\ \hline
+			PI & \(\frac{K_u}{2.2}\) & \(1.2 \cdot \frac{K_p}{P_u}\) &\\ \hline
+			PID & \(\frac{K_u}{1.7}\) & \(2 \cdot \frac{K_p}{P_u}\) & \(K_p \cdot \frac{P_u}{8}\)\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Tableau des formules pour Ziegler–Nichols}
+	\label{tab:ZieglerNicholsTuningFormulas}
+\end{table}
 
 \subsection{Nyquist} 
 
