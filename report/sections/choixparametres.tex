@@ -1,20 +1,49 @@
 %!TEX root = ../report.tex
 \section{Choix de paramètres dans PID}
-Pour fonctionner parfaitement, l'algorithme PID nécessite 3 paramètres:
+PID nécessite 3 paramètres:
 \begin{itemize}
-\item $K_p$ aussi appelé P. Il montre l'importance par rapport aux valeurs présentes.
-\item $K_i$ aussi appelé I. Il fait varier la réponse de PID en fonction des erreurs passées.
-\item $K_d$ aussi appelé D. Il prend en compte les valeurs futures attendues par rapport aux changement actuellement.
+	\item $K_p$ aussi appelé P. Il montre l'importance par rapport aux valeurs présentes.
+	\item $K_i$ aussi appelé I. Il fait varier la réponse de PID en fonction des erreurs passées.
+	\item $K_d$ aussi appelé D. Il prend en compte les valeurs futures attendues par rapport aux changement actuellement.
 \end{itemize}
- Pour se faire, plusieurs algorithmes peuvent être utilisés.
- \subsection{La méthode manuelle}
- 
- \subsection{La méthode de Ziegler–Nichols}
- 
- \subsection{La méthode de Ziegler–Nichols inversée}
+Pour déterminer leurs valeurs optimales, plusieurs algorithmes peuvent être utilisés.
 
- \subsection{Nyquist} 
+\subsection{La méthode manuelle}
+Cette technique s'applique sur un système en live. L'avantage de cette technique, c'est quelle ne nécessite aucun calcul mathématique cependant, il faut des personnes expérimentées pour s'en occuper.
+L'algorithme se passe en 4 étapes:
+\begin{enumerate}
+	\item D'abord, on met les valeurs des 3 paramètres a 0.
+	\item Puis, on augmente le paramètre $K_p$ jusqu'à ce que la sortie de la boucle oscille. On prendra comme valeur pour $K_p$ la moitié de celle obtenue précédemment.
+	\item Ensuite, on augmente $K_i$ jusqu'au moment ou l'offset est corrigé dans un temps suffisant pour le système.
+	\item Pour finir, on augmente, si nécessaire, $K_d$ jusqu'au moment où la boucle est suffisamment rapide pour atteindre sa valeur de référence après une perturbation.
+\end{enumerate}
 
- \subsection{La méthode de Tyreus Luyben}
- 
- 
+\subsection{Ziegler–Nichols}
+% http://www.chem.mtu.edu/~tbco/cm416/zn.html
+Cette technique commence comme la méthode manuelle:
+\begin{enumerate}
+	\item On commence par mettre les paramètres à 0.
+	\item On augmente $K_p$ jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
+\end{enumerate}
+Par contre, maintenant on va nommer cette valeur ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
+
+Ensuite, il suffit de calculer les autres paramètres grâce au tableau\ref{tab:ZieglerNicholsTuningFormulas}
+
+\begin{table}[ht]
+	\begin{center}	
+		\begin{tabular}{|c | c | c | c|}
+			\hline
+			& $K_p$ & $K_i$ & $K_d$\\ \hline
+			P & \(\frac{K_u}{2}\) & &\\ \hline
+			PI & \(\frac{K_u}{2.2}\) & \(1.2 \cdot \frac{K_p}{P_u}\) &\\ \hline
+			PID & \(\frac{K_u}{1.7}\) & \(2 \cdot \frac{K_p}{P_u}\) & \(K_p \cdot \frac{P_u}{8}\)\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Tableau des formules pour Ziegler–Nichols}
+	\label{tab:ZieglerNicholsTuningFormulas}
+\end{table}
+
+\subsection{Nyquist} 
+
+\subsection{La méthode de Tyreus Luyben}

@@ -1,5 +1,6 @@
 from time import time
 
+
 class PID():
     def __init__(self, defaultPoint, kp=0., ki=0., kd=0.):
         self.defaultPoint = defaultPoint
@@ -12,12 +13,11 @@ class PID():
 
     def compute(self, measured):
         now = time()
-        deltaTime = now - lastTime
-        error = defaultPoint - measured
+        deltaTime = now - self.lastTime
+        error = self.defaultPoint - measured
         self.integral += error * deltaTime
         deltaMeasured = measured - self.lastMeasured
-        res = self.kp * error + self.ki * self.integral -
-                self.kd * deltaMeasured / deltaTime
+        res = self.kp * error + self.ki * self.integral - self.kd * deltaMeasured / deltaTime
         self.lastMeasured = measured
         self.lastTime = now
         return res
