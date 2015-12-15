@@ -2,6 +2,7 @@ import logging
 from math import *
 from sys import stdout
 from halpy.halpy import HAL
+from PID.pid import PID
 import asyncio
 
 logging.basicConfig(
@@ -26,6 +27,7 @@ class HALScript():
         #asyncio.async(self.modifyAirHumidity())
         asyncio.async(self.modifyTemperature())
         #asyncio.async(self.modifyLightIntake())
+        hal.run()
 
     def modifyAirHumidity(self):
         while True:
@@ -45,7 +47,7 @@ class HALScript():
         tempPID = PID(10)
         while True:
             try:
-                temperature = HAL.DHTsensor.value
+                temperature = HAL.DHTSensors.temp.value
                 res = tempPID.compute(temperature)
                 hal.animations.ventilo.upload([res])
                 hal.animations.ventilo.looping = True

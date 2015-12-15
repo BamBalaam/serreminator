@@ -1,6 +1,7 @@
 [submodule "src/halpy"]
 	path = src/halpy
-	url = https://github.com/UrLab/halpy.git
+	url = git@github.com:UrLab/halpy.git
+	branch = serreminator
 [submodule "src/arduino/lib/hal"]
 	path = src/arduino/lib/hal
 	url = git@github.com:UrLab/hal-arduino.git
