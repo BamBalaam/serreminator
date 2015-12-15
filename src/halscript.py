@@ -1,14 +1,16 @@
-import logging
+#import logging
 from math import *
 from sys import stdout
 from halpy.halpy import HAL
 from PID.pid import PID
 import asyncio
 
+"""
 logging.basicConfig(
     stream=stdout, level=logging.INFO,
     format="%(asctime)s %(levelname)7s: %(message)s")
 logger = logging.getLogger(__name__)
+"""
 
 
 class HALScript():
@@ -39,23 +41,26 @@ class HALScript():
                     # Will puff until higher
                     # Humidifier.activate()
                     pass
-                yield from asyncio.sleep(1)
+                #yield from asyncio.sleep(1)
             except:
-                logger.exception("Error in air humidity.")
+                pass
+                #logger.exception("Error in air humidity.")
 
     def modifyTemperature(self):
         tempPID = PID(10)
         while True:
             try:
-                temperature = HAL.DHTSensors.temp.value
+                import ipdb; ipdb.set_trace()
+                temperature = HAL.DHTsensors.temp.value
                 res = tempPID.compute(temperature)
                 hal.animations.ventilo.upload([res])
                 hal.animations.ventilo.looping = True
                 hal.animations.ventilo.playing = True
-                logger.debug("Set ventilation at %s" %res)
-                yield from asyncio.sleep(1)
-            except:
-                logger.exception("Error in temperature modifier.")
+                #logger.debug("Set ventilation at %s" %res)
+                #yield from asyncio.sleep(1)
+            except ValueError:
+                pass
+                #logger.exception("Error in temperature modifier.")
 
     def modifyLightIntake(self):
         while True:
@@ -70,9 +75,10 @@ class HALScript():
                 elif lux >= LIGHTUPPER:
                     # Control Servo to close blinds
                     pass
-                yield from asyncio.sleep(1)
+                #yield from asyncio.sleep(1)
             except:
-                logger.exception("Error in shades triggering.")
+                pass
+                #logger.exception("Error in shades triggering.")
 
     def sensorToLux(self, val):
         Ra = 10.9
