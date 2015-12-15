@@ -39,3 +39,20 @@ Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort s
 (voir \ref{sec:alternatives-to-PID}).
 
 \newpage
+
+\subsection{Les trois paramètres de PID}
+
+L'utilisation de PID est décrite par la formule suivante\cite{visioli2006practical} :
+
+$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
+
+Analysons les plusieurs parties de cette formule:
+
+\begin{description}
+\item[Action proportionnelle (P)]
+	Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
+\item[Action intégrale (I)]
+	Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
+\item[Action dérivée (D)]
+	Basée sur les valeurs estimées au futur pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+\end{description}
