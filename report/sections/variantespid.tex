@@ -45,3 +45,10 @@ Bien que ce contrôleur propose une correction aux décalages, on observe un tem
 Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale. Ils sont caractérisés par l'équation $P_{out} = K_{P} e + K_{I} \int e dt$, où $K_{p}$ et $K_{I}$ sont les paramètres de réglages proportionnel et intégral, et les autres symboles correspondent à ce qui est indiqué dans les sections \emph{P controller} et \emph{Integral controller}.
 
 Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapide que l'ajout d'un contrôleur intégral (\cite{svrcek2006real}). En effet, si l'on compare son équation avec celle du P controller, le terme $p0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
+
+\subsection{MPC controller}
+\emph{MPC} est un contrôleur permettant la prédiction des futurs états de différentes variables dans un système. Celui-ci utilise des stratégies prédictives afin de calculer les prochaines valeurs lues possibles.
+
+Contrairement à PID, MPC peut gérer plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit. Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte. De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse, et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
+
+Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm}, et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID.
