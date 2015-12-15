@@ -26,6 +26,7 @@ class HALScript():
         #asyncio.async(self.modifyAirHumidity())
         asyncio.async(self.modifyTemperature())
         #asyncio.async(self.modifyLightIntake())
+        hal.run()
 
     def modifyAirHumidity(self):
         while True:
