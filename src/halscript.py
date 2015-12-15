@@ -23,9 +23,10 @@ class HALScript():
         LIGHTBOTTOM = 100
         LIGHTUPPER = 300
         hal = HAL("/tmp/hal")
-        asyncio.async(self.modifyAirHumidity())
+        #asyncio.async(self.modifyAirHumidity())
         asyncio.async(self.modifyTemperature())
-        asyncio.async(self.modifyLightIntake())
+        #asyncio.async(self.modifyLightIntake())
+        hal.run()
 
     def modifyAirHumidity(self):
         while True:
@@ -42,19 +43,15 @@ class HALScript():
                 logger.exception("Error in air humidity.")
 
     def modifyTemperature(self):
+        tempPID = PID(10)
         while True:
             try:
-                temperature = HAL.sensors.temp.value
-                # Feed to PID -->
-
-                if temperature <= TEMPBOTTOM:
-                    # Ventilation.deactivate()
-                    # Resistance.activate()
-                    pass
-                elif temperature >= TEMPUPPER:
-                    # Resistance.deactivate()
-                    # Ventilation.activate()
-                    pass
+                temperature = HAL.DHTsensor.value
+                res = tempPID.compute(temperature)
+                hal.animations.ventilo.upload([res])
+                hal.animations.ventilo.looping = True
+                hal.animations.ventilo.playing = True
+                logger.debug("Set ventilation at %s" %res)
                 yield from asyncio.sleep(1)
             except:
                 logger.exception("Error in temperature modifier.")
