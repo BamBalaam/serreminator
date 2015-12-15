@@ -1,20 +1,28 @@
 %!TEX root = ../report.tex
 \section{Variantes de PID}
+\label{sec:alternatives-to-PID}
 
 \subsection{Integral windup}
-Le problème de l'Intgral Windup survient lorsqu'un algorithme de contrôle mal programmé demande une correction impossible, tel que l'ouverture d'une vanne au-delà de son maximum, ou encore la diminution de rythme d'un ventilateur déjà éteint. La partie \emph{Intégration} de PID sommant les corrections, ces erreurs vont s'accumuler et provoquer un \emph{overshoot}, c'est à dire une correction au-delà des limites possibles.
+Le problème de l'Intgral Windup survient lorsqu'un algorithme de contrôle mal programmé demande une correction impossible, tel que l'ouverture d'une vanne au-delà de son maximum, ou encore la diminution de rythme d'un ventilateur déjà éteint.
+La partie \emph{Intégration} de PID sommant les corrections, ces erreurs vont s'accumuler et provoquer un \emph{overshoot}, c'est à dire une correction au-delà des limites possibles.
 
 Ce phénomène étudié depuis des années fut résolu par de nombreux moyens, comme le démontrent \cite{ControlGuruIntegralWindup}, \cite{astrom1995pid}, \cite{shin2012anti}, ou encore \cite{bohn1995analysis}.
 
 On peut citer quelques exemples de corrections, telles que:
 \begin{description}
-\item[limiter les bornes de variations] une façon simple de résoudre ce problème est de ne pas envoyer de commandes en dehors de bornes minimums et maximums; cela conduit néanmoins à des limitations de performances, ces bornes ne réglant pas suffisamment rapidement la perturbation
-\item[algorithme incrémental] la correction est d'abord calculée par un algorithme, et ensuite suivant le résultat, sera envoyée dans l'intégrateur; le windup est alors corrigé en enlevant l'action de l'intégrateur tant que la sortie est trop haute/basse
-\item[back-calculation] lorsque la sortie est en dehors des bornes, celle-ci est limitée aux bornes et sauvegardée pour être considérée dans le prochain tour de la boucle de contrôle
+    \item[limiter les bornes de variations] une façon simple de résoudre ce problème est de ne pas envoyer de commandes en dehors de bornes minimums et maximums;
+    cela conduit néanmoins à des limitations de performances, ces bornes ne réglant pas suffisamment rapidement la perturbation
+
+    \item[algorithme incrémental] la correction est d'abord calculée par un algorithme, et ensuite suivant le résultat, sera envoyée dans l'intégrateur;
+    le windup est alors corrigé en enlevant l'action de l'intégrateur tant que la sortie est trop haute/basse
+
+    \item[back-calculation] lorsque la sortie est en dehors des bornes, celle-ci est limitée aux bornes et sauvegardée pour être considérée dans le prochain tour de la boucle de contrôle
 \end{description}
 
 \subsection{Derivative kick}
-Comme nous l'avons vu plus haut, PID dépend de trois actions: proportionnelle, intégrale et dérivée. L'action de la partie dérivée est de décrire le taux de variation du signal d'entrée dans le temps. Bien que l'équation de cette action utilise la variation d'erreur, il est aussi possible de l'exprimer en utilisant l'opposé de la dérivée des valeurs d'entrée.
+Comme nous l'avons vu plus haut, PID dépend de trois actions: proportionnelle, intégrale et dérivée.
+L'action de la partie dérivée est de décrire le taux de variation du signal d'entrée dans le temps.
+Bien que l'équation de cette action utilise la variation d'erreur, il est aussi possible de l'exprimer en utilisant l'opposé de la dérivée des valeurs d'entrée.
 
 Cette possibilité permet d'éviter l'effet de \emph{derivative kick}, où l'initialisation ou le changement de la consigne provoque une dérivée de l'erreur égale à l'infini, résultant en un bump dans la fonction.
 
@@ -31,7 +39,9 @@ le \emph{Bang bang control}, aussi appelé \emph{On-Off control} ou en français
 Des exemples très classiques d'utilisation de ce type de contrôleur sont les thermostats: le chauffage s'allume sous une température minimale, et s'éteint au-dessus d'un seuil maximal.
 
 \subsection{P controller}
-Le \emph{Proportional Pontrol} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci. Cet algorithme se situe entre l'algorithme Bang Bang et PID: en effet, là où Bang Bang va corriger l'état simplement en allumant ou en éteignant un appareil, l'algorithme P control va lui, appliquer une réponse appropriée à la perturbation.
+Le \emph{Proportional Pontrol} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci.
+Cet algorithme se situe entre l'algorithme Bang Bang et PID:
+en effet, là où Bang Bang va corriger l'état simplement en allumant ou en éteignant un appareil, l'algorithme P control va lui, appliquer une réponse appropriée à la perturbation.
 
 Un tel contrôleur s'exprime par l'équation $P_{out} = K_{P}e(t) + p0$ où $e(t) = SP - SV$ est l'erreur mesurée (différence entre valeur attendue et valeur reçue), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale par rapport à PID.
 
@@ -39,21 +49,31 @@ Un grand avantage à l'utilisation de ce type de contrôleur est qu'il n'y a qu'
 
 Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset}, un décalage par rapport aux valeurs attendues.
 
-Le choix d'un tel contrôleur par rapport à PID dépend de l'utilisation, de la précision et de la vitesse des corrections désirées. Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}.
+Le choix d'un tel contrôleur par rapport à PID dépend de l'utilisation, de la précision et de la vitesse des corrections désirées.
+Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}.
 
 \subsection{Integral controller}
-Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller. Un tel contrôleur est caractérisé dans \cite{svrcek2006real} par l'équation $P_{out} = \frac{1}{T_{i}}\int e dt + MV_{0}$ où $MV_{0}$ correspond à la correspond biaisée de P controller, $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$, et $T_{i}$ est le temps intégral, défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
+Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller.
+Un tel contrôleur est caractérisé dans \cite{svrcek2006real} par l'équation
+$P_{out} = \frac{1}{T_{i}}\int e dt + MV_{0}$ où $MV_{0}$ correspond à la correspond biaisée de P controller,
+$\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$, et $T_{i}$ est le temps intégral, défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
 
 Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur à l'utilisation d'un P controller seul (\cite{svrcek2006real}).
 
 \subsection{PI controller}
-Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale. Ils sont caractérisés par l'équation $P_{out} = K_{P} e + K_{I} \int e dt$, où $K_{p}$ et $K_{I}$ sont les paramètres de réglages proportionnel et intégral, et les autres symboles correspondent à ce qui est indiqué dans les sections \emph{P controller} et \emph{Integral controller}.
+Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale.
+Ils sont caractérisés par l'équation $P_{out} = K_{P} e + K_{I} \int e dt$, où $K_{p}$ et $K_{I}$ sont les paramètres de réglages proportionnel et intégral,
+et les autres symboles correspondent à ce qui est indiqué dans les sections \emph{P controller} et \emph{Integral controller}.
 
-Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapide que l'ajout d'un contrôleur intégral (\cite{svrcek2006real}). En effet, si l'on compare son équation avec celle du P controller, le terme $p0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
+Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapide que l'ajout d'un contrôleur intégral (\cite{svrcek2006real}).
+En effet, si l'on compare son équation avec celle du P controller, le terme $p0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
 
 \subsection{MPC controller}
-\emph{MPC} est un contrôleur permettant la prédiction des futurs états de différentes variables dans un système. Celui-ci utilise des stratégies prédictives afin de calculer les prochaines valeurs lues possibles.
+\emph{MPC} est un contrôleur permettant la prédiction des futurs états de différentes variables dans un système.
+Celui-ci utilise des stratégies prédictives afin de calculer les prochaines valeurs lues possibles.
 
-Contrairement à PID, MPC peut gérer plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit. Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte. De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse, et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
+Contrairement à PID, MPC peut gérer plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit.
+Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte.
+De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse, et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
 
 Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm}, et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID.
