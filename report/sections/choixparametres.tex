@@ -29,21 +29,22 @@ Par contre, maintenant on va nommer cette valeur ainsi obtenue $K_u$ et la péri
 
 Ensuite, il suffit de calculer les autres paramètres grâce au tableau\ref{tab:ZieglerNicholsTuningFormulas}
 
-\begin{table}[ht]
-	\begin{center}	
-		\begin{tabular}{|c | c | c | c|}
+\def\tabularxcolumn#1{m{#1}}
+\begin{figure}[ht]
+	\begin{center}
+		\begin{tabularx}{\textwidth}{| c | X | X | X |}
 			\hline
 			& $K_p$ & $K_i$ & $K_d$\\ \hline
-			P & \(\frac{K_u}{2}\) & &\\ \hline
-			PI & \(\frac{K_u}{2.2}\) & \(1.2 \cdot \frac{K_p}{P_u}\) &\\ \hline
-			PID & \(\frac{K_u}{1.7}\) & \(2 \cdot \frac{K_p}{P_u}\) & \(K_p \cdot \frac{P_u}{8}\)\\
+			P & \begin{equation*}\frac{K_u}{2}\end{equation*} & &\\ \hline
+			PI & \begin{equation*}\frac{K_u}{2,2}\end{equation*} & \begin{equation*}1,2 \cdot \frac{K_p}{P_u}\end{equation*} &\\ \hline
+			PID & \begin{equation*}\frac{K_u}{1,7}\end{equation*} & \begin{equation*}2 \cdot \frac{K_p}{P_u}\end{equation*} & \begin{equation*}K_p \cdot \frac{P_u}{8}\end{equation*} \\
 			\hline
-		\end{tabular}
+		\end{tabularx}
 	\end{center}
 	\caption{Tableau des formules pour Ziegler–Nichols}
 	\label{tab:ZieglerNicholsTuningFormulas}
-\end{table}
+\end{figure}
 
-\subsection{Nyquist} 
+\subsection{Nyquist}
 
 \subsection{La méthode de Tyreus Luyben}
