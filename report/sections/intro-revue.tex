@@ -1,0 +1,12 @@
+%!TEX root = ../report.tex
+
+Le but de ce projet étant de réguler automatiquement l'environnement d'une serre, nous étudierons ici les méthodes de régulation des systèmes dynamiques et plus généralement l'automatique.
+L'automatique étant l'étude et l'identification de modèles afin d'obtenir des stratégies de régulation.
+
+Pour réguler un système, il extiste deux possibilités : la régulation en boucle fermée ou ouverte.
+
+La régulation d'un système en boucle ouverte ne prend pas en compte la réponse du système aux entrées qui lui sont appliquées. Cette méthode présuppose donc une modélisation et un connaissance  des conditions initiales parfaites du systèmes. Il faut aussi que le système ne soit pas perturbé autrement que par le régulateur sans quoi le régulateur ne pourrait plus connaitre l'état actuel et produrait des commandes erronées. Cette méthode ne nous intéresse donc pas dans ce cas ci.
+
+La régulation en boucle fermée (appelée couremment ``closed feedback loop'') quand à elle prend en compte la réaction du système aux entrées qui lui sont données afin d'ajuster les entrées futures et de tendre vers la consigne. On voit donc que ce type de régulation est beaucoup plus intéressant dans ce cas-ci.
+
+Nos recherches porteront donc sur les différentes méthodes qu'un régulateur peur utiliser pour réagir de manière optimale au feedback d'un système.
