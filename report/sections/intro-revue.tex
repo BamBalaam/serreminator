@@ -1,19 +1,27 @@
 %!TEX root = ../report.tex
 
-Le but de ce projet étant de réguler automatiquement l'environnement d'une serre, nous étudierons ici les méthodes de régulation des systèmes dynamiques et plus généralement l'automatique.
+Le but de ce projet étant de réguler automatiquement l'environnement d'une serre,
+nous étudierons ici les méthodes de régulation des systèmes dynamiques et plus généralement l'automatique.
 L'automatique étant l'étude et l'identification de modèles afin d'obtenir des stratégies de régulation.
 
 Pour réguler un système, il extiste deux possibilités : la régulation en boucle fermée ou ouverte.
 
 \begin{description}
-\item[La régulation en boucle ouverte] ne prend pas en compte la réponse du système aux entrées qui lui sont appliquées. Cette méthode présuppose donc une modélisation et un connaissance  des conditions initiales parfaites du systèmes. Il faut aussi que le système ne soit pas perturbé autrement que par le régulateur sans quoi le régulateur ne pourrait plus connaitre l'état actuel et produrait des commandes erronées. Cette méthode ne nous intéresse donc pas dans ce cas ci.
+\item[La régulation en boucle ouverte] ne prend pas en compte la réponse du système aux entrées qui lui sont appliquées. Cette méthode présuppose donc une très bonne modélisation du système ainsi que des des conditions initiales.
+Il faut aussi que le système ne soit pas perturbé autrement que par le régulateur sans quoi le régulateur ne pourrait plus connaitre l'état actuel et produrait des commandes erronées.
+De plus, si le système n'est pas stable, la moindre erreur risque de s'emplifier à chaque action de contrôle.
+Cette méthode ne nous intéresse donc pas dans ce cas ci.
 
-\item[La régulation en boucle fermée] au appelée couremment ``closed feedback loop''. Celle-ci quand à elle prend en compte la réaction du système aux entrées qui lui sont données afin d'ajuster les entrées futures et de tendre vers la consigne. On voit donc que ce type de régulation est beaucoup plus intéressant dans ce cas-ci.
+\item[La régulation en boucle fermée] est appelée couremment ``closed feedback loop''.
+Celle-ci quand à elle prend en compte la réaction du système aux entrées qui lui sont données afin d'ajuster les entrées futures et de tendre vers la consigne.
+On voit donc que ce type de régulation est beaucoup plus intéressant dans notre cas.
 \end{description}
 
 Nos recherches porteront donc sur les différentes méthodes qu'un régulateur peur utiliser pour réagir de manière optimale au feedback d'un système.
 
 
-Dans le domaine industriel, le régulateur le plus courant est PID : il serait utilisé dans plus de 95\% des systèmes industriels \cite{Kinnaert2013}. Celui-ci sera ainsi que les différentes méthodes pour déterminer des paramètre optimaux pour PID seront donc notre premier sujet d'étude.
+Dans le domaine industriel, le régulateur le plus courant est PID : il serait utilisé dans plus de 95\% des systèmes industriels \cite{Kinnaert2013}.
+Celui-ci, ainsi que les différentes méthodes pour déterminer des paramètre optimaux pour PID seront donc notre premier sujet d'étude.
 
-Par la suite, nous explorerons plusieurs variantes de PID en analysant leurs avantages et inconvénients. Nous finirons par énumérer plusieurs alternatives à PID, certaines naives et simplistes, d'autres beaucoup plus avancées.
+Par la suite, nous explorerons plusieurs variantes de PID en analysant leurs avantages et inconvénients.
+Nous finirons par énumérer plusieurs alternatives à PID, certaines naives et simplistes, d'autres beaucoup plus avancées.
