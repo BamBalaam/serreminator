@@ -6,30 +6,33 @@ PID nécessite 3 paramètres:
 	\item $K_i$ aussi appelé I. Il fait varier la réponse de PID en fonction des erreurs passées.
 	\item $K_d$ aussi appelé D. Il prend en compte les valeurs futures attendues par rapport aux changement actuellement.
 \end{itemize}
-Pour déterminer leurs valeurs optimales, plusieurs algorithmes peuvent être utilisés.
+
+Pour déterminer les valeurs optimales de ces paramètres, plusieurs algorithmes peuvent être utilisés. Nous en étudions certains ci-dessous.
 
 \subsection{La méthode manuelle}
 Cette technique s'applique sur un système en live.
-L'avantage de cette technique, c'est quelle ne nécessite aucun calcul mathématique cependant, il faut des personnes expérimentées pour s'en occuper.
-L'algorithme se passe en 4 étapes:
+L'avantage de cette technique, c'est quelle ne nécessite aucun calcul mathématique complexe.
+Cependant, elle nécessite l'interaction d'un technicien expérimenté.
+
+L'algorithme se déroule en 4 étapes:
 \begin{enumerate}
-	\item D'abord, on met les valeurs des 3 paramètres a 0.
-	\item Puis, on augmente le paramètre $K_p$ jusqu'à ce que la sortie de la boucle oscille.
+	\item Les valeurs des 3 paramètres sont fixées à $0$.
+	\item Le paramètre $K_p$ est incrémenté jusqu'à ce que la sortie du système se mette à osciller.
 	On prendra comme valeur pour $K_p$ la moitié de celle obtenue précédemment.
-	\item Ensuite, on augmente $K_i$ jusqu'au moment ou l'offset est corrigé dans un temps suffisant pour le système.
-	\item Pour finir, on augmente, si nécessaire, $K_d$ jusqu'au moment où la boucle est suffisamment rapide pour atteindre sa valeur de référence après une perturbation.
+	\item $K_i$ est augmenté jusqu'au moment ou l'offset est corrigé dans un temps acceptable pour le système.
+	\item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre la consigne après une perturbation extérieure.
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
 % http://www.chem.mtu.edu/~tbco/cm416/zn.html
-Cette technique commence comme la méthode manuelle:
+La technique de Ziegler–Nichols commence comme la méthode manuelle :
 \begin{enumerate}
-	\item On commence par mettre les paramètres à 0.
-	\item On augmente $K_p$ jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
+	\item Les valeurs des 3 paramètres sont fixées à $0$.
+	\item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
 \end{enumerate}
-Par contre, maintenant on va nommer cette valeur ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
 
-Ensuite, il suffit de calculer les autres paramètres grâce au tableau \ref{tab:ZieglerNicholsTuningFormulas}
+Par contre, cette fois ci, on va nommer cette valeur de $K_p$ ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
+Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:ZieglerNicholsTuningFormulas}
 
 \def\tabularxcolumn#1{m{#1}}
 \begin{figure}[ht]
