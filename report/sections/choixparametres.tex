@@ -1,7 +1,7 @@
 %!TEX root = ../report.tex
 \section{Choix de paramètres dans PID}
 
-Pour déterminer les valeurs optimales des paramètres de PID, plusieurs algorithmes peuvent être utilisés.
+Pour déterminer les valeurs optimales des paramètres de PID, plusieurs algorithmes peuvent être utilisés. Nous en présenterons 3 : la méthode manuelle, la méthode de Ziegler–Nichols et celle de Tyreus Luyben.
 
 \subsection{La méthode manuelle}
 Cette technique s'applique sur un système en fonctionnement.
@@ -14,14 +14,14 @@ L'algorithme se déroule en 4 étapes:
 	\item Le paramètre $K_p$ est incrémenté jusqu'à ce que la sortie du système se mette à osciller.
 	On prendra comme valeur pour $K_p$ la moitié de celle obtenue précédemment.
 	\item $K_i$ est augmenté jusqu'au moment ou l'offset est corrigé dans un temps acceptable pour le système.
-	\item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre la consigne après une perturbation extérieure.
+	\item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre à nouveau la consigne après une perturbation extérieure.
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
 % ziegler1942optimum
 % silva2007pid
 % http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
 
 Elle débute comme la méthode manuelle :
 \begin{enumerate}
@@ -29,7 +29,7 @@ Elle débute comme la méthode manuelle :
 	\item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
 \end{enumerate}
 
-Par contre, cette fois ci, on va nommer cette valeur de $K_p$ ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
+Par contre, cette fois ci, on va nommer la valeur de $K_p$ ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
 Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:ZieglerNicholsTuningFormulas}
 
 \def\tabularxcolumn#1{m{#1}}
