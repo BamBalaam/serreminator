@@ -12,16 +12,16 @@ Les premières analyses techniques de PID datent de 1922, lorsque Nicolas Minors
 Depuis son invention, la popularité de ce régulateur a fortement augmenté \cite{ang2005pid}.
 PID et ses variantes sont les systèmes de contrôle les plus utilisés (95\% des régulateurs dans les procédés industriels) \cite{Kinnaert2013} \cite{Astrom2002}.
 
-Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, il maintient sa structure de base et a simplement évolué avec le temps:
+Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, il maintient son fonctionnement de base et a simplement évolué avec le temps:
 il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs logiques programmables, soit en tant que contrôleur ``standalone'' (et non pas comme composante pneumatique ou électrique) \cite{visioli2006practical}.
 
-PID maintient sa popularité car il est considéré qu'aucun autre contrôleur n'égale la simplicité, fonctionnement clair, facilité d'application et utilisation offerte par PID.
+PID maintient sa popularité car il est souvent admins qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par PID.
 Il sert aussi de composante fondamentale à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}.
 
 \subsection{Rôle de PID}
 
 Le rôle de PID est de calculer en continu une erreur.
-Cette erreur est la différence entre une variable mesurée et un point désiré.
+Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
 PID tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
 Étant donné que PID se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
 
@@ -29,11 +29,11 @@ Le grand avantage de PID est que l'on peut ajuster certains de ses paramètres p
 Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
-\item précision (erreur d'état d'équilibre),
-\item rapidité (lors du lancement ou d'arrivée à la stabilité)
+\item la précision (l'erreur même quand l'équilibre est atteint),
+\item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
 
-Il est aussi possible, dans quelques applications de PID, que certaines actions soient inutiles.
+Il est aussi possible dans quelques applications de PID que certaines actions soient inutiles.
 Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
 Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort sensible au bruit lors des mesures
 (voir \ref{sec:alternatives-to-PID}).
@@ -49,10 +49,10 @@ $$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
 Analysons les plusieurs parties de cette formule:
 
 \begin{description}
-\item[Action proportionnelle (P)]
+\item[Action proportionnelle (P) :]
 	Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
-\item[Action intégrale (I)]
+\item[Action intégrale (I) :]
 	Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
-\item[Action dérivée (D)]
+\item[Action dérivée (D) :]
 	Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
 \end{description}
