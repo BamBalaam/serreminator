@@ -18,9 +18,10 @@ L'algorithme se déroule en 4 étapes:
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
-% http://www.chem.mtu.edu/~tbco/cm416/zn.html
-% http://chem.engr.utc.edu/Student-files/x2008-Fa/435-Blue/1942-paper.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais nécessite des techniciens moins expérimentés.
+% ziegler1942optimum
+% silva2007pid
+% http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
 
 Elle débute comme la méthode manuelle :
 \begin{enumerate}
@@ -47,7 +48,21 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
 	\label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Nyquist}
+\subsection{Tyreus Luyben}
+%http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
+Cette méthode est fort similaire a celle de Ziegler-Nichols. La plus grande différence est la formule utilisée.\cite{shahrokhi2013comparison}
 
-
-\subsection{La méthode de Tyreus Luyben}
+\def\tabularxcolumn#1{m{#1}}
+\begin{figure}[ht]
+	\begin{center}
+		\begin{tabularx}{\textwidth}{| c | X | X | X |}
+			\hline
+			& $K_p$ & $K_i$ & $K_d$\\ \hline
+			PI & \begin{equation*}\frac{K_u}{3,2}\end{equation*} & \begin{equation*}\frac{K_p}{2,2 \cdot P_u}\end{equation*} &\\ \hline
+			PID & \begin{equation*}\frac{K_u}{2,2}\end{equation*} & \begin{equation*}\frac{K_p}{2,2 \cdot P_u}\end{equation*} & \begin{equation*}K_p \cdot \frac{P_u}{6,3}\end{equation*} \\
+			\hline
+		\end{tabularx}
+	\end{center}
+	\caption{Tableau des formules pour Ziegler–Nichols}
+	\label{tab:ZieglerNicholsTuningFormulas}
+\end{figure}
