@@ -7,10 +7,21 @@
 \usepgfplotslibrary{dateplot}
 \usepackage{booktabs}
 \usepackage[scale=2]{ccicons}
+\usepackage{graphicx}
 
 \usetheme{metropolis}
 
-\title{Régulation d'un système dynamique : application à une serre}
+\metroset{inner/titleformat=regular}
+\metroset{inner/sectiontitleformat=regular}
+\metroset{outer/frametitleformat=regular}
+
+\makeatletter
+\renewcommand{\@metropolis@frametitlestrut}{%
+    \vphantom{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz}
+  }
+\makeatother
+
+\title{Contrôle automatique d'une serre au Printemps des Sciences}
 \date{ }
 \author{A. Caccia \and A. Madeira Cortes \and N. Marchant \and R. Fontaine}
 \institute{Université Libre de Bruxelles}
@@ -27,7 +38,7 @@
 
 		\begin{frame}{Serreminator - Présentation au Printemps des Sciences}
 			\begin{itemize}
-        	\item Une vraie mini-serre (fournie par Inforsciences)
+        	\item Une vraie serre (prêtée par Inforsciences)
         	\item Présentation dynamique pour les enfants: perturbation du système
         	\item Graphes en temps réel pour visualiser les variables contrôlées
       		\end{itemize}
@@ -41,15 +52,38 @@
 			Bla bla
 		\end{frame}
 
-		\begin{frame}{Hardware - Setup actuel}
-			Bla bla
+        \begin{frame}{Hardware}
+            \begin{itemize}
+                \item Arduino
+                \item Capteurs analogiques
+                    \begin{itemize}
+                        \item Température
+                        \item Luminopsité
+                        \item \textit{(Humidité du sol)}
+                    \end{itemize}
+                \item Capteurs numériques
+                    \begin{itemize}
+                        \item Humidité de l'air
+                        \item Température
+                    \end{itemize}
+                \item Sorties
+                    \begin{itemize}
+                        \item LED
+                        \item Ventillateur
+                        \item Alimentation 5V/12V
+                        \item \textit{(Servomoteur)}
+                    \end{itemize}
+            \end{itemize}
+        \end{frame}
+
+		\begin{frame}{Hardware}
+			\begin{figure}
+                \centering
+                \includegraphics[width = 0.9\textwidth]{hardware.pdf}
+            \end{figure}
 		\end{frame}
 
-		\begin{frame}{Hardware - Setup futur}
-			Bla bla
-		\end{frame}
-
-		\begin{frame}{HAL - Présentation du Logicien}
+		\begin{frame}{HAL}
 			Bla bla
 		\end{frame}
 
