@@ -4,6 +4,7 @@ from sys import stdout
 from halpy.halpy import HAL
 from PID.pid import PID
 import asyncio
+import converters
 
 
 logging.basicConfig(
@@ -27,20 +28,38 @@ def modifyTemperature(HAL):
         yield from asyncio.sleep(1)
 
 
-def sensorToLux(val):
-    Ra = 10.9
-    Rr = 10
-    Ea = 351.0
-    Y = 0.8
-    Uref = 5
+def dump(HAL):
+    themristance = {
+        "Rat25": 2200,
+        "A1": 3.354016E-03,
+        "B1": 2.569850E-04,
+        "C1": 2.620131E-06,
+        "D1": 6.383091E-08,
+    }
 
-    U2 = Uref * (val / 1024.0)  # Sensor data to voltage
-    Rb = (Rr * Uref) / U2 - Rr  # Resistor data
-    lux = pow(10, (log10(Ra / Rb) / Y + log10(Ea)))  # Calculating num of lux
-    return lux
+    luxmeter = {
+        "Ra": 10900,
+        "Ea": 351.0,
+        "Y": 0.8,
+    }
+
+    while True:
+        dht = HAL.DHTsensors.temp.value
+        analogRead = HAL.sensors.temp.value
+        resistance = converters.tension2resistance(analogRead, 10000)
+        temp = converters.resistance2celcius(resistance, **themristance)
+
+        analogRead = HAL.sensors.lux.value
+        resistance = converters.tension2resistance(analogRead, 10000)
+        lux = converters.resistance2lux(resistance, **luxmeter)
+
+        logger.debug("Temp=%s DHT=%s lux=%s", temp, dht, lux)
+        yield from asyncio.sleep(1)
+
 
 loop = asyncio.get_event_loop()
 
 hal = HAL("/tmp/hal")
-loop.create_task(modifyTemperature(hal))
+# loop.create_task(modifyTemperature(hal))
+loop.create_task(dump(hal))
 hal.run(loop=loop)
