@@ -4,15 +4,15 @@ Le but de ce projet étant de réguler automatiquement l'environnement d'une ser
 nous étudierons ici les méthodes de régulation des systèmes dynamiques et plus généralement l'automatique.
 L'automatique étant l'étude et l'identification de modèles afin d'obtenir des stratégies de régulation.
 
-Pour réguler un système, il extiste deux possibilités : la régulation en boucle fermée ou ouverte.
+Pour réguler un système, il existe deux possibilités : la régulation en boucle fermée ou ouverte.
 
 \begin{description}
 \item[La régulation en boucle ouverte] ne prend pas en compte la réponse du système aux entrées qui lui sont appliquées. Cette méthode présuppose donc une très bonne modélisation du système ainsi que des conditions initiales.
-Il faut aussi que le système ne soit pas perturbé autrement que par le régulateur sans quoi le régulateur ne pourrait plus connaitre l'état actuel et produrait des commandes erronées.
+Il faut aussi que le système ne soit pas perturbé autrement que par le régulateur sans quoi le régulateur ne pourrait plus connaitre l'état actuel et produirait des commandes erronées.
 De plus, si le système n'est pas stable, la moindre erreur risque de s'amplifier à chaque action de contrôle.
 Cette méthode ne nous intéresse donc pas dans ce cas ci.
 
-\item[La régulation en boucle fermée] est appelée couremment ``closed feedback loop''.
+\item[La régulation en boucle fermée] est appelée couramment ``closed feedback loop''.
 Celle-ci quant à elle prend en compte la réaction du système aux entrées qui lui sont données afin d'ajuster les entrées futures et de tendre vers la consigne.
 On voit donc que ce type de régulation est beaucoup plus intéressant dans notre cas.
 \end{description}
@@ -24,4 +24,4 @@ Dans le domaine industriel, le régulateur le plus courant est PID : il serait u
 Celui-ci, ainsi que les différentes méthodes pour déterminer des paramètre optimaux pour PID seront donc notre premier sujet d'étude.
 
 Par la suite, nous explorerons plusieurs variantes de PID en analysant leurs avantages et inconvénients.
-Nous finirons par énumérer plusieurs alternatives à PID, certaines naives et simplistes, d'autres beaucoup plus avancées.
+Nous finirons par énumérer plusieurs alternatives à PID, certaines naïves et simplistes, d'autres beaucoup plus avancées.

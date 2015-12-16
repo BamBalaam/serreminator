@@ -47,7 +47,7 @@ en effet, là où \emph{Bang Bang} va corriger l'état simplement en allumant ou
 
 Un tel contrôleur s'exprime par l'équation
 \begin{equation}P_{out} = K_{P}e(t) + p0\end{equation}
-dans laqeulle $e(t) = SP - SV$ est l'erreur mesurée (différence entre valeur attendue et valeur reçue), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale par rapport à PID.
+dans laquelle $e(t) = SP - SV$ est l'erreur mesurée (différence entre valeur attendue et valeur reçue), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale par rapport à PID.
 
 Un grand avantage de l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive : plus le paramètre $K_{p}$ est petit, plus la réaction est lente, et à l'inverse, plus il est grand, plus ce sera rapide.
 
