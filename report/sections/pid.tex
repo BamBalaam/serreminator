@@ -7,7 +7,7 @@
 Le régulateur PID est un système de contrôle.
 Il porte ce nom à cause de ses trois actions (action proportionnelle, intégrale et dérivée).
 
-Les premières analyses techniques de PID datent de 1922, lors que Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
+Les premières analyses techniques de PID datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
 Depuis son invention, la popularité de ce régulateur a fortement augmenté \cite{ang2005pid}.
 PID et ses variantes sont les systèmes de contrôle les plus utilisés (95\% des régulateurs dans les procédés industriels) \cite{Kinnaert2013} \cite{Astrom2002}.
@@ -30,7 +30,7 @@ Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entr
 \begin{enumerate}
 \item la stabilité,
 \item précision (erreur d'état d'équilibre),
-\item rapidité (lors du lancement ou du d'arrivée à la stabilité)
+\item rapidité (lors du lancement ou d'arrivée à la stabilité)
 \end{enumerate}
 
 Il est aussi possible, dans quelques applications de PID, que certaines actions soient inutiles.
@@ -54,5 +54,5 @@ Analysons les plusieurs parties de cette formule:
 \item[Action intégrale (I)]
 	Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
 \item[Action dérivée (D)]
-	Basée sur les valeurs estimées au futur pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+	Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
 \end{description}
