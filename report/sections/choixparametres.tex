@@ -4,7 +4,7 @@
 Pour déterminer les valeurs optimales des paramètres de PID, plusieurs algorithmes peuvent être utilisés.
 
 \subsection{La méthode manuelle}
-Cette technique s'applique sur un système en live.
+Cette technique s'applique sur un système en fonctionnement.
 L'avantage de cette technique, c'est quelle ne nécessite aucun calcul mathématique complexe.
 Cependant, elle nécessite l'interaction d'un technicien expérimenté.
 
@@ -19,7 +19,10 @@ L'algorithme se déroule en 4 étapes:
 
 \subsection{Ziegler–Nichols}
 % http://www.chem.mtu.edu/~tbco/cm416/zn.html
-La technique de Ziegler–Nichols commence comme la méthode manuelle :
+% http://chem.engr.utc.edu/Student-files/x2008-Fa/435-Blue/1942-paper.pdf
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais nécessite des techniciens moins expérimentés.
+
+Elle débute comme la méthode manuelle :
 \begin{enumerate}
 	\item Les valeurs des 3 paramètres sont fixées à $0$.
 	\item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
@@ -45,5 +48,6 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
 \end{figure}
 
 \subsection{Nyquist}
+
 
 \subsection{La méthode de Tyreus Luyben}

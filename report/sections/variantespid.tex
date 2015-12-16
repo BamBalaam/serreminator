@@ -1,6 +1,7 @@
 %!TEX root = ../report.tex
 \section{Variantes de PID}
 \label{sec:alternatives-to-PID}
+Bien que PID soit l'algorithme le plus utilisé dans le domaine de l'automatique, celui-ci n'est pas exempt de défaut. De nombreuses modifications existent dans l'optique d'y pallier.
 
 \subsection{Integral windup}
 Le problème de l'Intgral Windup survient lorsqu'un algorithme de contrôle mal programmé demande une correction impossible, tel que l'ouverture d'une vanne au-delà de son maximum, ou encore la diminution de rythme d'un ventilateur déjà éteint.
@@ -32,6 +33,7 @@ Cette possibilité permet d'éviter l'effet de \emph{derivative kick}, où l'ini
 %TODO \subsection{fuzzy logic}
 
 \section{Alternatives à PID}
+Il existe des alternatives à PID, adaptées à la précision et/ou à la vitesse de correction voulue. Certaines réagissent à l'environnement, d'autres prédisent les actions à effectuer. En voici quelques exemples.
 
 \subsection{Bang bang control}
 Le \emph{Bang bang control} aussi appelé \emph{On-Off control} ou en français "\emph{Tout ou rien}" est un contrôleur qui ne peut accepter que deux états de contrôle tels que ouvert ou fermé, ou allumé ou éteint.
