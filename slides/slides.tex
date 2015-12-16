@@ -3,16 +3,60 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
 
-\usetheme{metropolis}           % Use metropolis theme
+\usetheme{metropolis}
+
 \title{Régulation d'un système dynamique : application à une serre}
 \date{ }
 \author{A. Caccia \and A. Madeira Cortes \and N. Marchant \and R. Fontaine}
 \institute{Université Libre de Bruxelles}
 \begin{document}
-  \maketitle
-  \section{First Section}
-  \begin{frame}{First Frame}
-    Hello, world!
-  \end{frame}
+	\maketitle
+
+		\begin{frame}{Serreminator - Idée de base}
+			\begin{itemize}
+        	\item Contrôle en temps réel (environnement d'une serre)
+        	\item Modélisation par un système dynamique à variables corrélées
+        	\item Contrôlée via des capteurs liés à un Arduino
+      		\end{itemize}
+		\end{frame}
+
+		\begin{frame}{Serreminator - Présentation au Printemps des Sciences}
+			\begin{itemize}
+        	\item Une vraie mini-serre (fournie par Inforsciences)
+        	\item Présentation dynamique pour les enfants: perturbation du système
+        	\item Graphes en temps réel pour visualiser les variables contrôlées
+      		\end{itemize}
+		\end{frame}
+
+		\begin{frame}{PID - Présentation de l'algorithme}
+			$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
+		\end{frame}
+
+		\begin{frame}{PID - Tuning/Variantes/Prédiction}
+			Bla bla
+		\end{frame}
+
+		\begin{frame}{Hardware - Setup actuel}
+			Bla bla
+		\end{frame}
+
+		\begin{frame}{Hardware - Setup futur}
+			Bla bla
+		\end{frame}
+
+		\begin{frame}{HAL - Présentation du Logicien}
+			Bla bla
+		\end{frame}
+
+		\begin{frame}{HAL - Notre contribution}
+			Bla bla
+		\end{frame}
+
+
 \end{document}
+
