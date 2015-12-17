@@ -45,11 +45,48 @@
 		\end{frame}
 
 		\begin{frame}{PID - Présentation de l'algorithme}
+			Structure de régulateur la plus utilisée (95\% des régulateurs dans l'industrie)
 			$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
+			\begin{description}
+				\item[action proportionnelle] réaction à l'erreur
+				\item[action par intégration] annulation de l'erreur statique
+				\item[action dérivée] amélioration de la réponse par effet d'anticipation
+			\end{description}
 		\end{frame}
 
-		\begin{frame}{PID - Tuning/Variantes/Prédiction}
-			Bla bla
+		\begin{frame}{PID - Réglages, variantes et alternatives}
+			\begin{minipage}{.45\textwidth}			
+                \begin{itemize}
+                    \item Réglages
+                        \begin{itemize}
+                            \item réglage manuel
+                            \item Ziegler-Nichols
+                        \end{itemize}
+                    \item Variantes
+                        \begin{itemize}
+                            \item Integral Windup
+                            \item Derivative Kick
+                        \end{itemize}
+                    \item Alternatives
+                        \begin{itemize}
+                            \item Bang Bang Controller
+                            \item P, PI 
+                        \end{itemize}
+                \end{itemize}
+			\end{minipage}
+			\begin{minipage}{.45\textwidth}
+                \begin{table}[]
+                \centering
+                \caption{Valeurs pour Ziegler-Nichols}
+                \begin{tabular}{|l|l|l|l|}
+                \hline
+                   & $K_{p}$             & $K_{i}$                         & $K_{d}$                       \\ \hline
+                P  & $\frac{K_{u}}{2}$   &                                 &                               \\ \hline
+                PI & $\frac{K_{u}}{2.2}$ & $1.2\cdot\frac{K_{p}}{P_{u}}$ &                               \\ \hline
+                PD & $\frac{K_{u}}{1.7}$ & $2\cdot\frac{K_{p}}{P_{u}}$   & $K_{p}\cdot\frac{P_{u}}{8}$ \\ \hline
+                \end{tabular}
+                \end{table}
+			\end{minipage}
 		\end{frame}
 
         \begin{frame}{Hardware}
@@ -83,12 +120,25 @@
             \end{figure}
 		\end{frame}
 
-		\begin{frame}{HAL}
-			Bla bla
+		\begin{frame}{HAL - Présentation du Logiciel}
+			\begin{itemize}
+				\item Projet du hackerspace toujours en développement
+				\item Aide a l'utilisation et au scripting d'un arduino
+				\item En deux grosses parties:
+				\begin{itemize}
+					\item l'arduino
+					\item le driver
+				\end{itemize}
+				\item Facilite la communication entre les deux
+			\end{itemize}
 		\end{frame}
 
 		\begin{frame}{HAL - Notre contribution}
-			Bla bla
+			\begin{itemize}
+				\item Ajout de nouveaux types de senseurs
+				\item Aide au développement
+				\item Ajouts de nouvelles fonctionnalités
+			\end{itemize}
 		\end{frame}
 
 
