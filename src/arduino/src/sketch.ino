@@ -13,7 +13,8 @@ Animation animations[] = {
 
 Sensor sensors[] = {
     Sensor("lux", 0),
-    Sensor("temp", 1)
+    Sensor("temp", 1),
+    Sensor("ground", 2)
 };
 
 Rgb rgbs[] = {
