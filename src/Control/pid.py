@@ -1,19 +1,27 @@
 from time import time
 
-
 class MultiPID:
     def __init__(self, pidA, pidB):
         self.pidA = pidA
         self.pidB = pidB
-        self.current = self.pidA
+        self.current_is_A = True
 
     def toggle(self):
-        self.current = self.pidA if self.current is self.pidA else self.pidB
+        self.current = not self.current
 
     def run(self, measured):
-        state = self.current.compute(measured)
-        if state == self.current.min: self.toggle()
-        return state
+        if self.current_is_A:
+            stateA = self.pidA.compute(measured)
+            if stateA == self.pidA.min:
+                self.toggle()
+                return stateA, self.pidB.compute(measured)
+            else: return stateA, self.pidB.min
+        else:
+            stateB = self.pidB.compute(measured)
+            if stateB == self.pidB.min:
+                self.toggle()
+                return self.pidA.compute(measured), stateB
+            else: return self.pidA.min, stateB
 
 class PID:
     def __init__(self, defaultPoint, kp=0., ki=0., kd=0., min=float("-inf"), max=float("inf")):
