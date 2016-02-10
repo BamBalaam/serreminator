@@ -12,12 +12,10 @@ class MultiPID:
 
     def run(self, measured):
         state = self.current.compute(measured)
-        if state == self.current.min:
-            self.toggle()
-            state = self.current.compute(measured)
+        if state == self.current.min: self.toggle()
         return state
 
-class PID():
+class PID:
     def __init__(self, defaultPoint, kp=0., ki=0., kd=0., min=float("-inf"), max=float("inf")):
         self.defaultPoint = defaultPoint
         self.kp = kp
