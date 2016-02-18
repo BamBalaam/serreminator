@@ -1,3 +1,5 @@
+const React = require("react");
+
 const Metric = React.createClass({
     getInitialState: function() {
         return {lineData: []};

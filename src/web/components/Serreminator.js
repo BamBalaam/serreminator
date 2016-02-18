@@ -1,3 +1,4 @@
+const React = require("react");
 const Metric = require('./Metric.js');
 
 const Serreminator = React.createClass({

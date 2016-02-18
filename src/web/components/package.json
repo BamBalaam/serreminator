@@ -14,6 +14,8 @@
     "browserify": "~13.0.0",
     "reactify": "~1.1.1",
     "autobahn": "~0.9.9",
-    "bufferutil": "~1.2.1"
+    "bufferutil": "~1.2.1",
+    "react-dom": "~0.14.7",
+    "react": "~0.14.7"
   }
 }

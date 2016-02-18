@@ -1,5 +1,8 @@
-var Serreminator = require('./Serreminator.js');
-var autobahn = require('autobahn');
+const React = require("react");
+const ReactDOM = require('react-dom');
+
+const Serreminator = require('./Serreminator.js');
+const autobahn = require('autobahn');
 
 $(document).ready(function(){
     var connection = new autobahn.Connection({
