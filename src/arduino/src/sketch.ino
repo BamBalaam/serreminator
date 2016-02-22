@@ -31,7 +31,7 @@ DHTSensor DHTSensors[] = {
 // };
 
 
-HAL_CREATE(hal, sensors, triggers, switchs, animations, rgbs, DHTSensors, servosAnim);
+HAL_CREATE(hal, sensors, triggers, switchs, animations, rgbs, DHTSensors);
 
 void setup(){
     hal.setup();
