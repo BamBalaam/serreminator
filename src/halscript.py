@@ -57,9 +57,6 @@ class MyComponent(ApplicationSession):
         lux = converters.resistance2lux(resistance, **LUXMETER)
         return lux
 
-    def dht(self):
-        return self.hal.DHTsensors.temp.value
-
     def thermistor(self):
         analogRead = self.hal.sensors.temp.value
         resistance = converters.tension2resistance(analogRead, 10000)
@@ -69,7 +66,6 @@ class MyComponent(ApplicationSession):
     def send_data(self):
         self.publish('sensor.lux', self.luxmeter())
         self.publish('sensor.temp', self.thermistor())
-        self.publish('sensor.dht.temp', self.dht())
 
     async def adjust(self):
         while True:
@@ -89,10 +85,3 @@ class MyComponent(ApplicationSession):
 if __name__ == '__main__':
     runner = ApplicationRunner(url=u"ws://localhost:8080/ws", realm=u"realm1", debug=True)
     runner.run(MyComponent)
-
-# loop = asyncio.get_event_loop()
-
-# hal = HAL("/tmp/hal")
-# loop.create_task(pid(hal))
-
-# hal.run(loop=loop)
