@@ -28,21 +28,44 @@ const Metric = React.createClass({
         var data = [{
             name: "plop",
             values: lineData
+        },
+        {
+            name: "plop2",
+            values: [
+                {
+                    x: lineData[0]['x'],
+                    y: 800
+                },
+                {
+                    x: lineData.slice(-1)[0]['x'],
+                    y: 800
+                }
+            ]
+        },
+        {
+            name: "zero",
+            values: [
+                {
+                    x: lineData[0]['x'],
+                    y: 0
+                },
+                {
+                    x: lineData[0]['x'],
+                    y: 1200
+                }
+            ]
         }];
         return <div className="row">
             <h2 className="col-md-12">{this.props.topic}</h2>
             <div className="col-md-6">
+                <h2>Valeur actuelle: <strong>{this.state.lineData.slice(-1)[0]}</strong></h2>
                 <LineChart
                     data={data}
-                    title={this.props.topic}
                     height={600}
                     width={600}
                     yAxisLabel="Luminosité (Lux)"
                     xAxisLabel="Temps"
                     gridHorizontal={true} />
-            </div>
-            <div className="col-md-6">
-                <h2>Valeur actuelle: <strong>{this.state.lineData.slice(-1)[0]}</strong></h2>
             </div>
         </div>;
     }

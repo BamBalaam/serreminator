@@ -44,10 +44,15 @@ class MyComponent(ApplicationSession):
     async def onJoin(self, details):
         while True:
             self.send_data()
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
     def luxmeter(self):
-        analogRead = self.hal.sensors.lux.value
+        analogRead = None
+        while analogRead is None:
+            try:
+                analogRead = self.hal.sensors.lux.value
+            except TypeError:
+                pass
         resistance = converters.tension2resistance(analogRead, 10000)
         lux = converters.resistance2lux(resistance, **LUXMETER)
         return lux
@@ -69,16 +74,16 @@ class MyComponent(ApplicationSession):
     async def adjust(self):
         while True:
             mean = 0
-            for _ in range(5):
+            for _ in range(3):
                 mean += self.luxmeter()
-                await asyncio.sleep(0.1)
-            lux = round(mean / 5, 2)
+                await asyncio.sleep(0.05)
+            lux = round(mean / 3, 2)
 
             res = int(self.pid.compute(lux))
             self.publish('pid.light', res)
 
             self.hal.animations.led.upload([res])
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
 
 
 if __name__ == '__main__':
