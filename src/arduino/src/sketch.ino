@@ -26,9 +26,9 @@ DHTSensor DHTSensors[] = {
     DHTSensor("humid", dht, HUMIDITY, 7)
 };
 
-ServoAnim servosAnim[] = {
-    // ServoAnim("volets", 6)
-};
+// ServoAnim servosAnim[] = {
+//     // ServoAnim("volets", 6)
+// };
 
 
 HAL_CREATE(hal, sensors, triggers, switchs, animations, rgbs, DHTSensors, servosAnim);

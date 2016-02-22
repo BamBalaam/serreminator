@@ -1,8 +1,10 @@
 const React = require("react");
+const rd3 = require('react-d3');
+const LineChart = rd3.LineChart;
 
 const Metric = React.createClass({
     getInitialState: function() {
-        return {lineData: []};
+        return {lineData: [0]};
     },
     componentDidMount: function() {
         this.props.session.subscribe(this.props.topic, function(args){
@@ -10,22 +12,39 @@ const Metric = React.createClass({
         }.bind(this));
     },
     addData: function(data_point){
-        console.log("newdata");
-
-        // newdata = this.state.lineData;
-        console.log("newdata2");
-
-        newdata.push(data_point);
-        console.log("newdata3");
-
+        var newdata = this.state.lineData.concat([data_point])
         this.setState({lineData: newdata});
-        console.log("newdata4");
-
     },
     render: function() {
-       return <div>
-          <h2>{this.props.topic}</h2>
-       </div>;
+        var lineData = this.state.lineData.map(function(item, i){
+            return {
+                x: i,
+                y: item
+            }
+        }.bind(this));
+        if(lineData.length > 50){
+            lineData = lineData.slice(-50);
+        }
+        var data = [{
+            name: "plop",
+            values: lineData
+        }];
+        return <div className="row">
+            <h2 className="col-md-12">{this.props.topic}</h2>
+            <div className="col-md-6">
+                <LineChart
+                    data={data}
+                    title={this.props.topic}
+                    height={600}
+                    width={600}
+                    yAxisLabel="Luminosité (Lux)"
+                    xAxisLabel="Temps"
+                    gridHorizontal={true} />
+            </div>
+            <div className="col-md-6">
+                <h2>Valeur actuelle: <strong>{this.state.lineData.slice(-1)[0]}</strong></h2>
+            </div>
+        </div>;
     }
 });
 
