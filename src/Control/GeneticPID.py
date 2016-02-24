@@ -1,5 +1,6 @@
 import random
-import web.minimal as webmin
+import minimal
+from Control.pid import PID
 
 class Chromosome:
     def __init__(self, kp, ki, kd):
@@ -11,7 +12,7 @@ class Chromosome:
         return self.kp, self.ki, self.kd
 
 class Genetic:
-    def __init__(self, pop_size=150, mut_prob=0.1, cross_rate=0.9, max_gain=1.):
+    def __init__(self, pop_size=150, mut_prob=0.1, cross_rate=0.9, max_gain=5.):
         self.pop_size = pop_size
         self.mut_prob = mut_prob
         self.cross_rate = cross_rate
@@ -60,7 +61,7 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, timesteps=100, max_runs=300):
+    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=300):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
@@ -70,12 +71,15 @@ class geneticPID:
     def run(self, index):
         """It's just a simple PID that virtually runs a lot of times"""
         c = self.population[index]
-        pid = PID(self.defaultPoint, *c.get())
-        hal = minweb.hal
-
-        ppid = minweb.pid(hal, pid, self.timesteps)
-        minweb.loop.create_task(ppid)
-        hal.run(loop=loop)
+        pid = PID(self.defaultPoint, *c.get(), min=0, max=255)
+        print("Testing with", *c.get())
+        hal = minimal.hal
+        async def main():
+            await minimal.pid(hal, pid, self.timesteps)
+            print("hello")
+        minimal.loop.create_task(main())
+        hal.run(loop=minimal.loop)
+        print("ce que tu veux")
 
         return self.genetic.fitness(pid.errors)
 

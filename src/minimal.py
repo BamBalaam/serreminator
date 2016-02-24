@@ -2,7 +2,7 @@ import logging
 from math import *
 from sys import stdout, argv
 from halpy.halpy import HAL
-from PID.pid import PID
+from Control.pid import PID
 import asyncio
 import converters
 import os
@@ -30,8 +30,8 @@ THERMISTANCE = {
 
 savedData = []
 
-def pid(hal, pid=None, times=float('inf')):
-    f = open('testfile.txt','w')
+async def pid(hal, pid=None, times=float('inf')):
+    #f = open('testfile.txt','w')
     Ku = 0.015
     Tu = 0.00001
 
@@ -53,27 +53,28 @@ def pid(hal, pid=None, times=float('inf')):
             analogRead = None
             while analogRead is None:
                 try:
-                    analogRead = HAL.sensors.lux.value
+                    analogRead = hal.sensors.lux.value
                 except TypeError:
                     pass
             resistance = converters.tension2resistance(analogRead, 10000)
             lux = converters.resistance2lux(resistance, **LUXMETER)
             mean += lux
-            yield from asyncio.sleep(0.02)
+            await asyncio.sleep(0.02)
         lux = round(mean / 3, 2)
 
         res = int(pid.compute(lux))
         logger.info("Obs=%s, PID asks %s", lux, res)
 
-        toWrite = str(i) + " " + str(lux) + "\n"
-        f.write(toWrite)
+        #toWrite = str(i) + " " + str(lux) + "\n"
+        #f.write(toWrite)
 
         hal.animations.led.upload([res])
 
-        yield from asyncio.sleep(0.5)
+        await asyncio.sleep(0.5)
         i += 1
 
         times -= 1
+    print("end loop")
 
 loop = asyncio.get_event_loop()
 
