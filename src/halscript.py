@@ -36,7 +36,7 @@ class MyComponent(ApplicationSession):
         self.hal.animations.led.looping = True
         self.hal.animations.led.playing = True
 
-        self.pid = PID(800, 0.15, min=0, max=255)
+        self.pid = PID(800, 0.15, 0.1, 0.005, min=0, max=255)
         asyncio.async(self.adjust())
 
         super().__init__(*args, **kwargs)
@@ -65,7 +65,7 @@ class MyComponent(ApplicationSession):
 
     def send_data(self):
         self.publish('sensor.lux', self.luxmeter())
-        self.publish('sensor.temp', self.thermistor())
+        #self.publish('sensor.temp', self.thermistor())
 
     async def adjust(self):
         while True:
