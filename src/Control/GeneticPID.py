@@ -80,23 +80,23 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=300, hal=HAL("/tmp/hal")):
+    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=30, hal=HAL("/tmp/hal")):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
-        self.population = [Chromosome(random.random(), random.random(), random.random()) for _ in range(self.genetic.pop_size)]
+        self.population = [Chromosome(random.random()*3, random.random()*2, random.random()*1) for _ in range(self.genetic.pop_size)]
         self.hal = hal
 
     def runPID(self, index):
         """It's just a simple PID that virtually runs a lot of times"""
-        print("caca")
         c = self.population[index]
         pid = PID(self.defaultPoint, *c.get(), min=0, max=255)
         print("Testing with", *c.get())
         hal = self.hal
 
         hal.animations.led.upload([0])
+        sleep(0.1)
         hal.animations.led.loopin2 = True
         hal.animations.led.playing = True
 
@@ -113,7 +113,7 @@ class geneticPID:
                 resistance = converters.tension2resistance(analogRead, 10000)
                 lux = converters.resistance2lux(resistance, **LUXMETER)
                 mean += lux
-                sleep(0.02)
+                sleep(0.01)
             lux = round(mean / 3, 2)
 
             res = int(pid.compute(lux))
@@ -121,11 +121,8 @@ class geneticPID:
 
 
             hal.animations.led.upload([res])
-            sleep(0.5)
+            sleep(0.3)
             i += 1
-
-        print("ce que tu veux")
-
         return self.genetic.fitness(pid.errors)
 
     def next_generation(self):
