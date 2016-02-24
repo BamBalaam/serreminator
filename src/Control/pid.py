@@ -35,6 +35,7 @@ class PID:
         self.integral = 0.
         self.lastTime = time()
         self.previous_error = 0
+        self.previous_state = 0
         self.lastTime = time()
         self.savedPoints = []
         self.errors = []

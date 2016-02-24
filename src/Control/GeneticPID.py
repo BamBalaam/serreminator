@@ -85,7 +85,7 @@ class geneticPID:
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
-        self.population = [Chromosome(random.random()*3, random.random()*2, random.random()*1) for _ in range(self.genetic.pop_size)]
+        self.population = [Chromosome(random.random(), random.random(), random.random()*0.01) for _ in range(self.genetic.pop_size)]
         self.hal = hal
 
     def runPID(self, index):
@@ -116,7 +116,7 @@ class geneticPID:
                 sleep(0.01)
             lux = round(mean / 3, 2)
 
-            res = int(pid.compute(lux))
+            res = int(pid.compute(lux, genetic=True))
             logger.info("Obs=%s, PID asks %s", lux, res)
 
 
