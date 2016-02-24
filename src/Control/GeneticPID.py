@@ -1,4 +1,5 @@
 import random
+import names
 from halpy.halpy import HAL
 import asyncio
 from Control.pid import PID
@@ -26,12 +27,13 @@ class Chromosome:
         self.kp = kp
         self.ki = ki
         self.kd = kd
+        self.name = names.get_full_name()
 
     def get(self):
         return self.kp, self.ki, self.kd
 
 class Genetic:
-    def __init__(self, pop_size=150, mut_prob=0.1, cross_rate=0.9, max_gain=5.):
+    def __init__(self, pop_size=30, mut_prob=0.1, cross_rate=0.9, max_gain=5.):
         self.pop_size = pop_size
         self.mut_prob = mut_prob
         self.cross_rate = cross_rate
@@ -59,7 +61,7 @@ class Genetic:
 
     def fitness(self, dx):
         print(dx)
-        return 1 / sum(d*d for d in dx)**.5
+        return 1/sum(d*d for d in dx)**.5
 
     def selection(self, fs):
         norm = (lambda s: [f / s for f in fs])(sum(fs))
@@ -80,7 +82,7 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=30, hal=HAL("/tmp/hal")):
+    def __init__(self, genetic, defaultPoint, timesteps=15, max_runs=1, hal=HAL("/tmp/hal")):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
@@ -92,7 +94,7 @@ class geneticPID:
         """It's just a simple PID that virtually runs a lot of times"""
         c = self.population[index]
         pid = PID(self.defaultPoint, *c.get(), min=0, max=255)
-        print("Testing with", *c.get())
+        print("Testing with: ",c.name, " ", *c.get())
         hal = self.hal
 
         hal.animations.led.upload([0])
@@ -121,7 +123,7 @@ class geneticPID:
 
 
             hal.animations.led.upload([res])
-            sleep(0.3)
+            sleep(0.1)
             i += 1
         return self.genetic.fitness(pid.errors)
 
@@ -133,15 +135,20 @@ class geneticPID:
 
         for i in range(self.genetic.pop_size):
             p1, p2 = self.genetic.selection(fitnesses)
+            print("Sélectionné: {}, {}".format(self.population[p1].name, self.population[p2].name))
             next_gen.append(self.genetic.mutation(self.genetic.crossover(self.population[p1], self.population[p2])))
 
         self.fitnesses = fitnesses
         self.population = next_gen
 
     def find_parameters(self):
-        for _ in range(self.max_runs):
+        for _ in range(self.max_runs - 1):
             self.next_generation()
-        max_index = self.fitnesses.index(max(self.fitness))
+        fitnesses = []
+        for i in range(self.genetic.pop_size):
+            fitnesses.append(self.runPID(i))
+        max_index = fitnesses.index(max(fitnesses))
+        print("The best:", self.population[max_index].name)
         return self.population[max_index].kp, self.population[max_index].ki, self.population[max_index].kd
 
     async def run(self):
