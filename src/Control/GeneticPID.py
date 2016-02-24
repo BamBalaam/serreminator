@@ -1,6 +1,25 @@
 import random
-import minimal
+from halpy.halpy import HAL
+import asyncio
 from Control.pid import PID
+import converters
+import logging
+from sys import stdout
+from time import sleep
+
+logging.basicConfig(
+    stream=stdout,
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)7s: %(message)s"
+)
+
+logger = logging.getLogger(__name__)
+
+LUXMETER = {
+    "Ra": 10900,
+    "Ea": 351.0,
+    "Y": 0.8,
+}
 
 class Chromosome:
     def __init__(self, kp, ki, kd):
@@ -61,24 +80,50 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=300):
+    def __init__(self, genetic, defaultPoint, timesteps=20, max_runs=300, hal=HAL("/tmp/hal")):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
         self.population = [Chromosome(random.random(), random.random(), random.random()) for _ in range(self.genetic.pop_size)]
+        self.hal = hal
 
-    def run(self, index):
+    def runPID(self, index):
         """It's just a simple PID that virtually runs a lot of times"""
+        print("caca")
         c = self.population[index]
         pid = PID(self.defaultPoint, *c.get(), min=0, max=255)
         print("Testing with", *c.get())
-        hal = minimal.hal
-        async def main():
-            await minimal.pid(hal, pid, self.timesteps)
-            print("hello")
-        minimal.loop.create_task(main())
-        hal.run(loop=minimal.loop)
+        hal = self.hal
+
+        hal.animations.led.upload([0])
+        hal.animations.led.loopin2 = True
+        hal.animations.led.playing = True
+
+        i = 0
+        while i < self.timesteps:
+            mean = 0
+            for _ in range(3):
+                analogRead = None
+                while analogRead is None:
+                    try:
+                        analogRead = hal.sensors.lux.value
+                    except TypeError:
+                        pass
+                resistance = converters.tension2resistance(analogRead, 10000)
+                lux = converters.resistance2lux(resistance, **LUXMETER)
+                mean += lux
+                sleep(0.02)
+            lux = round(mean / 3, 2)
+
+            res = int(pid.compute(lux))
+            logger.info("Obs=%s, PID asks %s", lux, res)
+
+
+            hal.animations.led.upload([res])
+            sleep(0.5)
+            i += 1
+
         print("ce que tu veux")
 
         return self.genetic.fitness(pid.errors)
@@ -87,7 +132,7 @@ class geneticPID:
         next_gen = []
         fitnesses = []
         for i in range(self.genetic.pop_size):
-            fitnesses.append(self.run(i))
+            fitnesses.append(self.runPID(i))
 
         for i in range(self.genetic.pop_size):
             p1, p2 = self.genetic.selection(fitnesses)
@@ -102,7 +147,15 @@ class geneticPID:
         max_index = self.fitnesses.index(max(self.fitness))
         return self.population[max_index].kp, self.population[max_index].ki, self.population[max_index].kd
 
+    async def run(self):
+        await asyncio.sleep(0.1)
+        print(self.find_parameters())
+        await asyncio.sleep(0.1)
+
 if __name__ == '__main__':
     g = Genetic()
-    gpid = geneticPID(g, 800)
-    print(gpid.find_parameters())
+    hal = HAL("/tmp/hal")
+    gpid = geneticPID(g, 800, hal=hal)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(gpid.run())
+    hal.run(loop=loop)
