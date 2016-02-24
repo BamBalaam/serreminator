@@ -30,7 +30,7 @@ THERMISTANCE = {
 
 savedData = []
 
-def pid(HAL):
+def pid(hal, pid=None, times=float('inf')):
     f = open('testfile.txt','w')
     Ku = 0.015
     Tu = 0.00001
@@ -39,7 +39,7 @@ def pid(HAL):
     Ki = (2*Ku)/Tu
     Kd = (Kp*Tu)/8
 
-    pid = PID(800, Kp, Ki , Kd, min=0, max=255)
+    if not pid: pid = PID(800, Kp, Ki , Kd, min=0, max=255)
     #pid = PID(800, Ku*0.6, 0 , 0, min=0, max=255)
 
     hal.animations.led.upload([0])
@@ -47,7 +47,7 @@ def pid(HAL):
     hal.animations.led.playing = True
 
     i = 0
-    while True:
+    while times:
         mean = 0
         for _ in range(3):
             analogRead = None
@@ -73,10 +73,12 @@ def pid(HAL):
         yield from asyncio.sleep(0.5)
         i += 1
 
+        times -= 1
 
 loop = asyncio.get_event_loop()
 
 hal = HAL("/tmp/hal")
-loop.create_task(pid(hal))
 
-hal.run(loop=loop)
+if __name__ == '__main__':
+    loop.create_task(pid(hal))
+    hal.run(loop=loop)

@@ -1,4 +1,5 @@
 import random
+import web.minimal as webmin
 
 class Chromosome:
     def __init__(self, kp, ki, kd):
@@ -6,8 +7,11 @@ class Chromosome:
         self.ki = ki
         self.kd = kd
 
+    def get(self):
+        return self.kp, self.ki, self.kd
+
 class Genetic:
-    def __init__(self, pop_size=100, mut_prob=0.1, cross_rate=0.9, max_gain=1.):
+    def __init__(self, pop_size=150, mut_prob=0.1, cross_rate=0.9, max_gain=1.):
         self.pop_size = pop_size
         self.mut_prob = mut_prob
         self.cross_rate = cross_rate
@@ -65,23 +69,15 @@ class geneticPID:
 
     def run(self, index):
         """It's just a simple PID that virtually runs a lot of times"""
-        dists = []
-        current_pos = 0
-        current_dist = 0
-        last_dist = 0
-        integral = 0
+        c = self.population[index]
+        pid = PID(self.defaultPoint, *c.get())
+        hal = minweb.hal
 
-        for t in range(self.timesteps):
-            current_dist = self.defaultPoint - current_pos
-            
-            integral += current_dist
-            current_pos += self.population[index].kp * current_dist + \
-                self.population[index].kd * (current_dist - last_dist) + \
-                self.population[index].ki * integral
-            dists.append(current_dist)
-            last_dist = current_dist
+        ppid = minweb.pid(hal, pid, self.timesteps)
+        minweb.loop.create_task(ppid)
+        hal.run(loop=loop)
 
-        return self.genetic.fitness(dists)
+        return self.genetic.fitness(pid.errors)
 
     def next_generation(self):
         next_gen = []
