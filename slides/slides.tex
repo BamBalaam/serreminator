@@ -30,16 +30,16 @@
 
 		\begin{frame}{Serreminator - Idée de base}
 			\begin{itemize}
-        	\item Contrôle en temps réel (environnement d'une serre)
-        	\item Modélisation par un système dynamique à variables corrélées
-        	\item Contrôlée via des capteurs liés à un Arduino
+        	\item Contrôle en temps réel de l'environnement d'une serre
+        	\item Système dynamique à variables corrélées
+        	\item Contrôlé via des capteurs liés à un Arduino
       		\end{itemize}
 		\end{frame}
 
 		\begin{frame}{Serreminator - Présentation au Printemps des Sciences}
 			\begin{itemize}
         	\item Une vraie serre (prêtée par Inforsciences)
-        	\item Présentation dynamique pour les enfants: perturbation du système
+        	\item Présentation interactive pour les enfants: perturbation du système
         	\item Graphes en temps réel pour visualiser les variables contrôlées
       		\end{itemize}
 		\end{frame}
@@ -55,7 +55,7 @@
 		\end{frame}
 
 		\begin{frame}{PID - Réglages, variantes et alternatives}
-			\begin{minipage}{.45\textwidth}			
+			\begin{minipage}{.45\textwidth}
                 \begin{itemize}
                     \item Réglages
                         \begin{itemize}
@@ -70,7 +70,7 @@
                     \item Alternatives
                         \begin{itemize}
                             \item Bang Bang Controller
-                            \item P, PI 
+                            \item P, PI
                         \end{itemize}
                 \end{itemize}
 			\end{minipage}
@@ -83,7 +83,7 @@
                    & $K_{p}$             & $K_{i}$                         & $K_{d}$                       \\ \hline
                 P  & $\frac{K_{u}}{2}$   &                                 &                               \\ \hline
                 PI & $\frac{K_{u}}{2.2}$ & $1.2\cdot\frac{K_{p}}{P_{u}}$ &                               \\ \hline
-                PD & $\frac{K_{u}}{1.7}$ & $2\cdot\frac{K_{p}}{P_{u}}$   & $K_{p}\cdot\frac{P_{u}}{8}$ \\ \hline
+                PID & $\frac{K_{u}}{1.7}$ & $2\cdot\frac{K_{p}}{P_{u}}$   & $K_{p}\cdot\frac{P_{u}}{8}$ \\ \hline
                 \end{tabular}
                 \end{table}
 			\end{minipage}
