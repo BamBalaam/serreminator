@@ -13,9 +13,11 @@ class PID():
         self.integral = 0.
         self.lastTime = time()
         self.previous_state = 0
+        self.savedPoints = []
 
-    def compute(self, measured):
-        now = time()
+    def compute(self, measured, now=None):
+        if now is None:
+            now = time()
         deltaTime = now - self.lastTime
         error = self.defaultPoint - measured
         self.integral += error * deltaTime
@@ -28,4 +30,16 @@ class PID():
 
         self.lastMeasured = measured
         self.lastTime = now
+
+        self.savedPoints.append([now,res])
         return res
+
+    def setKp(self,inputKp):
+        self.kp = inputKp
+
+    def setParameters(self,inputKp,inputKi,inputKd):
+        self.kp, self.ki, self.kd = inputKp, inputKi, inputKd
+
+    def getSavedPoints(self):
+        return self.savedPoints
+
