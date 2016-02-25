@@ -12,16 +12,14 @@ logger = logging.getLogger(__name__)
 class MyComponent(ApplicationSession):
    @coroutine
    def onJoin(self, details):
-       print("session ready")
+        print("session ready")
 
-       def oncounter(count):
-           print("event received: %s" % count)
+        def event(count):
+            print("event received: %s" % count)
 
-       try:
-           yield from self.subscribe(oncounter, u'sensor.lux')
-           print("subscribed to topic")
-       except Exception as e:
-           print("could not subscribe to topic: {0}".format(e))
+        yield from self.subscribe(lambda x: print("lux : %f" % x), u'sensor.lux')
+        yield from self.subscribe(lambda x: print("temp : %f" % x), u'sensor.temp')
+        yield from self.subscribe(lambda x: print("target : %f" % x), u'pid.input.light')
 
 
 if __name__ == '__main__':

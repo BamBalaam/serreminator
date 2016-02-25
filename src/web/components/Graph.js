@@ -2,18 +2,23 @@ const React = require("react");
 const rd3 = require('react-d3');
 const LineChart = rd3.LineChart;
 
-const Metric = React.createClass({
+const Graph = React.createClass({
     getInitialState: function() {
-        return {lineData: [0]};
+        return {lineData: [0], target:0, linewidth:600};
     },
     componentDidMount: function() {
         this.props.session.subscribe(this.props.topic, function(args){
             this.addData(args[0]);
         }.bind(this));
+        this.props.session.subscribe(this.props.PIDtarget, function(args){
+            this.setState({lineData:this.state.lineData, target:args[0]});
+        }.bind(this));
+        var w = $("#" + this.props.topic.replace(".","-") + "-linechart").width();
+        this.setState({linewidth:w});
     },
     addData: function(data_point){
         var newdata = this.state.lineData.concat([data_point])
-        this.setState({lineData: newdata});
+        this.setState({lineData: newdata, target:this.state.target});
     },
     render: function() {
         var lineData = this.state.lineData.map(function(item, i){
@@ -34,11 +39,11 @@ const Metric = React.createClass({
             values: [
                 {
                     x: lineData[0]['x'],
-                    y: 800
+                    y: this.state.target
                 },
                 {
                     x: lineData.slice(-1)[0]['x'],
-                    y: 800
+                    y: this.state.target
                 }
             ]
         },
@@ -47,22 +52,21 @@ const Metric = React.createClass({
             values: [
                 {
                     x: lineData[0]['x'],
-                    y: 0
+                    y: this.props.min
                 },
                 {
                     x: lineData[0]['x'],
-                    y: 1200
+                    y: this.props.max
                 }
             ]
         }];
         return <div className="row">
-            <h2 className="col-md-12">{this.props.topic}</h2>
-            <div className="col-md-6">
-                <h2>Valeur actuelle: <strong>{this.state.lineData.slice(-1)[0]}</strong></h2>
+            <h2 className="col-md-12">{this.props.name}</h2>
+            <div className="col-md-12" id={this.props.topic.replace(".", "-") + "-linechart"}>
                 <LineChart
                     data={data}
                     height={600}
-                    width={600}
+                    width={this.state.linewidth}
                     yAxisLabel={this.props.name + " en " + this.props.unity}
                     xAxisLabel="Temps"
                     gridHorizontal={true} />
@@ -71,4 +75,4 @@ const Metric = React.createClass({
     }
 });
 
-module.exports = Metric;
+module.exports = Graph;
