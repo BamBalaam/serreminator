@@ -1,0 +1,12 @@
+---
+cross_rate: 0.9
+default_point: 800
+hal_path: /tmp/hal
+kd_max: 0.01
+ki_max: 1
+kp_max: 1
+lifetime: 50
+max_runs: 150
+mut_gain: 1.0
+mut_prob: 0.1
+pop_size: 100

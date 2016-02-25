@@ -7,6 +7,7 @@ import converters
 import logging
 from sys import stdout
 from time import sleep
+import yaml
 
 logging.basicConfig(
     stream=stdout,
@@ -60,7 +61,6 @@ class Genetic:
                 }[random.randint(1,5)])
 
     def fitness(self, dx):
-        print(dx)
         return 1/sum(d*d for d in dx)**.5
 
     def selection(self, fs):
@@ -82,12 +82,12 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, timesteps=15, max_runs=1, hal=HAL("/tmp/hal")):
+    def __init__(self, genetic, defaultPoint, kp_max, ki_max, kd_max, timesteps=15, max_runs=1, hal=HAL("/tmp/hal")):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
-        self.population = [Chromosome(random.random(), random.random(), random.random()*0.01) for _ in range(self.genetic.pop_size)]
+        self.population = [Chromosome(random.uniform(0, kp_max), random.uniform(0, ki_max), random.uniform(0, kd_max)) for _ in range(self.genetic.pop_size)]
         self.hal = hal
 
     def runPID(self, index):
@@ -156,10 +156,26 @@ class geneticPID:
         print(self.find_parameters())
         await asyncio.sleep(0.1)
 
+
+def from_config(yaml_file):
+    try:
+        with open(yaml_file) as f:
+            conf = yaml.load(f)
+    except FileNotFoundError:
+        print("No such file")
+    else:
+        g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'], conf['mut_gain'])
+        hal = HAL(conf['hal_path'])
+        gpid = geneticPID(g, conf['default_point'], conf['kp_max'], conf['ki_max'], conf['kd_max'], conf['lifetime'], conf['max_runs'], hal)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(gpid.run())
+        hal.run(loop=loop)
+
 if __name__ == '__main__':
-    g = Genetic()
-    hal = HAL("/tmp/hal")
-    gpid = geneticPID(g, 800, hal=hal)
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(gpid.run())
-    hal.run(loop=loop)
+    from_config("Control/config.yaml")
+    #g = Genetic()
+    #hal = HAL("/tmp/hal")
+    #gpid = geneticPID(g, 800, hal=hal)
+    #loop = asyncio.get_event_loop()
+    #loop.run_until_complete(gpid.run())
+    #hal.run(loop=loop)
