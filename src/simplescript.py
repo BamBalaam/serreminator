@@ -2,7 +2,7 @@ import logging
 from math import *
 from sys import stdout
 from halpy.halpy import HAL
-from PID.pid import PID
+from Control.pid import PID
 import asyncio
 import converters
 import os
