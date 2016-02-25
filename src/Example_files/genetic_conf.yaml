@@ -1,0 +1,20 @@
+# probabilité d'occurence d'un crossing-over
+cross_rate: 0.9
+# consigne de pid
+default_point: 800
+# chemin vers hal
+hal_path: /tmp/hal
+# valeur maximale d'initialisation de kd, ki et kp
+kd_max: 0.01
+ki_max: 1
+kp_max: 1
+# temps de vie d'un chromosome
+lifetime: 50
+# nombre de générations de chromosomes
+max_runs: 150
+# gain maximal d'un gène lors d'une mutation
+mut_gain: 1.0
+# probabilité d'occurence d'une mutation
+mut_prob: 0.1
+# nombre de chromosomes par génération
+pop_size: 100

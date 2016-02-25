@@ -2,7 +2,7 @@ import logging
 from math import *
 from sys import stdout
 from halpy.halpy import HAL
-from PID.pid import PID
+from Control.pid import PID
 import asyncio
 import converters
 import os
@@ -35,8 +35,12 @@ class MyComponent(ApplicationSession):
         self.hal.animations.led.upload([0])
         self.hal.animations.led.looping = True
         self.hal.animations.led.playing = True
+        (0.14049763567229168, 0.24741248122010484, 0.008350324795815805)
+        Kp=0.14049763567229168
+        Ki=0.24741248122010484
+        Kd=0.008350324795815805
 
-        self.pid = PID(800, 0.15, 0.1, 0.005, min=0, max=255)
+        self.pid = PID(800, Kp, Ki, Kd, min=0, max=255)
         asyncio.async(self.adjust())
 
         super().__init__(*args, **kwargs)
