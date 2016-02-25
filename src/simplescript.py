@@ -61,7 +61,7 @@ class MyComponent(ApplicationSession):
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
         self.glob = {
-            "light.pid" : PID(800, 0.04, 0.02, min=0, max=255)
+            "light.pid" : PID(800, 0.04, 0.02, min=0, max=255),
             "temp.bang" : BangBang(30, 5, False)
         }
 
