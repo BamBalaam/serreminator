@@ -56,7 +56,7 @@ class MyComponent(ApplicationSession):
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
         self.glob = {
-            "light.pid" : PID(800, 0.15, 0.1, 0.005, min=0, max=255)
+            "light.pid" : PID(800, 0.04, 0.05, min=0, max=255)
         }
 
         yield from self.register(set_target, u'pid.light.set_target')
@@ -94,6 +94,7 @@ async def send_data(values_dict, publisher):
 
 async def adjust(values_dict, publisher, hal, glob):
     MEAN_OVER_N = 3
+
     while True:
         pid = glob["light.pid"]
         if len(values_dict['lux']) < MEAN_OVER_N:
