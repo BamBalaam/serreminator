@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Serreminator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img alt="Serreminator" src="...">
+          </a>
+          <p class="navbar-text">Contrôle en temps réel</p>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <ul class="nav nav-tabs col-md-12" role="tablist">
+          <li class="active"><a href="#home" data-toggle="tab">Serre</a></li>
+          <li><a href="#profile" data-toggle="tab">Boite</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="tab-content">
+          <div class="tab-pane active" id="home">
+            <div class="col-md-12"><br></div>
+            <div class="col-md-9">...</div>
+            <div class="col-md-3">
+              <div class="alert alert-info" role="alert">
+                Valeur actuelle : <strong>200 lux</strong>
+                <span class="text-muted">(idéal : 800 lux)</span>
+              </div>
+              <form class="form-inline">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="exampleInputAmount" placeholder="Consigne">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+
+    <script>
+         AUTOBAHN_DEBUG = true;
+      </script>
+    <script src="app.js"></script>
+  </body>
+</html>

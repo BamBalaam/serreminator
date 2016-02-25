@@ -30,19 +30,12 @@ THERMISTANCE = {
 }
 
 
-def luxmeter():
-    analogRead = None
-    while analogRead is None:
-        try:
-            analogRead = hal.sensors.lux.value
-        except TypeError:
-            pass
+def luxmeter(analogRead):
     resistance = converters.tension2resistance(analogRead, 10000)
     lux = converters.resistance2lux(resistance, **LUXMETER)
     return lux
 
-def thermistor():
-    analogRead = hal.sensors.temp.value
+def thermistor(analogRead):
     resistance = converters.tension2resistance(analogRead, 10000)
     temp = converters.resistance2celcius(resistance, **THERMISTANCE)
     return temp
@@ -51,6 +44,7 @@ def thermistor():
 
 MAX_COMMANDS_PER_SEC = 10
 SENSORS = ["temp", "lux"]
+TRANSFORMERS = [thermistor, luxmeter]
 
 class MyComponent(ApplicationSession):
     async def onJoin(self, details):
@@ -66,9 +60,10 @@ class MyComponent(ApplicationSession):
         loop.create_task(adjust(values, self.publish, self.hal))
 
         while True:
-            for sensor in SENSORS:
+            for i, sensor in enumerate(SENSORS):
                 try:
-                    val = getattr(self.hal.sensors, sensor).value
+                    analog = getattr(self.hal.sensors, sensor).value
+                    val = TRANSFORMERS[i](analog)
                 except TypeError:
                     if len(values[sensor]) > 0:
                         val = values[sensor][-1]
@@ -82,7 +77,6 @@ class MyComponent(ApplicationSession):
 
 async def send_data(values_dict, publisher):
     while True:
-        print("sD")
         if len(values_dict['lux']) > 0 and len(values_dict['temp']):
             publisher('sensor.lux', values_dict['lux'][-1])
             publisher('sensor.temp', values_dict['temp'][-1])
@@ -91,9 +85,8 @@ async def send_data(values_dict, publisher):
 
 async def adjust(values_dict, publisher, hal):
     MEAN_OVER_N = 3
-    pid = PID(800)
+    pid = PID(800, 0.15, 0.1, 0.005, min=0, max=255)
     while True:
-        print("adj")
         if len(values_dict['lux']) < MEAN_OVER_N:
             await asyncio.sleep(0.1)
             continue
@@ -102,7 +95,8 @@ async def adjust(values_dict, publisher, hal):
         lux = statistics.mean(val)
 
         res = int(pid.compute(lux))
-        publisher('pid_output.light', res)
+        publisher('pid.output.light', res)
+        publisher('pid.input.light', 800)
 
         hal.animations.led.upload([res])
         await asyncio.sleep(0.1)

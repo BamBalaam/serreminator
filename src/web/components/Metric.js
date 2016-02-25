@@ -63,7 +63,7 @@ const Metric = React.createClass({
                     data={data}
                     height={600}
                     width={600}
-                    yAxisLabel="Luminosité (Lux)"
+                    yAxisLabel={this.props.name + " en " + this.props.unity}
                     xAxisLabel="Temps"
                     gridHorizontal={true} />
             </div>
