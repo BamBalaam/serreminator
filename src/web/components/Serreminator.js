@@ -29,7 +29,7 @@ const Serreminator = React.createClass({
                                 max={1200} min={0}/>
                             <Serre
                                 session={this.props.session}
-                                topic="sensor.temp"
+                                topic="sensor.box_temp"
                                 id="boite"
                                 PIDtarget="pid.input.temp"
                                 name="Température"

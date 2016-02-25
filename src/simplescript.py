@@ -96,9 +96,10 @@ class MyComponent(ApplicationSession):
 
 async def send_data(values_dict, publisher):
     while True:
-        if len(values_dict['lux']) > 0 and len(values_dict['temp']):
+        if len(values_dict['lux']) > 0 and len(values_dict['temp']) and len(values_dict['box_temp']):
             publisher('sensor.lux', values_dict['lux'][-1])
             publisher('sensor.temp', values_dict['temp'][-1])
+            publisher('sensor.box_temp', values_dict['box_temp'][-1])
 
         await asyncio.sleep(0.2)
 
