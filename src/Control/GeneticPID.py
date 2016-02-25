@@ -42,12 +42,13 @@ class Genetic:
 
     def mutation(self, c):
         choice = random.random()
+        r = random.uniform(-self.max_gain, self.max_gain)
         if choice < self.mut_prob / 3:
-            c.kp += random.random() * self.max_gain
+            if c.kp + r > 0: c.kp += r
         elif choice < 2 * self.mut_prob / 3:
-            c.ki += random.random() * self.max_gain
+            if c.ki + r > 0: c.ki += r
         elif choice < self.mut_prob:
-            c.kd += random.random() * self.max_gain
+            if c.kd + r > 0:c.kd += r
         return c
 
     def crossover(self, c1, c2):
