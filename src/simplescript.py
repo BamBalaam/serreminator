@@ -44,8 +44,8 @@ def thermistor(analogRead):
 
 
 MAX_COMMANDS_PER_SEC = 10
-SENSORS = ["temp", "lux"]
-TRANSFORMERS = [thermistor, luxmeter]
+SENSORS = ["temp", "lux", "box_temp"]
+TRANSFORMERS = [thermistor, luxmeter, thermistor]
 
 class MyComponent(ApplicationSession):
     async def onJoin(self, details):
