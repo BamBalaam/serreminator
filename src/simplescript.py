@@ -128,7 +128,7 @@ async def adjust(values_dict, publisher, hal, glob):
         val = [values_dict['box_temp'][-(i+1)] for i in range(MEAN_OVER_N)]
         temp = statistics.mean(val)
 
-        res = int(bang.compute(temp))
+        res = 255 if bang.run(temp) else 0
         publisher('pid.output.temp', res)
         publisher('pid.input.temp', bang.setpoint)
 
