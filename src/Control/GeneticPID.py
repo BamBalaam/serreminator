@@ -74,7 +74,7 @@ class Genetic:
         while parents < 2:
             r, i = random.random(), 0
             while i < self.pop_size:
-                if r >= cumul[i] and r < cumul[i+1]:
+                if r <= cumul[i]:
                     newPop.append(i)
                     parents += 1
                     i = self.pop_size
