@@ -55,9 +55,15 @@ class MyComponent(ApplicationSession):
 
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
+        self.glob = {
+            "light.pid" : PID(800, 0.15, 0.1, 0.005, min=0, max=255)
+        }
+
+        yield from self.register(set_target, u'pid.light.set_target')
+
         loop = asyncio.get_event_loop()
         loop.create_task(send_data(values, self.publish))
-        loop.create_task(adjust(values, self.publish, self.hal))
+        loop.create_task(adjust(values, self.publish, self.hal, glob))
 
         while True:
             for i, sensor in enumerate(SENSORS):
@@ -75,6 +81,9 @@ class MyComponent(ApplicationSession):
 
                 await asyncio.sleep(1 / MAX_COMMANDS_PER_SEC)
 
+    def set_target(self, target):
+        self.glob["light.pid"] = PID(target, 0.15, 0.1, 0.005, min=0, max=255)
+
 async def send_data(values_dict, publisher):
     while True:
         if len(values_dict['lux']) > 0 and len(values_dict['temp']):
@@ -83,10 +92,10 @@ async def send_data(values_dict, publisher):
 
         await asyncio.sleep(0.2)
 
-async def adjust(values_dict, publisher, hal):
+async def adjust(values_dict, publisher, hal, glob):
     MEAN_OVER_N = 3
-    pid = PID(800, 0.15, 0.1, 0.005, min=0, max=255)
     while True:
+        pid = glob["light.pid"]
         if len(values_dict['lux']) < MEAN_OVER_N:
             await asyncio.sleep(0.1)
             continue
