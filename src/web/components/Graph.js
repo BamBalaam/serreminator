@@ -4,38 +4,36 @@ const LineChart = rd3.LineChart;
 
 const Graph = React.createClass({
     getInitialState: function() {
-        return {lineData: [0], target:0, linewidth:600};
+        return {lineData: [{x:0,y:0}], target:0, linewidth:600, i:0};
     },
     componentDidMount: function() {
         this.props.session.subscribe(this.props.topic, function(args){
             this.addData(args[0]);
         }.bind(this));
         this.props.session.subscribe(this.props.PIDtarget, function(args){
-            this.setState({lineData:this.state.lineData, target:args[0]});
+            this.setState({target:args[0]});
         }.bind(this));
         var w = $("#" + this.props.topic.replace(".","-") + "-linechart").width();
         this.setState({linewidth:w});
     },
     addData: function(data_point){
-        var newdata = this.state.lineData.concat([data_point])
-        this.setState({lineData: newdata, target:this.state.target});
+        var newdata = this.state.lineData.concat([{x:this.state.i, y:data_point}]);
+        this.setState({i:this.state.i+1});
+        if(newdata.length > 50){
+            newdata = newdata.slice(-50);
+        }
+        this.setState({lineData: newdata});
     },
     render: function() {
-        var lineData = this.state.lineData.map(function(item, i){
-            return {
-                x: i,
-                y: item
-            }
-        }.bind(this));
-        if(lineData.length > 50){
-            lineData = lineData.slice(-50);
-        }
+        var lineData = this.state.lineData;
         var data = [{
             name: "plop",
             values: lineData
         },
         {
             name: "plop2",
+            strokeDashArray: "5,5",
+            strokeWidth: 3,
             values: [
                 {
                     x: lineData[0]['x'],

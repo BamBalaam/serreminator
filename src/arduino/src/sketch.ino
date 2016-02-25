@@ -4,17 +4,21 @@ Trigger triggers[] = {
 };
 
 Switch switchs[] = {
+    Switch("LED_bleu", 2),
+    Switch("LED_vert", 8),
+    Switch("LED_rouge", 9)
 };
 
 Animation animations[] = {
-    Animation("ventilo", 5),
-    Animation("led", 6)
+    Animation("ventilo", 3),
+    Animation("led_strip", 6)
 };
 
 Sensor sensors[] = {
     Sensor("lux", 0),
     Sensor("temp", 1),
-    Sensor("ground", 2)
+    Sensor("ground", 2),
+    Sensor("box_temp", 3)
 };
 
 Rgb rgbs[] = {

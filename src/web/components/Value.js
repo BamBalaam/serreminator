@@ -12,20 +12,33 @@ const Value= React.createClass({
             this.setState({target:args[0], value:this.state.value})
         }.bind(this));
     },
+    senddata: function(){
+        input = $("#"+this.props.topic.replace(".","-")+"-inputval");
+        var value = parseInt(input.val());
+        if(value > 0){
+            console.log(value);
+            this.props.session.call('pid.light.set_target',[value])
+            input.val('');
+        }
+    },
+    handleKeyPress: function(e){
+        if (e.key === 'Enter') {
+            this.senddata();
+        }
+    },
     render: function() {
         return <div>
+            <br/>
             <div className="alert alert-info" role="alert">
             Valeur actuelle : <strong>{this.state.value} {this.props.unity}</strong>
             <span className="text-muted">(idéal : {this.state.target} {this.props.unity})</span>
             </div>
-            <form className="form-horizontal">
             <div className="input-group">
-                <input type="text" className="form-control" id="exampleInputAmount" placeholder="Consigne"/>
+                <input onKeyPress={this.handleKeyPress} type="text" className="form-control" id={this.props.topic.replace(".","-")+"-inputval"} placeholder="Consigne"/>
                 <span className="input-group-btn">
-                    <button type="submit" className="btn btn-primary">Set</button>
+                    <button onClick={this.senddata} id={this.props.topic.replace(".","-")+"-changebuttun"} className="btn btn-primary">Set</button>
                 </span>
             </div>
-            </form>
             </div>;
     }
 })

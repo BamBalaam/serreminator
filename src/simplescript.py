@@ -56,14 +56,14 @@ class MyComponent(ApplicationSession):
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
         self.glob = {
-            "light.pid" : PID(800, 0.04, 0.05, min=0, max=255)
+            "light.pid" : PID(800, 0.04, 0.02, min=0, max=255)
         }
 
-        yield from self.register(set_target, u'pid.light.set_target')
+        await self.register(self.set_target, u'pid.light.set_target')
 
         loop = asyncio.get_event_loop()
         loop.create_task(send_data(values, self.publish))
-        loop.create_task(adjust(values, self.publish, self.hal, glob))
+        loop.create_task(adjust(values, self.publish, self.hal, self.glob))
 
         while True:
             for i, sensor in enumerate(SENSORS):
@@ -82,7 +82,8 @@ class MyComponent(ApplicationSession):
                 await asyncio.sleep(1 / MAX_COMMANDS_PER_SEC)
 
     def set_target(self, target):
-        self.glob["light.pid"] = PID(target, 0.15, 0.1, 0.005, min=0, max=255)
+        print(target)
+        self.glob["light.pid"].defaultPoint = target
 
 async def send_data(values_dict, publisher):
     while True:
@@ -106,7 +107,7 @@ async def adjust(values_dict, publisher, hal, glob):
 
         res = int(pid.compute(lux))
         publisher('pid.output.light', res)
-        publisher('pid.input.light', 800)
+        publisher('pid.input.light', pid.defaultPoint)
 
         hal.animations.led.upload([res])
         await asyncio.sleep(0.1)
