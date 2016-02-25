@@ -3,6 +3,7 @@ from math import *
 from sys import stdout
 from halpy.halpy import HAL
 from Control.pid import PID
+from Control.bangbang import BangBang
 import asyncio
 import converters
 import os
@@ -32,15 +33,21 @@ THERMISTANCE = {
 class MyComponent(ApplicationSession):
     def __init__(self, *args, **kwargs):
         self.hal = HAL("/tmp/hal")
-        self.hal.animations.led.upload([0])
-        self.hal.animations.led.looping = True
-        self.hal.animations.led.playing = True
+        self.hal.animations.led_strip.upload([0])
+        self.hal.animations.led_strip.looping = True
+        self.hal.animations.led_strip.playing = True
+
+        self.hal.animations.ventilo.upload([0])
+        self.hal.animations.ventilo.looping = True
+        self.hal.animations.ventilo.playing = True
+
         (0.14049763567229168, 0.24741248122010484, 0.008350324795815805)
         Kp=0.14049763567229168
         Ki=0.24741248122010484
         Kd=0.008350324795815805
 
         self.pid = PID(800, Kp, Ki, Kd, min=0, max=255)
+        self.bang = BangBang(30, 5, False)
         asyncio.async(self.adjust())
 
         super().__init__(*args, **kwargs)
@@ -82,7 +89,7 @@ class MyComponent(ApplicationSession):
             res = int(self.pid.compute(lux))
             self.publish('pid.light', res)
 
-            self.hal.animations.led.upload([res])
+            self.hal.animations.led_strip.upload([res])
             await asyncio.sleep(0.1)
 
 

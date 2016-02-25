@@ -3,6 +3,7 @@ from math import *
 from sys import stdout
 from halpy.halpy import HAL
 from Control.pid import PID
+from Control.bangbang import BangBang
 import asyncio
 import converters
 import os
@@ -49,17 +50,23 @@ TRANSFORMERS = [thermistor, luxmeter]
 class MyComponent(ApplicationSession):
     async def onJoin(self, details):
         self.hal = HAL("/tmp/hal")
-        self.hal.animations.led.upload([0])
-        self.hal.animations.led.looping = True
-        self.hal.animations.led.playing = True
+        self.hal.animations.led_strip.upload([0])
+        self.hal.animations.led_strip.looping = True
+        self.hal.animations.led_strip.playing = True
+
+        self.hal.animations.ventilo.upload([0])
+        self.hal.animations.ventilo.looping = True
+        self.hal.animations.ventilo.playing = True
 
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
         self.glob = {
             "light.pid" : PID(800, 0.04, 0.02, min=0, max=255)
+            "temp.bang" : BangBang(30, 5, False)
         }
 
         await self.register(self.set_target, u'pid.light.set_target')
+        await self.register(self.set_bang_target, u'pid.temp.set_target')
 
         loop = asyncio.get_event_loop()
         loop.create_task(send_data(values, self.publish))
@@ -82,8 +89,10 @@ class MyComponent(ApplicationSession):
                 await asyncio.sleep(1 / MAX_COMMANDS_PER_SEC)
 
     def set_target(self, target):
-        print(target)
         self.glob["light.pid"].defaultPoint = target
+
+    def set_bang_target(self, target):
+        self.glob["temp.bang"].setpoint = target
 
 async def send_data(values_dict, publisher):
     while True:
@@ -109,7 +118,22 @@ async def adjust(values_dict, publisher, hal, glob):
         publisher('pid.output.light', res)
         publisher('pid.input.light', pid.defaultPoint)
 
-        hal.animations.led.upload([res])
+        hal.animations.led_strip.upload([res])
+
+        bang = glob["temp.bang"]
+        if len(values_dict['box_temp']) < MEAN_OVER_N:
+            await asyncio.sleep(0.1)
+            continue
+
+        val = [values_dict['box_temp'][-(i+1)] for i in range(MEAN_OVER_N)]
+        temp = statistics.mean(val)
+
+        res = int(bang.compute(temp))
+        publisher('pid.output.temp', res)
+        publisher('pid.input.temp', bang.setpoint)
+
+        hal.animations.ventilo.upload([res])
+
         await asyncio.sleep(0.1)
 
 
