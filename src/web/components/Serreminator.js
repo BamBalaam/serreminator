@@ -1,5 +1,4 @@
 const React = require("react");
-const Metric = require('./Metric.js');
 const Serre = require('./Serre.js');
 
 const Serreminator = React.createClass({
@@ -18,15 +17,25 @@ const Serreminator = React.createClass({
                 </nav>
                 <div className="container">
                     <div className="row">
-                        <ul className="nav nav-tabs col-md-12" role="tablist">
-                            <li className="active"><a href="#home" data-toggle="tab">Serre</a></li>
-                            <li><a href="#profile" data-toggle="tab">Boite</a></li>
-                        </ul>
-                    </div>
-
-                    <div className="row">
                         <div className="tab-content">
-                            <Serre session={this.props.session} />
+                            <Serre
+                                session={this.props.session}
+                                topic="sensor.lux"
+                                id="serre"
+                                PIDtarget="pid.input.light"
+                                name="Luminosité"
+                                unity="Lux"
+                                PIDsetter="pid.set.ligth"
+                                max={1200} min={0}/>
+                            <Serre
+                                session={this.props.session}
+                                topic="sensor.temp"
+                                id="boite"
+                                PIDtarget="pid.input.temp"
+                                name="Température"
+                                unity="°C"
+                                PIDsetter="pid.set.temp"
+                                max={60} min={0}/>
                         </div>
                     </div>
                 </div>

@@ -31,7 +31,7 @@ const Value= React.createClass({
             <br/>
             <div className="alert alert-info" role="alert">
             Valeur actuelle : <strong>{this.state.value} {this.props.unity}</strong>
-            <span className="text-muted">(idéal : {this.state.target} {this.props.unity})</span>
+            <span className="text-muted"><br/>(Idéal : {this.state.target} {this.props.unity})</span>
             </div>
             <div className="input-group">
                 <input onKeyPress={this.handleKeyPress} type="text" className="form-control" id={this.props.topic.replace(".","-")+"-inputval"} placeholder="Consigne"/>
