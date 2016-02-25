@@ -17,7 +17,7 @@ const Value= React.createClass({
         var value = parseInt(input.val());
         if(value > 0){
             console.log(value);
-            this.props.session.call('pid.light.set_target',[value])
+            this.props.session.call(this.props.PIDsetter,[value])
             input.val('');
         }
     },
