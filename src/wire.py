@@ -19,6 +19,7 @@ class MyComponent(ApplicationSession):
 
         yield from self.subscribe(lambda x: print("lux : %f" % x), u'sensor.lux')
         yield from self.subscribe(lambda x: print("temp : %f" % x), u'sensor.temp')
+        yield from self.subscribe(lambda x: print("target : %f" % x), u'pid.input.light')
 
 
 if __name__ == '__main__':

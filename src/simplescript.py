@@ -85,7 +85,7 @@ async def send_data(values_dict, publisher):
 
 async def adjust(values_dict, publisher, hal):
     MEAN_OVER_N = 3
-    pid = PID(800, 0.15, 0.1, 0.005, min=0, max=255)
+    pid = PID(800, 0.04, 0.05, min=0, max=255)
     while True:
         if len(values_dict['lux']) < MEAN_OVER_N:
             await asyncio.sleep(0.1)
