@@ -25,7 +25,7 @@ const Serreminator = React.createClass({
                                 PIDtarget="pid.input.light"
                                 name="Luminosité"
                                 unity="Lux"
-                                PIDsetter="pid.set.ligth"
+                                PIDsetter="pid.light.set_target"
                                 max={1200} min={0}/>
                             <Serre
                                 session={this.props.session}
@@ -34,7 +34,7 @@ const Serreminator = React.createClass({
                                 PIDtarget="pid.input.temp"
                                 name="Température"
                                 unity="°C"
-                                PIDsetter="pid.set.temp"
+                                PIDsetter="pid.temp.set_target"
                                 max={60} min={0}/>
                         </div>
                     </div>
