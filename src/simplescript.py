@@ -61,8 +61,8 @@ class MyComponent(ApplicationSession):
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
         self.glob = {
-            "light.pid" : PID(800, 0.04, 0.02, min=0, max=255),
-            "temp.bang" : BangBang(30, 5, False)
+            "light.pid" : PID(300, 0.005, min=0, max=255),
+            "temp.bang" : BangBang(30, 2, False)
         }
 
         await self.register(self.set_target, u'pid.light.set_target')
