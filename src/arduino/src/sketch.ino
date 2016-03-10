@@ -4,35 +4,34 @@ Trigger triggers[] = {
 };
 
 Switch switchs[] = {
-    Switch("LED_bleu", 2),
-    Switch("LED_vert", 8),
-    Switch("LED_rouge", 9)
+    Switch("led_blue", 13),
+    Switch("led_green", 8),
+    Switch("led_red", 12
 };
 
 Animation animations[] = {
-    Animation("ventilo", 3),
-    Animation("led_strip", 6)
+    Animation("fan_box", 11),
+    Animation("fan_house", 9),
+    Animation("strip_white", 5),
+    Animation("strip_blue", 3),
+    Animation("strip_red", 6)
 };
 
 Sensor sensors[] = {
     Sensor("lux", 0),
-    Sensor("temp", 1),
-    Sensor("ground", 2),
-    Sensor("box_temp", 3)
+    Sensor("temp_box", 5),
+    Sensor("temp_house", 1),
+    Sensor("humudity_ground", 3)
 };
 
-Rgb rgbs[] = {
-};
+Rgb rgbs[] = {};
 
 DHT dht = DHT(7, DHT11);
+
 DHTSensor DHTSensors[] = {
     DHTSensor("temp", dht, TEMPERATURE, 7),
     DHTSensor("humid", dht, HUMIDITY, 7)
 };
-
-// ServoAnim servosAnim[] = {
-//     // ServoAnim("volets", 6)
-// };
 
 
 HAL_CREATE(hal, sensors, triggers, switchs, animations, rgbs, DHTSensors);
