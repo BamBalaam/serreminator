@@ -6,7 +6,9 @@ Trigger triggers[] = {
 Switch switchs[] = {
     Switch("led_blue", 13),
     Switch("led_green", 8),
-    Switch("led_red", 12)
+    Switch("led_red", 12),
+    Switch("heater_house", 2),
+    Switch("heater_box", 4),
 };
 
 Animation animations[] = {

@@ -44,19 +44,18 @@ def thermistor(analogRead):
 
 
 MAX_COMMANDS_PER_SEC = 10
-SENSORS = ["temp", "lux", "box_temp"]
+SENSORS = ["temp_house", "lux", "temp_box"]
 TRANSFORMERS = [thermistor, luxmeter, thermistor]
+
+ANIMATIONS = ["fan_box", "fan_house", "strip_blue", "strip_red", "strip_white"]
 
 class MyComponent(ApplicationSession):
     async def onJoin(self, details):
         self.hal = HAL("/tmp/hal")
-        self.hal.animations.led_strip.upload([0])
-        self.hal.animations.led_strip.looping = True
-        self.hal.animations.led_strip.playing = True
-
-        self.hal.animations.ventilo.upload([0])
-        self.hal.animations.ventilo.looping = True
-        self.hal.animations.ventilo.playing = True
+        for anim in ANIMATIONS:
+            getattr(self.hal.animations, anim).upload([0])
+            getattr(self.hal.animations, anim).looping = True
+            getattr(self.hal.animations, anim).playing = True
 
         values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
 
@@ -96,10 +95,10 @@ class MyComponent(ApplicationSession):
 
 async def send_data(values_dict, publisher):
     while True:
-        if len(values_dict['lux']) > 0 and len(values_dict['temp']) and len(values_dict['box_temp']):
+        if len(values_dict['lux']) > 0 and len(values_dict['temp_house']) and len(values_dict['temp_box']):
             publisher('sensor.lux', values_dict['lux'][-1])
-            publisher('sensor.temp', values_dict['temp'][-1])
-            publisher('sensor.box_temp', values_dict['box_temp'][-1])
+            publisher('sensor.temp', values_dict['temp_house'][-1])
+            publisher('sensor.box_temp', values_dict['temp_box'][-1])
 
         await asyncio.sleep(0.2)
 
@@ -119,21 +118,21 @@ async def adjust(values_dict, publisher, hal, glob):
         publisher('pid.output.light', res)
         publisher('pid.input.light', pid.defaultPoint)
 
-        hal.animations.led_strip.upload([res])
+        hal.animations.strip_white.upload([res])
 
         bang = glob["temp.bang"]
-        if len(values_dict['box_temp']) < MEAN_OVER_N:
+        if len(values_dict['temp_box']) < MEAN_OVER_N:
             await asyncio.sleep(0.1)
             continue
 
-        val = [values_dict['box_temp'][-(i+1)] for i in range(MEAN_OVER_N)]
+        val = [values_dict['temp_box'][-(i+1)] for i in range(MEAN_OVER_N)]
         temp = statistics.mean(val)
 
         res = 255 if bang.run(temp) else 0
         publisher('pid.output.temp', res)
         publisher('pid.input.temp', bang.setpoint)
 
-        hal.animations.ventilo.upload([res])
+        hal.animations.fan_box.upload([res])
 
         await asyncio.sleep(0.1)
 
