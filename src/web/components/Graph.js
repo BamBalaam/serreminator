@@ -4,7 +4,11 @@ const LineChart = rd3.LineChart;
 
 const Graph = React.createClass({
     getInitialState: function() {
-        return {lineData: [{x:0,y:0}], target:0, i:0};
+        return {
+            lineData: [{x:0,y:0}],
+            target:0,
+            i:0
+        };
     },
     componentDidMount: function() {
         this.props.session.subscribe(this.props.topic, function(args){
@@ -15,12 +19,18 @@ const Graph = React.createClass({
         }.bind(this));
     },
     addData: function(data_point){
-        var newdata = this.state.lineData.concat([{x:this.state.i, y:data_point}]);
-        this.setState({i:this.state.i+1});
+        var newdata = this.state.lineData.slice(); // copy the array
+
+        newdata.push({x:this.state.i, y:data_point});
+
         if(newdata.length > 50){
-            newdata = newdata.slice(-50);
+            newdata.shift()
         }
-        this.setState({lineData: newdata});
+
+        this.setState({
+            lineData: newdata,
+            i: this.state.i + 1
+        });
     },
     render: function() {
         var lineData = this.state.lineData;

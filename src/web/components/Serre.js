@@ -7,7 +7,7 @@ const opts = {
     topic: "sensor.lux",
     id: "serre",
     PIDtarget: "pid.input.light",
-    name: "Luminosité",
+    name: "Luminosité dans la serre",
     unity: "Lux",
     PIDsetter: "pid.light.set_target",
     max: 900,

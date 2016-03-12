@@ -7,7 +7,7 @@ const opts = {
     topic: "sensor.box_temp",
     id: "boite",
     PIDtarget: "pid.input.temp",
-    name: "Température",
+    name: "Température dans la boite",
     unity: "°C",
     PIDsetter: "pid.temp.set_target",
     max: 60,
