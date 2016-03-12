@@ -35,6 +35,13 @@ const Serreminator = React.createClass({
                             </p>
                         </div>
                         <ul className="nav navbar-nav navbar-right">
+                            <li className="navbar-text" style={{opacity: 0.4}}>
+                                Anthony <span style={{"font-variant": "small-caps"}}>Caccia</span>,
+                                Andre Madeira <span style={{"font-variant": "small-caps"}}>Cortes</span>,
+                                Romain <span style={{"font-variant": "small-caps"}}>Fontaine</span>,
+                                Nikita <span style={{"font-variant": "small-caps"}}>Marchant</span>
+                            </li>
+                            <li className="navbar-text">&nbsp;&nbsp;</li>
                             <li className="navbar-btn">
                                 <button
                                     className={"btn " + (this.state.visible == "serre" ? "btn-success": "btn-default")}
