@@ -27,7 +27,7 @@ const Value= React.createClass({
                 <div className="alert alert-success text-center" role="alert">
                     Valeur actuelle :<h1><strong>{this.props.value} {this.props.unity}</strong></h1>
                     <span className="text-muted">(Idéal : <strong>{this.props.target} {this.props.unity}</strong>)</span>
-                    <p className="text-muted"><br/>Changez la valeur idéale :</p>
+                    <p className="text-muted"><br/>Changez la valeur désirée :</p>
                     <div className="input-group">
                         <input
                             onKeyPress={this.handleKeyPress}

@@ -27,7 +27,6 @@ const Serre = React.createClass({
         }.bind(this));
     },
     render: function() {
-        console.log("Render Serre");
         return <div>
             <div className="col-md-9">
                 <Graph {...opts} session={this.props.session}/>
@@ -42,7 +41,7 @@ const Serre = React.createClass({
                 <SimpleValue
                     session={this.props.session}
                     topic={'house.ground_humidity.value'}
-                    unity={'%'}
+                    unity={'/ 100'}
                     name={'Humidité du sol'} />
                 <SimpleValue
                     session={this.props.session}

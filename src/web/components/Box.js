@@ -1,7 +1,7 @@
 const React = require("react");
 const Graph = require('./Graph.js');
 const Value = require('./Value.js');
-const Gauge = require('./Gauge.js');
+const ChildController = require('./ChildController.js');
 
 const opts = {
     topic: "box.temp.value",
@@ -27,7 +27,6 @@ const Box = React.createClass({
         }.bind(this));
     },
     render: function() {
-        console.log("Render Box");
         var w = $("#box-col").width();
 
         var arrow = {
@@ -49,6 +48,8 @@ const Box = React.createClass({
                     session={this.props.session}
                     value={this.state.value}
                     target={this.state.target}/>
+
+                <ChildController session={this.props.session} />
             </div>
         </div>;
     }

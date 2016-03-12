@@ -27,7 +27,6 @@ const Graph = React.createClass({
         var newdata = this.state.lineData.slice(); // copy the array
         var i = this.state.i + 1;
         newdata.push({x:i, y:data_point});
-        console.log(newdata);
         if(newdata.length > 50){
             newdata.shift()
         }
