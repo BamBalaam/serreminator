@@ -4,7 +4,7 @@ const LineChart = rd3.LineChart;
 
 const Graph = React.createClass({
     getInitialState: function() {
-        return {lineData: [{x:0,y:0}], target:0, linewidth:600, i:0};
+        return {lineData: [{x:0,y:0}], target:0, i:0};
     },
     componentDidMount: function() {
         this.props.session.subscribe(this.props.topic, function(args){
@@ -13,8 +13,6 @@ const Graph = React.createClass({
         this.props.session.subscribe(this.props.PIDtarget, function(args){
             this.setState({target:args[0]});
         }.bind(this));
-        var w = $("#" + this.props.topic.replace(".","-") + "-linechart").width();
-        this.setState({linewidth:w});
     },
     addData: function(data_point){
         var newdata = this.state.lineData.concat([{x:this.state.i, y:data_point}]);
@@ -58,13 +56,15 @@ const Graph = React.createClass({
                 }
             ]
         }];
+        var w = $("#" + this.props.topic.replace(".","-") + "-linechart").width();
+
         return <div className="row">
             <h2 className="col-md-12">{this.props.name}</h2>
             <div className="col-md-12" id={this.props.topic.replace(".", "-") + "-linechart"}>
                 <LineChart
                     data={data}
                     height={600}
-                    width={this.state.linewidth}
+                    width={w}
                     yAxisLabel={this.props.name + " en " + this.props.unity}
                     xAxisLabel="Temps"
                     gridHorizontal={true} />

@@ -1,5 +1,6 @@
 const React = require("react");
 const Serre = require('./Serre.js');
+const Box = require('./Box.js');
 
 const Serreminator = React.createClass({
     getInitialState: function(){
@@ -14,9 +15,9 @@ const Serreminator = React.createClass({
     render: function() {
         console.log("Render Serreminator");
 
-        var content;
-        if(this.state.visible == "serre"){
-            content = <Serre
+        var content = <div className="tab-content">
+            <div hidden={this.state.visible != 'serre'}>
+            <Serre
                 session={this.props.session}
                 topic="sensor.lux"
                 id="serre"
@@ -25,9 +26,9 @@ const Serreminator = React.createClass({
                 unity="Lux"
                 PIDsetter="pid.light.set_target"
                 max={900} min={0}/>
-        }
-        else {
-            content = <Serre
+            </div>
+            <div hidden={this.state.visible != 'box'}>
+            <Box
                 session={this.props.session}
                 topic="sensor.box_temp"
                 id="boite"
@@ -36,7 +37,9 @@ const Serreminator = React.createClass({
                 unity="°C"
                 PIDsetter="pid.temp.set_target"
                 max={60} min={0}/>
-        }
+            </div>
+        </div>
+
         return <div>
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
@@ -49,7 +52,7 @@ const Serreminator = React.createClass({
                         <ul className="nav navbar-nav navbar-right">
                             <li className="navbar-btn">
                                 <button
-                                    className={"btn " + (this.state.visible == "serre" ? "btn-primary": "btn-default")}
+                                    className={"btn " + (this.state.visible == "serre" ? "btn-success": "btn-default")}
                                     onClick={this.onClickSerre}>
                                     <i className="glyphicon glyphicon-leaf"></i>&nbsp;
                                     Serre
@@ -58,7 +61,7 @@ const Serreminator = React.createClass({
                             <li className="navbar-text">&nbsp;</li>
                             <li className="navbar-btn">
                                 <button
-                                    className={"btn " + (this.state.visible == "box" ? "btn-primary": "btn-default")}
+                                    className={"btn " + (this.state.visible == "box" ? "btn-success": "btn-default")}
                                     onClick={this.onClickBox}>
                                     <i className="glyphicon glyphicon-inbox"></i>&nbsp;
                                     Boite
@@ -70,9 +73,7 @@ const Serreminator = React.createClass({
                 </nav>
                 <div className="container">
                     <div className="row">
-                        <div className="tab-content">
                             {content}
-                        </div>
                     </div>
                 </div>
         </div>;
