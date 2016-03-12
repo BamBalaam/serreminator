@@ -15,28 +15,13 @@ const Serreminator = React.createClass({
     render: function() {
         console.log("Render Serreminator");
 
-        var content = <div className="tab-content">
+        var content =
+        <div className="tab-content">
             <div hidden={this.state.visible != 'serre'}>
-            <Serre
-                session={this.props.session}
-                topic="sensor.lux"
-                id="serre"
-                PIDtarget="pid.input.light"
-                name="Luminosité"
-                unity="Lux"
-                PIDsetter="pid.light.set_target"
-                max={900} min={0}/>
+                <Serre session={this.props.session} />
             </div>
             <div hidden={this.state.visible != 'box'}>
-            <Box
-                session={this.props.session}
-                topic="sensor.box_temp"
-                id="boite"
-                PIDtarget="pid.input.temp"
-                name="Température"
-                unity="°C"
-                PIDsetter="pid.temp.set_target"
-                max={60} min={0}/>
+            <Box session={this.props.session} />
             </div>
         </div>
 
