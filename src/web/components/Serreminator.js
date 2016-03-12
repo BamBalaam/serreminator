@@ -32,7 +32,7 @@ const Serreminator = React.createClass({
                             <a className="navbar-brand" href="#">
                                 <img alt="Serreminator" src="logo.png" height="50"/>
                             </a>
-                            <p className="navbar-text"><strong>Serreminator</strong> - Contrôle en temps réel</p>
+                            <p className="navbar-text"><strong>Serreminator</strong> - Contrôle en temps réel d&#39;une serre</p>
                         </div>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="navbar-btn">

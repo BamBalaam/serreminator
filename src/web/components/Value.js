@@ -34,9 +34,19 @@ const Value= React.createClass({
             <span className="text-muted"><br/>(Idéal : {this.state.target} {this.props.unity})</span>
             </div>
             <div className="input-group">
-                <input onKeyPress={this.handleKeyPress} type="text" className="form-control" id={this.props.topic.replace(".","-")+"-inputval"} placeholder="Consigne"/>
+                <input
+                    onKeyPress={this.handleKeyPress}
+                    type="number"
+                    className="form-control"
+                    id={this.props.topic.replace(".","-")+"-inputval"}
+                    placeholder="Consigne"/>
                 <span className="input-group-btn">
-                    <button onClick={this.senddata} id={this.props.topic.replace(".","-")+"-changebuttun"} className="btn btn-primary">Set</button>
+                    <button
+                        onClick={this.senddata}
+                        id={this.props.topic.replace(".","-")+"-changebuttun"}
+                        className="btn btn-primary">
+                        Changer
+                    </button>
                 </span>
             </div>
             </div>;
