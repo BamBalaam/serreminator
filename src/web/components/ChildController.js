@@ -21,7 +21,8 @@ const ChildController = React.createClass({
         this.props.session.call("box.controller.set_is_manual", [false]);
     },
     render: function() {
-        return <div className="alert alert-warning text-center" role="alert">
+        var c = this.state.is_manual ? "alert-info" : "alert-warning";
+        return <div className={"alert text-center " + c} role="alert">
             <p>Contrôlez vous même la température&nbsp;!</p>
             <br/>
             <ToggleController
