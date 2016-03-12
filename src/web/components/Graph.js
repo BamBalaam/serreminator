@@ -20,16 +20,16 @@ const Graph = React.createClass({
     },
     addData: function(data_point){
         var newdata = this.state.lineData.slice(); // copy the array
-
-        newdata.push({x:this.state.i, y:data_point});
-
+        var i = this.state.i + 1;
+        newdata.push({x:i, y:data_point});
+        console.log(newdata);
         if(newdata.length > 50){
             newdata.shift()
         }
 
         this.setState({
             lineData: newdata,
-            i: this.state.i + 1
+            i: i
         });
     },
     render: function() {

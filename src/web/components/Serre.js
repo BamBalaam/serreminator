@@ -4,12 +4,12 @@ const Value = require('./Value.js');
 const SimpleValue = require('./SimpleValue.js');
 
 const opts = {
-    topic: "sensor.lux",
+    topic: "house.light.value",
     id: "serre",
-    PIDtarget: "pid.input.light",
+    PIDtarget: "house.light.target",
     name: "Luminosité dans la serre",
     unity: "Lux",
-    PIDsetter: "pid.light.set_target",
+    PIDsetter: "house.light.set_target",
     max: 900,
     min: 0
 }
@@ -41,7 +41,7 @@ const Serre = React.createClass({
                 <br/>
                 <SimpleValue
                     session={this.props.session}
-                    topic={'house.ground_humidity'}
+                    topic={'house.ground_humidity.value'}
                     unity={'%'}
                     name={'Humidité du sol'} />
                 <SimpleValue

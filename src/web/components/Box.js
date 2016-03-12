@@ -4,12 +4,12 @@ const Value = require('./Value.js');
 const Gauge = require('./Gauge.js');
 
 const opts = {
-    topic: "sensor.box_temp",
+    topic: "box.temp.value",
     id: "boite",
-    PIDtarget: "pid.input.temp",
+    PIDtarget: "box.temp.target",
     name: "Température dans la boite",
     unity: "°C",
-    PIDsetter: "pid.temp.set_target",
+    PIDsetter: "box.temp.set_target",
     max: 60,
     min: 0
 }

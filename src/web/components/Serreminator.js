@@ -13,17 +13,15 @@ const Serreminator = React.createClass({
         this.setState({visible: "box"});
     },
     render: function() {
-        console.log("Render Serreminator");
-
         var content =
-        <div className="tab-content">
-            <div hidden={this.state.visible != 'serre'}>
-                <Serre session={this.props.session} />
+            <div className="tab-content">
+                <div hidden={this.state.visible != 'serre'}>
+                    <Serre session={this.props.session} />
+                </div>
+                <div hidden={this.state.visible != 'box'}>
+                <Box session={this.props.session} />
+                </div>
             </div>
-            <div hidden={this.state.visible != 'box'}>
-            <Box session={this.props.session} />
-            </div>
-        </div>
 
         return <div>
                 <nav className="navbar navbar-default">
@@ -32,7 +30,9 @@ const Serreminator = React.createClass({
                             <a className="navbar-brand" href="#">
                                 <img alt="Serreminator" src="logo.png" height="50"/>
                             </a>
-                            <p className="navbar-text"><strong>Serreminator</strong> - Contrôle en temps réel d&#39;une serre</p>
+                            <p className="navbar-text">
+                                <strong>Serreminator</strong> - Contrôle en temps réel d&#39;une serre
+                            </p>
                         </div>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="navbar-btn">
