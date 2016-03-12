@@ -1,0 +1,4 @@
+driver: mkdir -p /tmp/hal; ./driver/driver -f /tmp/hal
+web: cd web/static/; python2 -m SimpleHTTPServer 8000
+crossbar: crossbar start
+hal: sleep 5; python simplescript.py
