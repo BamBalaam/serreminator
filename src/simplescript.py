@@ -79,6 +79,7 @@ class MyComponent(ApplicationSession):
         loop = asyncio.get_event_loop()
         loop.create_task(send_data(values, self.publish, self.glob))
         loop.create_task(adjust(values, self.publish, self.hal, self.glob))
+        loop.create_task(handle_leds(values, self.publish, self.hal, self.glob))
 
         while True:
             for i, sensor in enumerate(SENSORS):
@@ -114,7 +115,7 @@ class MyComponent(ApplicationSession):
 
     def set_box_heater(self, enable):
         if self.glob['box.is_manual']:
-            self.hal.switch.heater_box.on(bool(enable))
+            self.hal.switchs.heater_box.on = bool(enable)
 
 async def send_data(values_dict, publisher, glob):
     while True:
@@ -156,6 +157,28 @@ async def adjust(values_dict, publisher, hal, glob):
 
         await asyncio.sleep(0.1)
 
+
+async def handle_leds(values_dict, publisher, hal, glob):
+    MEAN_OVER_N = 9
+
+    while True:
+        if all(map(lambda x: len(x) > MEAN_OVER_N, values_dict.values())):
+            bang = glob["temp.bang"]
+            temp = statistics.mean(list(values_dict['temp_box'])[-MEAN_OVER_N:])
+            hal.switchs.led_blue.on = False
+            hal.switchs.led_green.on = False
+            hal.switchs.led_red.on = False
+
+            modifier = 1 if glob["box.is_manual"] else 2
+
+            if temp < bang.setpoint - (bang.deviation * modifier):
+                hal.switchs.led_blue.on = True
+            elif temp < bang.setpoint + (bang.deviation * modifier):
+                hal.switchs.led_green.on = True
+            else:
+                hal.switchs.led_red.on = True
+
+        await asyncio.sleep(0.3)
 
 if __name__ == '__main__':
     runner = ApplicationRunner(url=u"ws://localhost:8080/ws", realm=u"realm1", debug=True)
