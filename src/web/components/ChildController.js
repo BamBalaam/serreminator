@@ -5,37 +5,44 @@ const ToggleController = require('./ToggleController.js');
 
 const ChildController = React.createClass({
     getInitialState: function() {
-        return {enabled: false};
+        return {is_manual: false};
     },
-    enable: function() {
-        this.setState({enabled: true});
+    componentDidMount: function() {
+        this.props.session.call("box.controller.get_is_manual").then(function(res) {
+            this.setState({is_manual: res});
+        }.bind(this))
     },
-    disable: function() {
-        this.setState({enabled: false});
+    set_manual: function() {
+        this.setState({is_manual: true});
+        this.props.session.call("box.controller.set_is_manual", [true]);
+    },
+    set_auto: function() {
+        this.setState({is_manual: false});
+        this.props.session.call("box.controller.set_is_manual", [false]);
     },
     render: function() {
         return <div className="alert alert-warning text-center" role="alert">
             <p>Contrôlez vous même la température&nbsp;!</p>
             <br/>
             <ToggleController
-                enable={this.enable}
-                disable={this.disable}
-                disabled={!this.state.enabled}
+                set_manual={this.set_manual}
+                set_auto={this.set_auto}
+                is_manual={this.state.is_manual}
                 session={this.props.session}
                 name={"Régulation"}
                 topic={"box.regulation"}/>
             <br/>
             <Controller
-                disabled={!this.state.enabled}
+                is_manual={this.state.is_manual}
                 session={this.props.session}
                 name={"Ventillation"}
-                topic={"box.fan"}/>
+                topic={"box.control.fan"}/>
             <br/>
             <Controller
-                disabled={!this.state.enabled}
+                is_manual={this.state.is_manual}
                 session={this.props.session}
                 name={"Chauffage"}
-                topic={"box.heater"}/>
+                topic={"box.control.heater"}/>
         </div>
     }
 });

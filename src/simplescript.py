@@ -63,11 +63,18 @@ class MyComponent(ApplicationSession):
 
         self.glob = {
             "light.pid" : PID(300, 0.005, min=0, max=511),
-            "temp.bang" : BangBang(30, 2, False)
+            "temp.bang" : BangBang(30, 2, False),
+            "box.is_manual": False,
         }
 
         await self.register(self.set_target, u'house.light.set_target')
         await self.register(self.set_bang_target, u'box.temp.set_target')
+
+        await self.register(self.box_set_manual, u'box.controller.set_is_manual')
+        await self.register(self.box_is_manual, u'box.controller.get_is_manual')
+
+        await self.register(self.set_box_fan, u'box.control.fan')
+        await self.register(self.set_box_heater, u'box.control.heater')
 
         loop = asyncio.get_event_loop()
         loop.create_task(send_data(values, self.publish, self.glob))
@@ -94,6 +101,20 @@ class MyComponent(ApplicationSession):
 
     def set_bang_target(self, target):
         self.glob["temp.bang"].setpoint = target
+
+    def box_set_manual(self, is_manual):
+        self.glob['box.is_manual'] = is_manual
+
+    def box_is_manual(self):
+        return bool(self.glob['box.is_manual'])
+
+    def set_box_fan(self, enable):
+        if self.glob['box.is_manual']:
+            self.hal.animations.fan_box.upload([255 if enable else 0])
+
+    def set_box_heater(self, enable):
+        if self.glob['box.is_manual']:
+            self.hal.switch.heater_box.on(bool(enable))
 
 async def send_data(values_dict, publisher, glob):
     while True:
@@ -127,10 +148,11 @@ async def adjust(values_dict, publisher, hal, glob):
                 hal.animations.strip_blue.upload([255])
                 hal.animations.strip_white.upload([res - 256])
 
-            bang = glob["temp.bang"]
-            temp = statistics.mean(list(values_dict['temp_box'])[-MEAN_OVER_N:])
-            res = 255 if bang.run(temp) else 0
-            hal.animations.fan_box.upload([res])
+            if not glob['box.is_manual']:
+                bang = glob["temp.bang"]
+                temp = statistics.mean(list(values_dict['temp_box'])[-MEAN_OVER_N:])
+                res = 255 if bang.run(temp) else 0
+                hal.animations.fan_box.upload([res])
 
         await asyncio.sleep(0.1)
 
