@@ -1,8 +1,14 @@
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
+
 const React = require("react");
 
 const Value= React.createClass({
     senddata: function(){
-        input = $("#"+this.props.topic.replace(".","-")+"-inputval");
+        input = $("#"+this.props.topic.replaceAll(".","-")+"-inputval");
         var value = parseInt(input.val());
         if(value > 0){
             console.log(value);
@@ -27,12 +33,12 @@ const Value= React.createClass({
                             onKeyPress={this.handleKeyPress}
                             type="number"
                             className="form-control"
-                            id={this.props.topic.replace(".","-")+"-inputval"}
+                            id={this.props.topic.replaceAll(".","-")+"-inputval"}
                             placeholder="Consigne"/>
                         <span className="input-group-btn">
                             <button
                                 onClick={this.senddata}
-                                id={this.props.topic.replace(".","-")+"-changebuttun"}
+                                id={this.props.topic.replaceAll(".","-")+"-changebuttun"}
                                 className="btn btn-primary">
                                 Changer
                             </button>

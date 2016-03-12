@@ -1,3 +1,8 @@
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
 const React = require("react");
 const rd3 = require('react-d3');
 const LineChart = rd3.LineChart;
@@ -66,11 +71,11 @@ const Graph = React.createClass({
                 }
             ]
         }];
-        var w = $("#" + this.props.topic.replace(".","-") + "-linechart").width();
+        var w = $("#" + this.props.topic.replaceAll(".","-") + "-linechart").width();
 
         return <div className="row">
             <h2 className="col-md-12">{this.props.name}</h2>
-            <div className="col-md-12" id={this.props.topic.replace(".", "-") + "-linechart"}>
+            <div className="col-md-12" id={this.props.topic.replaceAll(".", "-") + "-linechart"}>
                 <LineChart
                     data={data}
                     height={600}
