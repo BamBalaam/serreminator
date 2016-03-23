@@ -1,0 +1,66 @@
+\documentclass[a4paper,10pt]{report}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[left=2.5cm,top=2cm,right=2.5cm,nohead,nofoot]{geometry}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{afterpage}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{csquotes}
+
+\linespread{1.1}
+
+\setlength{\parskip}{0.5em}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\textbf{\textsc{UNIVERSITÉ LIBRE DE BRUXELLES}}\\
+\textbf{\textsc{Faculté des Sciences}}\\
+\textbf{\textsc{Département d'Informatique}}
+\vfill{}\vfill{}
+\begin{center}{\Huge Contrôle automatique d'une serre}\end{center}{\Huge \par}
+\begin{center}{\large A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine}\end{center}{\Huge \par}
+\vfill{}\vfill{}
+\begin{flushleft}{\large \textbf{Superviseurs :} M. Labbé, T. Lenaerts}\hfill{}\end{flushleft}{\large\par}
+\vfill{}\vfill{}\enlargethispage{3cm}
+\textbf{Année académique 2015--2016}
+\end{center}
+\end{titlepage}
+
+\begin{abstract}
+Ce rapport présente ...
+\end{abstract}
+
+
+\tableofcontents
+
+
+\chapter{Introduction}
+1.Une introduction contexte + la description du méthodologie étudié,
+
+\chapter{Etat de l'art}
+2.l’état de l’art,
+
+\chapter{Méthodes implémentées}
+3.un rapport sur les méthodes investiguées et leurs fonctionnement
+
+\chapter{Résultats expérimentaux}
+4.les résultats expérimentaux, + un comparaison avec des approches existant.
+
+\chapter{Discussion}
+5.l’explication/discussion de ces résultats
+
+\chapter{Conclusion et perspectives}
+6.conclusions et perspectives.
+
+\bibliographystyle{apalike}
+
+\bibliography{mybiblio}
+\addcontentsline{toc}{chapter}{Bibliographie}
+
+\end{document}
