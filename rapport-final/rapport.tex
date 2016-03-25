@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{csquotes}
+\usepackage{fullpage}
 
 \usepackage[pdftex,
             pdfauthor={A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine},
@@ -53,7 +54,7 @@
         {\large\par}
         \vfill{}
         \vfill{}
-        \enlargethispage{3cm}
+        % \enlargethispage{3cm} % do not remove
 
         \textbf{Année académique 2015--2016}
     \end{center}
@@ -70,14 +71,42 @@ Ce rapport présente ...
 \chapter{Introduction}
 1.Une introduction contexte + la description du méthodologie étudié,
 
+2 pages
+
 \chapter{Etat de l'art}
 2.l’état de l’art,
+
+\section{Contrôle automatique}
+
+\section{Détermination des paramètres de PID}
 
 \chapter{Méthodes implémentées}
 3.un rapport sur les méthodes investiguées et leurs fonctionnement
 
+\section{Contrôle automatique}
+BangBang
+PID
+
+\section{Détermination des paramètres de PID}
+
+Ziegler + alternatives
+Genetic
+Tabu
+Manuel
+
 \chapter{Résultats expérimentaux}
 4.les résultats expérimentaux, + un comparaison avec des approches existant.
+
+\section{Méthode expérimentale}
+Déterminer des métriques
+    Temps de montée
+    ampiltude max
+    integrale de l'erreur
+
+\section{Résultats}
+Résulatas pour chaque méthode
+
+pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
 
 \chapter{Discussion}
 5.l’explication/discussion de ces résultats
