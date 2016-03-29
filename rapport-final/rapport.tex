@@ -74,7 +74,18 @@ Ce rapport présente ...
 2 pages
 
 \chapter{Etat de l'art}
+Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme PID (qui est détaillé en \ref{PID}).
+
 \section{Contrôle automatique}
+L’automatique est une science qui étudie la modélisation, l’analyse et la commande de systèmes dynamiques.
+L’automatique permet de contrôler un système en respectant un cahier des charges (rapidité, précision, stabilité, ...).
+
+L'automatique était un sujet assez vaste, nous nous limiterons ici à l'étude des différentes méthodes de contrôle permettant de stabiliser l'état d'un système au plus proche d'une valeur consigne.
+
+Nous étudierons premièrement ``BangBang'', l'algorithme le plus simpliste, utilisé dans les thermostats.
+Ensuite nous étudierons PID ainsi que ses variantes.
+Pour finir nous survolerons MPC un algorithme prédicitf bien plus avancé.
+
 \subsection{Bang bang control}
 Le \emph{Bang bang control} aussi appelé \emph{On-Off control} ou en français "\emph{Tout ou rien}" est un contrôleur qui ne peut accepter que deux états de contrôle tels que ouvert ou fermé, ou allumé ou éteint.
 
@@ -82,6 +93,7 @@ Des exemples très classiques d'utilisation de ce type de contrôleur sont les t
 
 
 \subsection{PID}
+\label{PID}
 \subsubsection{Création et évolution au long du temps}
 
 Le régulateur PID est un système de contrôle.
@@ -92,7 +104,7 @@ Les premières analyses techniques de PID datent de 1922, lorsque Nicolas Minors
 Depuis son invention, la popularité de ce régulateur a fortement augmenté \cite{ang2005pid}.
 PID et ses variantes sont les systèmes de contrôle les plus utilisés (95\% des régulateurs dans les procédés industriels) \cite{Kinnaert2013} \cite{Astrom2002}.
 
-Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, il maintient son fonctionnement de base et a simplement évolué avec le temps:
+Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, il maintient son fonctionnement de base et a simplement évolué avec le temps :
 il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs logiques programmables, soit en tant que contrôleur ``standalone''.
 
 PID maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par PID.
