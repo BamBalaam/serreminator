@@ -91,6 +91,10 @@ Le \emph{``Bang bang control''} aussi appelé \emph{``On-Off control''} ou en fr
 
 Des exemples très classiques d'utilisation de ce type de contrôleur sont les thermostats: le chauffage s'allume sous une température minimale, et s'éteint au-dessus d'un seuil maximal.
 
+Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004245}
+
+De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004245}
+
 
 \subsection{PID}
 \label{PID}
@@ -264,6 +268,17 @@ Cette méthode est fort similaire a celle de Ziegler-Nichols. La plus grande dif
 \end{figure}
 
 \subsection{Genetic}
+Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
+Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chancun l'un des paramètres à déterminer.
+
+Chacun de ces chromosomes sera testé sur l'environnement et recevra un score suivant ses performances.
+En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer.
+Cette reproduction pourra éventuellement entraîner un ``enjambement'' entre ces chromosomes, leurs paramètres se mélangeant alors.
+Il peut également survenir une ``mutation'': les paramètres vont spontanément changer.
+
+Cette nouvelle population créée va recommencer le cycle précédent et regénérer une autre population, et ainsi de suite un certain nombre de fois.
+
+À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
 
 \subsection{Tabu}
 
