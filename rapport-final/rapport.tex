@@ -98,29 +98,30 @@ De plus, cet algorithme ne permet pas une stabilité suffisante pour certains ph
 
 \subsection{PID}
 \label{PID}
+
+\emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes industriels. \cite{Kinnaert2013, Astrom2002}
+Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée.
+
 \subsubsection{Création et évolution au long du temps}
 
-Le régulateur PID est un système de contrôle.
-Il porte ce nom à cause de ses trois actions (actions proportionnelle, intégrale et dérivée).
+Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
-Les premières analyses techniques de PID datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
-
-Depuis son invention, la popularité de ce régulateur a fortement augmenté \cite{ang2005pid}.
-PID et ses variantes sont les systèmes de contrôle les plus utilisés (95\% des régulateurs dans les procédés industriels) \cite{Kinnaert2013} \cite{Astrom2002}.
-
-Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de PID, il maintient son fonctionnement de base et a simplement évolué avec le temps:
+Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de \emph{PID}, il maintient son fonctionnement de base et a simplement évolué avec le temps :
 il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs logiques programmables, soit en tant que contrôleur ``standalone''.
 
-PID maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par PID.
-Il sert aussi de composante fondamentale à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}.
+\emph{PID} maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par \emph{PID}.
 
-\subsubsection{Rôle de PID}
-Le rôle de PID est de calculer en continu une erreur.
+\emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}.
+
+
+% TODO : c'est pas du tout le rôle PID a le même rôle que tous les régultateurs : s'apporcher le plus possible de la consigne
+\subsubsection{Rôle de \emph{PID}}
+Le rôle de \emph{PID} est de calculer en continu une erreur.
 Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
-PID tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
-Étant donné que PID se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
+\emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
+Étant donné que \emph{PID} se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
 
-Le grand avantage de PID est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet.
+Le grand avantage de \emph{PID} est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet.
 Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
@@ -197,8 +198,10 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 \section{Détermination des paramètres de PID}
 
+\emph{PID} étant inefficace et donc inutile si ses paramètres (les constantes $K_p$, $K_i$, $K_d$) sont mal fixés, il nous semble important d'aussi étudier les différentes méthodes pour les déterminer. Il existe énormément de méthodes différentes pour configurer \emph{PID}.
 
-Pour déterminer les valeurs optimales des paramètres de PID, plusieurs algorithmes peuvent être utilisés. Nous en présenterons 3 : la méthode manuelle, la méthode de Ziegler–Nichols et celle de Tyreus Luyben.
+Nous étudierons ici trois méthodes manuelles aninsi que deux méthodes heuristiques.
+
 
 \subsection{La méthode manuelle}
 Cette technique s'applique sur un système en fonctionnement.
@@ -280,6 +283,7 @@ Cette nouvelle population créée va recommencer le cycle précédent et regén�
 \cite{thomas2009position} a réalisé une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme.
 
 \subsection{Tabu}
+\cite{bagis2011tabu}
 
 \chapter{Méthodes implémentées}
 3.un rapport sur les méthodes investiguées et leurs fonctionnement
