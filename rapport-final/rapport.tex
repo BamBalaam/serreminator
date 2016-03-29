@@ -280,7 +280,20 @@ Cette nouvelle population créée va recommencer le cycle précédent et regén�
 
 À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
 
-\subsection{Tabu}
+\subsection{Recherche tabou}
+Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette métaheuristique itérative est de trouver des minimums locaux pour une fonction objectif.
+
+Pour se faire, nous appliquons l'algorithme suivant:
+\begin{enumerate}
+    \item prendre un point au hasard comme solution,
+    \item Évaluer les points voisins,
+    \item Choisir le meilleur point admissible parmi ces voisins n'étant pas dans la tabou liste,
+    \item Si le le meilleur point admissible est meilleur que notre solution, on remplace notre solution par ce nouveau point,
+    \item Nous l'ajoutons à notre liste tabou,
+    \item Nous retournons en 2 tant que nous ne rencontrons pas notre condition d'arrêt.
+\end{enumerate}
+
+Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la différence de score entre deux solutions est inférieure à un certain palier. \cite{glover2007principles}
 \cite{bagis2011tabu}
 
 \chapter{Méthodes implémentées}
