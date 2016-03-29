@@ -280,6 +280,7 @@ Cette nouvelle population créée va recommencer le cycle précédent et regén�
 
 À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
 
+<<<<<<< HEAD
 \subsection{Recherche tabou}
 Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette métaheuristique itérative est de trouver des minimums locaux pour une fonction objectif.
 
@@ -294,6 +295,13 @@ Pour se faire, nous appliquons l'algorithme suivant:
 \end{enumerate}
 
 Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la différence de score entre deux solutions est inférieure à un certain palier. \cite{glover2007principles}
+||||||| merged common ancestors
+\subsection{Tabu}
+=======
+\cite{thomas2009position} a réalisé une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme.
+
+\subsection{Tabu}
+>>>>>>> e25fb6e6fbf829f007566ee49c04cb4862f4be39
 \cite{bagis2011tabu}
 
 \chapter{Méthodes implémentées}
@@ -314,10 +322,25 @@ Manuel
 4.les résultats expérimentaux, + un comparaison avec des approches existant.
 
 \section{Méthode expérimentale}
-Déterminer des métriques
-    Temps de montée
-    ampiltude max
-    integrale de l'erreur
+
+Pour nous permettre de comparer les différentes méthodes, nous devons introduire des métriques permettant d'attribuer un score à ces méthodes.
+Nous utiliserons ici les métriques utilisées par \cite{griffin2003line, mirzal2012pid} :
+\begin{description}
+    \item[MSE] : La moyenne de l'erreur au carré (Mean of the Squared Error)
+    \item[ITAE] : L'intégrale du temps multipliée par la valeur absolue de l'erreur  (Integral of Time multiplied by Absolute Error)
+    \item[IAE] : L'intégrale de la valeur absolue de la magnitude de l'erreur (Integral of Absolute Magnitude of the Error)
+    \item[ISE] : L'intégrale de l'erreur au carré (Integral of the Squared Error)
+    \item[ITSE] : L'intégrale du temps multipliée par l'erreur au carré (Integral of Time multiplied by the Squared Error)
+\end{description}
+
+$$
+\textbf{MSE} = \frac{1}{T} \int_0^T e(t)^2 dt,
+\textbf{ITAE} = \int t \cdot |e(t)| dt,
+\textbf{IAE} = \int |e(t)| dt,
+\textbf{ISE} = \int e(t)^2 dt,
+\textbf{ITSE} = \int t \cdot e(t)^2 dt
+$$
+
 
 \section{Résultats}
 Résulatas pour chaque méthode
