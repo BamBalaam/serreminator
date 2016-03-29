@@ -300,10 +300,25 @@ Manuel
 4.les résultats expérimentaux, + un comparaison avec des approches existant.
 
 \section{Méthode expérimentale}
-Déterminer des métriques
-    Temps de montée
-    ampiltude max
-    integrale de l'erreur
+
+Pour nous permettre de comparer les différentes méthodes, nous devons introduire des métriques permettant d'attribuer un score à ces méthodes.
+Nous utiliserons ici les métriques utilisées par \cite{griffin2003line, mirzal2012pid} :
+\begin{description}
+    \item[MSE] : La moyenne de l'erreur au carré (Mean of the Squared Error)
+    \item[ITAE] : L'intégrale du temps multipliée par la valeur absolue de l'erreur  (Integral of Time multiplied by Absolute Error)
+    \item[IAE] : L'intégrale de la valeur absolue de la magnitude de l'erreur (Integral of Absolute Magnitude of the Error)
+    \item[ISE] : L'intégrale de l'erreur au carré (Integral of the Squared Error)
+    \item[ITSE] : L'intégrale du temps multipliée par l'erreur au carré (Integral of Time multiplied by the Squared Error)
+\end{description}
+
+$$
+\textbf{MSE} = \frac{1}{T} \int_0^T e(t)^2 dt,
+\textbf{ITAE} = \int t \cdot |e(t)| dt,
+\textbf{IAE} = \int |e(t)| dt,
+\textbf{ISE} = \int e(t)^2 dt,
+\textbf{ITSE} = \int t \cdot e(t)^2 dt
+$$
+
 
 \section{Résultats}
 Résulatas pour chaque méthode
