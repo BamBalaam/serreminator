@@ -93,7 +93,7 @@ Des exemples très classiques d'utilisation de ce type de contrôleur sont les t
 
 Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004245}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004245}
+De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004245} % TODO : double citation en 2§
 
 
 \subsection{PID}
@@ -114,43 +114,16 @@ il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs lo
 \emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}.
 
 
-% TODO : c'est pas du tout le rôle PID a le même rôle que tous les régultateurs : s'apporcher le plus possible de la consigne
-\subsubsection{Rôle de \emph{PID}}
-Le rôle de \emph{PID} est de calculer en continu une erreur.
-Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
-\emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
 Étant donné que \emph{PID} se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
 
 Le grand avantage de \emph{PID} est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet.
-Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
-\begin{enumerate}
-\item la stabilité,
-\item la précision (l'erreur même quand l'équilibre est atteint),
-\item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
-\end{enumerate}
 
 Il est aussi possible dans quelques applications de PID que certaines actions soient inutiles.
 Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
 Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort sensible au bruit lors des mesures
 (voir \ref{sec:alternatives-to-PID}).
 
-\subsubsection{Les trois paramètres de PID}
-L'utilisation de PID est décrite par la formule suivante\cite{visioli2006practical} :
-
-$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
-
-Analysons les plusieurs parties de cette formule:
-
-\begin{description}
-\item[Action proportionnelle (P) :]
-    Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
-\item[Action intégrale (I) :]
-    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
-\item[Action dérivée (D) :]
-    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
-\end{description}
-
-
+\subsubs
 \subsection{P controller}
 Le \emph{Proportional Control} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci.
 Cet algorithme se situe entre l'algorithme Bang Bang et PID:
@@ -202,11 +175,77 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 Nous étudierons ici trois méthodes manuelles aninsi que deux méthodes heuristiques.
 
+Nous encourageons le lecteur à se réferrer à \cite{shahrokhi2013comparison} qui fait une revue plus détaillée et complète des différentes méthodes pour déterminer les paramètres.
+
 
 \subsection{La méthode manuelle}
 Cette technique s'applique sur un système en fonctionnement.
 L'avantage de cette technique, c'est qu'elle ne nécessite aucun calcul mathématique complexe.
 Cependant, elle nécessite l'interaction d'un technicien expérimenté.
+
+
+
+\subsection{Ziegler–Nichols}
+% ziegler1942optimum
+% silva2007pid
+% http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
+
+% TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
+
+\subsection{Recherche tabou}
+
+
+\subsection{Genetic}
+
+
+\cite{thomas2009position} ont réalisé une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme.
+% TODO : renverser la phrase -> Le temps de réponse de genitic est meilleur \cite{}
+
+
+
+
+\chapter{Méthodes implémentées}
+3.un rapport sur les méthodes investiguées et leurs fonctionnement
+
+\section{Contrôle automatique}
+\subsection{Bang-bang}
+\subsection{PID}
+
+
+\emph{PID} est de calculer en continu une erreur.
+Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
+\emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
+
+Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
+\begin{enumerate}
+\item la stabilité,
+\item la précision (l'erreur même quand l'équilibre est atteint),
+\item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
+\end{enumerate}
+
+\subsubsection{Les trois paramètres de PID}
+L'utilisation de PID est décrite par la formule suivante\cite{visioli2006practical} :
+
+$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
+
+Analysons les plusieurs parties de cette formule:
+
+\begin{description}
+\item[Action proportionnelle (P) :]
+    Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
+\item[Action intégrale (I) :]
+    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
+\item[Action dérivée (D) :]
+    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+\end{description}
+
+
+
+
+\section{Détermination des paramètres de PID}
+
+\subsection{La méthode manuelle}
 
 L'algorithme se déroule en 4 étapes:
 \begin{enumerate}
@@ -218,10 +257,7 @@ L'algorithme se déroule en 4 étapes:
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
-% ziegler1942optimum
-% silva2007pid
-% http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
+
 
 Elle débute comme la méthode manuelle :
 \begin{enumerate}
@@ -248,41 +284,8 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
     \label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Tyreus Luyben}
-%http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Cette méthode est fort similaire a celle de Ziegler-Nichols. La plus grande différence est la formule utilisée.\cite{shahrokhi2013comparison}
+\subsection{Recherche Tabou}
 
-\def\tabularxcolumn#1{m{#1}}
-\begin{figure}[ht]
-    \begin{center}
-        \begin{tabularx}{\textwidth}{| c | X | X | X |}
-            \hline
-            & $K_p$ & $K_i$ & $K_d$\\ \hline
-            PI & \begin{equation*}\frac{K_u}{3,2}\end{equation*} & \begin{equation*}\frac{K_p}{2,2 \cdot P_u}\end{equation*} &\\ \hline
-            PID & \begin{equation*}\frac{K_u}{2,2}\end{equation*} & \begin{equation*}\frac{K_p}{2,2 \cdot P_u}\end{equation*} & \begin{equation*}K_p \cdot \frac{P_u}{6,3}\end{equation*} \\
-            \hline
-        \end{tabularx}
-    \end{center}
-    \caption{Tableau des formules pour Ziegler–Nichols}
-    \label{tab:ZieglerNicholsTuningFormulas}
-\end{figure}
-
-\subsection{Genetic}
-Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
-Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chancun l'un des paramètres à déterminer.
-
-Chacun de ces chromosomes sera testé sur l'environnement et recevra un score suivant ses performances.
-En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer.
-Cette reproduction pourra éventuellement entraîner un ``enjambement'' entre ces chromosomes, leurs paramètres se mélangeant alors.
-Il peut également survenir une ``mutation'': les paramètres vont spontanément changer.
-
-Cette nouvelle population créée va recommencer le cycle précédent et regénérer une autre population, et ainsi de suite un certain nombre de fois.
-
-À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
-
-\cite{thomas2009position} a réalisé une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme.
-
-\subsection{Recherche tabou}
 Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette métaheuristique itérative est de trouver des minimums locaux pour une fonction objectif.
 
 Pour se faire, nous appliquons l'algorithme suivant:
@@ -298,19 +301,21 @@ Pour se faire, nous appliquons l'algorithme suivant:
 Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la différence de score entre deux solutions est inférieure à un certain palier. \cite{glover2007principles}
 \cite{bagis2011tabu}
 
-\chapter{Méthodes implémentées}
-3.un rapport sur les méthodes investiguées et leurs fonctionnement
 
-\section{Contrôle automatique}
-BangBang
-PID
+\subsection{Algorithmes génétiques}
+Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
+Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chancun l'un des paramètres à déterminer.
 
-\section{Détermination des paramètres de PID}
+Chacun de ces chromosomes sera testé sur l'environnement et recevra un score suivant ses performances.
+En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer.
+Cette reproduction pourra éventuellement entraîner un ``enjambement'' entre ces chromosomes, leurs paramètres se mélangeant alors.
+Il peut également survenir une ``mutation'': les paramètres vont spontanément changer.
 
-Ziegler + alternatives
-Genetic
-Tabu
-Manuel
+Cette nouvelle population créée va recommencer le cycle précédent et regénérer une autre population, et ainsi de suite un certain nombre de fois.
+
+À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
+
+
 
 \chapter{Résultats expérimentaux}
 4.les résultats expérimentaux, + un comparaison avec des approches existant.
