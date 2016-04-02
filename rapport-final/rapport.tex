@@ -74,6 +74,7 @@ Ce rapport présente ...
 2 pages
 
 \chapter{Etat de l'art}
+
 Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme \emph{PID} (qui est détaillé en \ref{PID}).
 
 \section{Contrôle automatique}
@@ -91,9 +92,9 @@ Le \emph{``Bang bang control''} aussi appelé \emph{``On-Off control''} ou en fr
 
 Des exemples très classiques d'utilisation de ce type de contrôleur sont les thermostats: le chauffage s'allume sous une température minimale, et s'éteint au-dessus d'un seuil maximal.
 
-Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004245}
+Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004245} % TODO : double citation en 2§
+De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004} % TODO : double citation en 2§
 
 
 \subsection{PID}
@@ -123,7 +124,6 @@ Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
 Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort sensible au bruit lors des mesures
 (voir \ref{sec:alternatives-to-PID}).
 
-\subsubs
 \subsection{P controller}
 Le \emph{Proportional Control} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci.
 Cet algorithme se situe entre l'algorithme Bang Bang et PID:
@@ -142,12 +142,12 @@ Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{se
 
 \subsection{Integral controller}
 Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller.
-Un tel contrôleur est caractérisé dans \cite{svrcek2006real} par l'équation
+Un tel contrôleur est caractérisé dans \cite{svrcek2014real} par l'équation
 \begin{equation}P_{out} = \frac{1}{T_{i}}\int e dt + MV_{0}\end{equation}
 où $MV_{0}$ correspond à la correspond biaisée de P controller,
 $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$ et $T_{i}$ est le temps intégral défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
 
-Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur à l'utilisation d'un P controller seul (\cite{svrcek2006real}).
+Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur à l'utilisation d'un P controller seul (\cite{svrcek2014real}).
 
 \subsection{PI controller}
 Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale.
@@ -156,7 +156,7 @@ Ils sont caractérisés par l'équation
 où $K_{p}$ et $K_{I}$ sont les paramètres de réglages proportionnel et intégral
 et les autres symboles correspondent à ce qui est indiqué dans les sections \emph{P controller} et \emph{Integral controller}.
 
-Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapides que l'ajout d'un contrôleur intégral \cite{svrcek2006real}.
+Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapides que l'ajout d'un contrôleur intégral \cite{svrcek2014real}.
 En effet, si l'on compare son équation avec celle du P controller, le terme $p0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
 
 \subsection{MPC controller}
