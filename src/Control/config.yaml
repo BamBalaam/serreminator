@@ -1,6 +1,6 @@
 ---
 cross_rate: 0.9
-default_point: 800
+default_point: 200
 hal_path: /tmp/hal
 kd_max: 0.01
 ki_max: 1
