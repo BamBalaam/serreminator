@@ -94,18 +94,16 @@ Des exemples très classiques d'utilisation de ce type de contrôleur sont les t
 
 Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les pertubations soient trop importantes. \cite{Burghes2004} % TODO : double citation en 2§
+De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les pertubations soient trop importantes et cela produira une oscillation permanente. \cite{ballard1993pid}
 
 
 \subsection{\emph{PID}}
 \label{PID}
 
 \emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes \cite{Kinnaert2013, aastrom2002control}.
-Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée.
+Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée. PID est défini par :
 
-% TODO : ajouter formule
-
-\subsubsection{Création et évolution au long du temps}
+\begin{equation}u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}.\end{equation}
 
 Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
@@ -116,15 +114,11 @@ il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs lo
 
 \emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}. % TODO trop court
 
-
 Étant donné que \emph{PID} se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
-
-Le grand avantage de \emph{PID} est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet. % TODO source
 
 Il est aussi possible dans quelques applications de PID que certaines actions soient inutiles.
 Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
-Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort sensible au bruit lors des mesures
-(voir \ref{sec:alternatives-to-PID}).
+Par exemple, une des raisons d'enlever l'action dérivée est qu'elle est fort sensible au bruit lors des mesures \cite{svrcek2014real}.
 
 \subsection{P controller}
 Le \emph{Proportional Control} est l'ancêtre du PID, il ne prend en compte que la partie proportionnelle de celui-ci.
@@ -135,12 +129,12 @@ Un tel contrôleur s'exprime par l'équation
 \begin{equation}P_{out} = K_{P}e(t) + p_0\end{equation}
 dans laquelle $e(t)$ est l'erreur (la différence entre valeur attendue et valeur mesurée), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p_0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale (contrairement à PID).
 
-Un grand avantage de l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive : plus le paramètre $K_{p}$ est petit (respectivement grand), plus la réaction est lente (respectivement rapide). % TODO source
+Un grand avantage de l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive : plus le paramètre $K_{p}$ est petit (respectivement grand), plus la réaction est lente (respectivement rapide).
 
-Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset} : un décalage par rapport aux valeurs attendues.
+Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset} : un décalage par rapport aux valeurs attendues \cite{svrcek2014real}.
 
 Le choix d'un tel contrôleur par rapport à PID dépend de l'utilisation, de la précision et de la vitesse des corrections désirées.
-Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}. % TODO : montrer que la souce est utilisée partout dans la subsection
+Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}.
 
 \subsection{\emph{Integral controller}}
 Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller.
@@ -181,17 +175,20 @@ Nous encourageons le lecteur à se réferrer à \cite{shahrokhi2013comparison} q
 
 
 \subsection{La méthode manuelle}
-Cette technique s'applique sur un système en fonctionnement.
-L'avantage de cette technique, c'est qu'elle ne nécessite aucun calcul mathématique complexe.
-Cependant, elle nécessite l'interaction d'un technicien expérimenté.
 
+La méthode manuelle est une technique où un opérateur humain modifie les paramètres manuellement, sans algorithme déterminé, jusqu'à obtenir un resultat satisfaisant. Cette technique s'applique sur un système en fonctionnement.
+
+L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complèxe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initialle, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
 
 
 \subsection{Ziegler–Nichols}
 % ziegler1942optimum
 % silva2007pid
 % http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum} 
+En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
+
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
 
 % TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
 
@@ -211,6 +208,7 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 
 \section{Contrôle automatique}
 \subsection{Bang-bang}
+
 \subsection{PID}
 
 
