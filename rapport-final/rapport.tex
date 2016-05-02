@@ -75,7 +75,7 @@ Ce rapport présente ...
 
 \chapter{Etat de l'art}
 
-Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme \emph{PID} (qui est détaillé en \ref{PID}).
+Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme \emph{PID}, détaillé en \ref{PID}.
 
 \section{Contrôle automatique}
 L’automatique est une science qui étudie la modélisation, l’analyse et la commande de systèmes dynamiques.
@@ -85,23 +85,25 @@ L'automatique était un sujet assez vaste, nous nous limiterons ici à l'étude 
 
 Nous étudierons premièrement \emph{BangBang}, l'algorithme le plus simpliste, utilisé dans les thermostats.
 Ensuite nous étudierons \emph{PID} ainsi que ses variantes.
-Pour finir nous survolerons \emph{MPC} un algorithme prédicitf bien plus avancé.
+Pour finir nous survolerons \emph{MPC}, un algorithme prédicitf plus avancé.
 
 \subsection{\emph{Bang bang}}
-Le \emph{``Bang bang control''} aussi appelé \emph{``On-Off control''} ou en français \emph{``Tout ou rien''} est un contrôleur qui ne peut accepter que deux états de contrôle tels que ouvert ou fermé, ou allumé ou éteint.
+Le \emph{``Bang bang control''} aussi appelé \emph{``On-Off control''} ou en français \emph{``Tout ou rien''} est un contrôleur qui ne peut accepter que deux états de contrôle tels que ouvert ou fermé, allumé ou éteint.
 
 Des exemples très classiques d'utilisation de ce type de contrôleur sont les thermostats: le chauffage s'allume sous une température minimale, et s'éteint au-dessus d'un seuil maximal.
 
 Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{bang bang} n'agira plus jusqu'à ce que les pertubations ne s'accumulent trop. \cite{Burghes2004} % TODO : double citation en 2§
+De plus, cet algorithme ne permet pas une stabilité suffisante pour certains phénomènes: en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les pertubations soient trop importantes. \cite{Burghes2004} % TODO : double citation en 2§
 
 
-\subsection{PID}
+\subsection{\emph{PID}}
 \label{PID}
 
-\emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes industriels. \cite{Kinnaert2013, aastrom2002control}
+\emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes \cite{Kinnaert2013, aastrom2002control}.
 Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée.
+
+% TODO : ajouter formule
 
 \subsubsection{Création et évolution au long du temps}
 
@@ -110,14 +112,14 @@ Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas
 Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de \emph{PID}, il maintient son fonctionnement de base et a simplement évolué avec le temps :
 il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs logiques programmables, soit en tant que contrôleur ``standalone''.
 
-\emph{PID} maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par \emph{PID}.
+\emph{PID} maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par \emph{PID}. % TODO source
 
-\emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}.
+\emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}. % TODO trop court
 
 
 Étant donné que \emph{PID} se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
 
-Le grand avantage de \emph{PID} est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet.
+Le grand avantage de \emph{PID} est que l'on peut ajuster certains de ses paramètres pour s'adapter à la réalité du projet. % TODO source
 
 Il est aussi possible dans quelques applications de PID que certaines actions soient inutiles.
 Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
@@ -130,40 +132,40 @@ Cet algorithme se situe entre l'algorithme Bang Bang et PID:
 en effet, là où \emph{Bang Bang} va corriger l'état simplement en allumant ou en éteignant un appareil, l'algorithme P control va lui, appliquer une réponse appropriée à la perturbation.
 
 Un tel contrôleur s'exprime par l'équation
-\begin{equation}P_{out} = K_{P}e(t) + p0\end{equation}
-dans laquelle $e(t) = SP - SV$ est l'erreur mesurée (différence entre valeur attendue et valeur reçue), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale par rapport à PID.
+\begin{equation}P_{out} = K_{P}e(t) + p_0\end{equation}
+dans laquelle $e(t)$ est l'erreur (la différence entre valeur attendue et valeur mesurée), $K_{P}$ est le paramètre de gain proportionnel, $P_{out}$ est la réponse à la perturbation et $p_0$ est la correction à appliquer, nécessaire vu que cet algorithme n'a pas de composante intégrale (contrairement à PID).
 
-Un grand avantage de l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive : plus le paramètre $K_{p}$ est petit, plus la réaction est lente, et à l'inverse, plus il est grand, plus ce sera rapide.
+Un grand avantage de l'utilisation de ce type de contrôleur est qu'il n'y a qu'un seul paramètre à configurer, qui définit à quel point la correction sera agressive : plus le paramètre $K_{p}$ est petit (respectivement grand), plus la réaction est lente (respectivement rapide). % TODO source
 
-Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset}, un décalage par rapport aux valeurs attendues.
+Si l'implémentation d'un tel contrôleur est aisée, ses sorties produisent un phénomène d'\emph{offset} : un décalage par rapport aux valeurs attendues.
 
 Le choix d'un tel contrôleur par rapport à PID dépend de l'utilisation, de la précision et de la vitesse des corrections désirées.
-Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}.
+Des exemples où l'algorithme P control est suffisant sont donnés dans \cite{sellers2001overview}. % TODO : montrer que la souce est utilisée partout dans la subsection
 
-\subsection{Integral controller}
+\subsection{\emph{Integral controller}}
 Le principe d'un \emph{Integral controller} est de corriger un offset résultant de l'utilisation d'un P controller.
 Un tel contrôleur est caractérisé dans \cite{svrcek2014real} par l'équation
 \begin{equation}P_{out} = \frac{1}{T_{i}}\int e dt + MV_{0}\end{equation}
-où $MV_{0}$ correspond à la correspond biaisée de P controller,
+où $MV_{0}$ correspond à la correction biaisée de P controller,
 $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$ et $T_{i}$ est le temps intégral défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
 
-Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur à l'utilisation d'un P controller seul (\cite{svrcek2014real}).
+Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix inférieur inférieur à l'utilisation d'un P controller seul \cite{svrcek2014real}.
 
 \subsection{PI controller}
 Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale.
-Ils sont caractérisés par l'équation
+Il est caractérisé par l'équation
 \begin{equation}P_{out} = K_{P} e + K_{I} \int e dt\end{equation}
 où $K_{p}$ et $K_{I}$ sont les paramètres de réglages proportionnel et intégral
 et les autres symboles correspondent à ce qui est indiqué dans les sections \emph{P controller} et \emph{Integral controller}.
 
 Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapides que l'ajout d'un contrôleur intégral \cite{svrcek2014real}.
-En effet, si l'on compare son équation avec celle du P controller, le terme $p0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
+En effet, si l'on compare son équation avec celle du P controller, le terme $p_0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
 
 \subsection{MPC controller}
 \emph{MPC} est un contrôleur permettant la prédiction des futurs états de différentes variables dans un système.
 Celui-ci utilise des stratégies prédictives afin de calculer les prochaines valeurs de sorties possibles.
 
-Contrairement à PID, MPC peut gérer plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit.
+Contrairement à PID, MPC peut contrôler plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit. % TODO : circuit ?
 Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte.
 De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
 
