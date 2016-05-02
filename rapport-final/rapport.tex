@@ -204,9 +204,12 @@ Il est possible de déterminer les pararmètres de PID à partir d'une recherche
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
 \chapter{Méthodes implémentées}
-3.un rapport sur les méthodes investiguées et leurs fonctionnement
+
+Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 \section{Contrôle automatique}
+Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
+
 \subsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à controller et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (resp. diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
@@ -319,11 +322,29 @@ Cette nouvelle population créée va recommencer le cycle précédent et regén�
 
 
 \chapter{Résultats expérimentaux}
-4.les résultats expérimentaux, + un comparaison avec des approches existant.
 
-\section{Méthode expérimentale}
+Après avoir implémenté les algorithmes présentés ci-dessus nous les avons comparés garĉe à un dispositif expérimental que nous avons crée.
+
+\section{Dispositif et méthode expérimentaux}
+
+Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi qu'un que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-controlleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
+
+La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
+
+Pour comparer deux techniques entre elles, nous lancons plusieurs simulations à la suite l'une de l'autre pour chacune d'elles. % TODO : define plusieurs
+Et nous attribuons un score à chaque simulation selon les métriques définies en \ref{section:metrics} et le score final d'une méthode est défini comme la moyenne des scores des différentes simulations.
+
+Une simulation consiste en :
+\begin{itemize}
+    \item Le système est remis à zero : toutes les lampes sont éteintes et le capteur indique 0 lux.
+    \item L'algorithme de contrôle est lancé avec comme consigne de stabiliser le système à 500 lux.
+    \item Après 10 secondes, la seconde LED est allumée pour perturber le système
+    \item 10 secondes après l'allumage de la seconde LED, la simulation est arrêtée.
+    \item Un score est assigné à la simulation en fonction de sa performance.
+\end{itemize}
 
 \subsection{Métriques de score}
+\label{section:metrics}
 Pour nous permettre de comparer les différentes méthodes, nous devons introduire des métriques permettant d'attribuer un score à ces méthodes.
 Nous utiliserons ici les métriques utilisées par \cite{griffin2003line, mirzal2012pid} :
 \begin{description}
@@ -341,10 +362,6 @@ $$
 \textbf{ISE} = \int e(t)^2 dt,
 \textbf{ITSE} = \int t \cdot e(t)^2 dt
 $$
-
-\subsection{Dispositif expérimental}
-
-Pour effectuer les mesures
 
 
 \section{Résultats}
