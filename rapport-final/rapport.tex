@@ -185,7 +185,7 @@ L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématiq
 % ziegler1942optimum
 % silva2007pid
 % http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum} 
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
 Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
@@ -207,7 +207,9 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 3.un rapport sur les méthodes investiguées et leurs fonctionnement
 
 \section{Contrôle automatique}
-\subsection{Bang-bang}
+\subsection{\emph{Bang-bang}}
+
+L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à controller et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (resp. diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 \subsection{PID}
 
