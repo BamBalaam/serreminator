@@ -180,17 +180,21 @@ Nous encourageons le lecteur à se réferrer à \cite{shahrokhi2013comparison} q
 
 
 \subsection{La méthode manuelle}
-Cette technique s'applique sur un système en fonctionnement.
-L'avantage de cette technique, c'est qu'elle ne nécessite aucun calcul mathématique complexe.
-Cependant, elle nécessite l'interaction d'un technicien expérimenté.
 
+Cette technique s'applique sur un système en fonctionnement.
+L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complèxe.
+
+Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initialle, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
 
 
 \subsection{Ziegler–Nichols}
 % ziegler1942optimum
 % silva2007pid
 % http://www.chem.mtu.edu/~tbco/cm416/tuning_methods.pdf
-Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}\cite{silva2007pid}
+Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum} 
+En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
+
+Néanmoins, très peu d'importance est acordée au bruit lors de la mesure et à la sensibilité, donc il est utile d'évaluer au préalable si cette méthode est adaptée au système étudié. \cite{silva2007pid}
 
 % TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
 
@@ -211,6 +215,7 @@ Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système e
 
 \section{Contrôle automatique}
 \subsection{Bang-bang}
+
 \subsection{PID}
 
 
