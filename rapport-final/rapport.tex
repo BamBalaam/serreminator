@@ -103,7 +103,17 @@ De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une 
 \emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes \cite{Kinnaert2013, aastrom2002control}.
 Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée. PID est défini par :
 
-\begin{equation}u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}.\end{equation}
+\begin{equation}
+  u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}
+\end{equation}
+\begin{description} %TODO: syntaxe, où es-tu ?
+\item[Action proportionnelle (P) :]
+    cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
+\item[Action intégrale (I) :]
+    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
+\item[Action dérivée (D) :]
+    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+\end{description}
 
 Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
@@ -216,38 +226,19 @@ L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en param�
 
 \subsection{PID}
 
-
-\emph{PID} est de calculer en continu une erreur.
-Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
+\emph{PID} calcule une erreur en continu, qui est la différence entre une variable mesurée et un point de consigne à atteindre.
 \emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
 
-Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
+
+
+
+\section{Détermination des paramètres de PID} %TODO: refactor intro
+Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
 \item la précision (l'erreur même quand l'équilibre est atteint),
 \item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
-
-\subsubsection{Les trois paramètres de PID}
-L'utilisation de PID est décrite par la formule suivante\cite{visioli2006practical} :
-
-$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
-
-Analysons les plusieurs parties de cette formule:
-
-\begin{description}
-\item[Action proportionnelle (P) :]
-    Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
-\item[Action intégrale (I) :]
-    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
-\item[Action dérivée (D) :]
-    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
-\end{description}
-
-
-
-
-\section{Détermination des paramètres de PID}
 
 \subsection{La méthode manuelle}
 

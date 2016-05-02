@@ -4,12 +4,12 @@ from sys import stdout
 from halpy.halpy import HAL
 from Control.pid import PID
 from Control.bangbang import BangBang
-import asyncio
 import converters
 import os
-from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 import collections
 import statistics
+from time import sleep, time
+import matplotlib.pyplot as plt
 
 logging.basicConfig(
     stream=stdout, level=logging.DEBUG,
@@ -30,9 +30,12 @@ THERMISTANCE = {
     "D1": 6.383091E-08,
 }
 
+ITERATIONS = 50
+
 
 def luxmeter(analogRead):
     resistance = converters.tension2resistance(analogRead, 10000)
+    #print("res:", resistance)
     lux = converters.resistance2lux(resistance, **LUXMETER)
     return lux
 
@@ -46,140 +49,75 @@ def humidity(analogRead):
 
 
 MAX_COMMANDS_PER_SEC = 10
-SENSORS = ["temp_house", "lux", "temp_box", "humudity_ground"]
-TRANSFORMERS = [thermistor, luxmeter, thermistor, humidity]
+SENSORS = ["lux"]
+TRANSFORMERS = [luxmeter]
 
-ANIMATIONS = ["fan_box", "fan_house", "strip_blue", "strip_red", "strip_white"]
+ANIMATIONS = ["strip_white"]
 
-class MyComponent(ApplicationSession):
-    async def onJoin(self, details):
-        self.hal = HAL("/tmp/hal")
-        for anim in ANIMATIONS:
-            getattr(self.hal.animations, anim).upload([0])
-            getattr(self.hal.animations, anim).looping = True
-            getattr(self.hal.animations, anim).playing = True
+def get_lux(hal):
+    return statistics.mean([luxmeter(hal.sensors.lux.value)] * 3)
 
-        values = {sensor: collections.deque(maxlen=100) for sensor in SENSORS}
-
-        self.glob = {
-            "light.pid" : PID(300, 0.005, min=0, max=511),
-            "temp.bang" : BangBang(30, 2, False),
-            "box.is_manual": False,
-        }
-
-        await self.register(self.set_target, u'house.light.set_target')
-        await self.register(self.set_bang_target, u'box.temp.set_target')
-
-        await self.register(self.box_set_manual, u'box.controller.set_is_manual')
-        await self.register(self.box_is_manual, u'box.controller.get_is_manual')
-
-        await self.register(self.set_box_fan, u'box.control.fan')
-        await self.register(self.set_box_heater, u'box.control.heater')
-
-        loop = asyncio.get_event_loop()
-        loop.create_task(send_data(values, self.publish, self.glob))
-        loop.create_task(adjust(values, self.publish, self.hal, self.glob))
-        loop.create_task(handle_leds(values, self.publish, self.hal, self.glob))
-
-        while True:
-            for i, sensor in enumerate(SENSORS):
-                try:
-                    analog = getattr(self.hal.sensors, sensor).value
-                    val = TRANSFORMERS[i](analog)
-                except TypeError:
-                    if len(values[sensor]) > 0:
-                        val = values[sensor][-1]
-                    else:
-                        val = None
-
-                if val is not None:
-                    values[sensor].append(val)
-
-                await asyncio.sleep(1 / MAX_COMMANDS_PER_SEC)
-
-    def set_target(self, target):
-        self.glob["light.pid"].defaultPoint = target
-
-    def set_bang_target(self, target):
-        self.glob["temp.bang"].setpoint = target
-
-    def box_set_manual(self, is_manual):
-        self.glob['box.is_manual'] = is_manual
-
-    def box_is_manual(self):
-        return bool(self.glob['box.is_manual'])
-
-    def set_box_fan(self, enable):
-        if self.glob['box.is_manual']:
-            self.hal.animations.fan_box.upload([255 if enable else 0])
-
-    def set_box_heater(self, enable):
-        if self.glob['box.is_manual']:
-            self.hal.switchs.heater_box.on = bool(enable)
-
-async def send_data(values_dict, publisher, glob):
-    while True:
-        if all(map(lambda x: len(x) > 0, values_dict.values())):
-            publisher('house.light.value', values_dict['lux'][-1])
-            publisher('house.temp.value', values_dict['temp_house'][-1])
-            publisher('box.temp.value', values_dict['temp_box'][-1])
-            publisher('house.ground_humidity.value', values_dict['humudity_ground'][-1])
-
-
-        publisher('box.temp.target', glob["temp.bang"].setpoint)
-        publisher('house.light.target', glob["light.pid"].defaultPoint)
-
-        await asyncio.sleep(0.2)
-
-async def adjust(values_dict, publisher, hal, glob):
+def simule(hal, controller):
     MEAN_OVER_N = 3
+    PERTURBATION = 50
+    start = time()
+    hist = []
 
-    while True:
-        if all(map(lambda x: len(x) > MEAN_OVER_N, values_dict.values())):
-            pid = glob["light.pid"]
-            lux = statistics.mean(list(values_dict['lux'])[-MEAN_OVER_N:])
-            res = int(pid.compute(lux))
+    for i in range(ITERATIONS):
+        lux = get_lux(hal)
+        hist.append((lux, time() - start))
+        res = int(controller.compute(lux))
+        hal.animations.strip_white.upload([res])
+        sleep(0.1)
 
-            if res < 256:
-                hal.animations.strip_red.upload([res])
-                hal.animations.strip_blue.upload([res])
-                hal.animations.strip_white.upload([0])
-            else:
-                hal.animations.strip_red.upload([255])
-                hal.animations.strip_blue.upload([255])
-                hal.animations.strip_white.upload([res - 256])
+    for i in range(ITERATIONS):
+        lux = get_lux(hal)
+        hist.append((lux, time() - start))
+        res = int(controller.compute(lux)) + PERTURBATION
+        res = min(res, 255)
+        hal.animations.strip_white.upload([res])
+        sleep(0.1)
 
-            if not glob['box.is_manual']:
-                bang = glob["temp.bang"]
-                temp = statistics.mean(list(values_dict['temp_box'])[-MEAN_OVER_N:])
-                res = 255 if bang.run(temp) else 0
-                hal.animations.fan_box.upload([res])
+    return hist
 
-        await asyncio.sleep(0.1)
+def start(hal):
+    hal.animations.strip_white.upload([0])
+    hal.animations.strip_white.looping = True
+    hal.animations.strip_white.playing = True
+    sleep(1)
 
+def mse(datas, target):
+    return statistics.mean(map(lambda x:(target - x[0])**2, datas))
 
-async def handle_leds(values_dict, publisher, hal, glob):
-    MEAN_OVER_N = 9
+def itae(datas, target):
+    return sum(map(lambda x:x[1] * abs(x[0] - target), datas))
 
-    while True:
-        if all(map(lambda x: len(x) > MEAN_OVER_N, values_dict.values())):
-            bang = glob["temp.bang"]
-            temp = statistics.mean(list(values_dict['temp_box'])[-MEAN_OVER_N:])
-            hal.switchs.led_blue.on = False
-            hal.switchs.led_green.on = False
-            hal.switchs.led_red.on = False
+def iae(datas, target):
+    return sum(map(lambda x:abs(x[0] - target), datas))
 
-            modifier = 1 if glob["box.is_manual"] else 2
+def ise(datas, target):
+    return sum(map(lambda x:(target - x[0])**2, datas))
 
-            if temp < bang.setpoint - (bang.deviation * modifier):
-                hal.switchs.led_blue.on = True
-            elif temp < bang.setpoint + (bang.deviation * modifier):
-                hal.switchs.led_green.on = True
-            else:
-                hal.switchs.led_red.on = True
+def itse(datas, target):
+    return sum(map(lambda x:x[1] * (target - x[0])**2, datas))
 
-        await asyncio.sleep(0.3)
+def score(simulation, target):
+    score = []
+    score.append(mse(simulation, target))
+    score.append(itae(simulation, target))
+    score.append(iae(simulation, target))
+    score.append(ise(simulation, target))
+    score.append(itse(simulation, target))
+    return score
 
 if __name__ == '__main__':
-    runner = ApplicationRunner(url=u"ws://localhost:8080/ws", realm=u"realm1", debug=True)
-    runner.run(MyComponent)
+    target = 200
+    hal = HAL("/tmp/hal")
+    start(hal)
+    pid = PID(target, 0.115, min=0, max=255)
+    res = simule(hal, pid)
+    plt.plot([x[0] for x in res])
+    plt.plot([target for x in res])
+    plt.title(score(res, target))
+    plt.savefig("lalala.png")
+    print(score(res, target))
