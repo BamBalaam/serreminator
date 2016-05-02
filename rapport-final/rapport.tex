@@ -176,10 +176,9 @@ Nous encourageons le lecteur à se réferrer à \cite{shahrokhi2013comparison} q
 
 \subsection{La méthode manuelle}
 
-Cette technique s'applique sur un système en fonctionnement.
-L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complèxe.
+La méthode manuelle est une technique où un opérateur humain modifie les paramètres manuellement, sans algorithme déterminé, jusqu'à obtenir un resultat satisfaisant. Cette technique s'applique sur un système en fonctionnement.
 
-Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initialle, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
+L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complèxe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initialle, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
 
 
 \subsection{Ziegler–Nichols}
@@ -189,7 +188,7 @@ Cependant, elle requiert l'interaction d'un technicien expérimenté, étant don
 Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum} 
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
-Néanmoins, très peu d'importance est acordée au bruit lors de la mesure et à la sensibilité, donc il est utile d'évaluer au préalable si cette méthode est adaptée au système étudié. \cite{silva2007pid}
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
 
 % TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
 
