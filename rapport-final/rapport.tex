@@ -85,7 +85,7 @@ L'automatique était un sujet assez vaste, nous nous limiterons ici à l'étude 
 
 Nous étudierons premièrement \emph{BangBang}, l'algorithme le plus simpliste, utilisé dans les thermostats.
 Ensuite nous étudierons \emph{PID} ainsi que ses variantes.
-Pour finir nous survolerons \emph{MPC}, un algorithme prédicitf plus avancé.
+Pour finir nous survolerons \emph{MPC}, un algorithme prédictif plus avancé.
 
 \subsection{\emph{Bang bang}}
 Le \emph{``Bang bang control''} aussi appelé \emph{``On-Off control''} ou en français \emph{``Tout ou rien''} est un contrôleur qui ne peut accepter que deux états de contrôle tels que ouvert ou fermé, allumé ou éteint.
@@ -94,7 +94,7 @@ Des exemples très classiques d'utilisation de ce type de contrôleur sont les t
 
 Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les pertubations soient trop importantes et cela produira une oscillation permanente. \cite{ballard1993pid}
+De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les perturbations soient trop importantes et cela produira une oscillation permanente. \cite{ballard1993pid}
 
 
 \subsection{\emph{PID}}
@@ -103,7 +103,17 @@ De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une 
 \emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes \cite{Kinnaert2013, aastrom2002control}.
 Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée. PID est défini par :
 
-\begin{equation}u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}.\end{equation}
+\begin{equation}
+  u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}
+\end{equation}
+\begin{description} %TODO: syntaxe, où es-tu ?
+\item[Action proportionnelle (P) :]
+    cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
+\item[Action intégrale (I) :]
+    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
+\item[Action dérivée (D) :]
+    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+\end{description}
 
 Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
@@ -169,16 +179,16 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 \emph{PID} étant inefficace et donc inutile si ses paramètres (les constantes $K_p$, $K_i$, $K_d$) sont mal fixés, il nous semble important d'aussi étudier les différentes méthodes pour les déterminer. Il existe énormément de méthodes différentes pour configurer \emph{PID}.
 
-Nous étudierons ici trois méthodes manuelles aninsi que deux méthodes heuristiques.
+Nous étudierons ici trois méthodes manuelles ainsi que deux méthodes heuristiques.
 
-Nous encourageons le lecteur à se réferrer à \cite{shahrokhi2013comparison} qui fait une revue plus détaillée et complète des différentes méthodes pour déterminer les paramètres.
+Nous encourageons le lecteur à se référer à \cite{shahrokhi2013comparison} qui fait une revue plus détaillée et complète des différentes méthodes pour déterminer les paramètres.
 
 
 \subsection{La méthode manuelle}
 
-La méthode manuelle est une technique où un opérateur humain modifie les paramètres manuellement, sans algorithme déterminé, jusqu'à obtenir un resultat satisfaisant. Cette technique s'applique sur un système en fonctionnement.
+La méthode manuelle est une technique où un opérateur humain modifie les paramètres manuellement, sans algorithme déterminé, jusqu'à obtenir un résultat satisfaisant. Cette technique s'applique sur un système en fonctionnement.
 
-L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complèxe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initialle, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
+L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complexe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initiale, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
 
 
 \subsection{Ziegler–Nichols}
@@ -196,7 +206,7 @@ Une des critiques qui peut être faite à cette méthode est que dans la plupart
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
 Le mot tabou vient du fait qu'il faut pouvoir sortir d'un extréma pour être sûr que ce n'en soit pas un local et garder une liste des points tabous, dans lesquels ne pas retourner car déjà visités.
 
-Il est possible de déterminer les pararmètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \ref{Karaboga569754}. Une autre implémentation citée dans \ref{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
+Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \ref{Karaboga569754}. Une autre implémentation citée dans \ref{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
 
 \subsection{Algorithme génétique}
 
@@ -208,44 +218,27 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 \section{Contrôle automatique}
+Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
 
-Le contrôle automatique étant dominé par la combination de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étuider en détail que ces deux-ci.
-\subsection{Bang-bang}
+\subsection{\emph{Bang-bang}}
+
+L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (resp. diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 \subsection{PID}
 
-
-\emph{PID} est de calculer en continu une erreur.
-Cette erreur est la différence entre une variable mesurée et un point de consigne arbitraire.
+\emph{PID} calcule une erreur en continu, qui est la différence entre une variable mesurée et un point de consigne à atteindre.
 \emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
 
-Les effets (positifs ou négatifs) de l'ajustement de ces paramètres sont, entre autres \cite{zhong2006pid} :
+
+
+
+\section{Détermination des paramètres de PID} %TODO: refactor intro
+Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
 \item la précision (l'erreur même quand l'équilibre est atteint),
 \item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
-
-\subsubsection{Les trois paramètres de PID}
-L'utilisation de PID est décrite par la formule suivante\cite{visioli2006practical} :
-
-$$u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}$$
-
-Analysons les plusieurs parties de cette formule:
-
-\begin{description}
-\item[Action proportionnelle (P) :]
-    Cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
-\item[Action intégrale (I) :]
-    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
-\item[Action dérivée (D) :]
-    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
-\end{description}
-
-
-
-
-\section{Détermination des paramètres de PID}
 
 \subsection{La méthode manuelle}
 
@@ -288,7 +281,7 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
 
 \subsection{Recherche Tabou}
 
-Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette métaheuristique itérative est de trouver des minimums locaux pour une fonction objectif.
+Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette méta-heuristique itérative est de trouver des minimums locaux pour une fonction objectif.
 
 Pour se faire, nous appliquons l'algorithme suivant:
 \begin{enumerate}
@@ -306,14 +299,14 @@ Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la diff
 
 \subsection{Algorithmes génétiques}
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
-Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chancun l'un des paramètres à déterminer.
+Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chacun l'un des paramètres à déterminer.
 
 Chacun de ces chromosomes sera testé sur l'environnement et recevra un score suivant ses performances.
 En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer.
 Cette reproduction pourra éventuellement entraîner un ``enjambement'' entre ces chromosomes, leurs paramètres se mélangeant alors.
 Il peut également survenir une ``mutation'': les paramètres vont spontanément changer.
 
-Cette nouvelle population créée va recommencer le cycle précédent et regénérer une autre population, et ainsi de suite un certain nombre de fois.
+Cette nouvelle population créée va recommencer le cycle précédent et régénérer une autre population, et ainsi de suite un certain nombre de fois.
 
 À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
 
@@ -321,20 +314,20 @@ Cette nouvelle population créée va recommencer le cycle précédent et regén�
 
 \chapter{Résultats expérimentaux}
 
-Après avoir implémenté les algorithmes présentés ci-dessus nous les avons comparés garĉe à un dispositif expérimental que nous avons crée.
+Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons comparés grâce à un dispositif expérimental que nous avons créé.
 
-\section{Dispositif et méthode expérimentaux}
+\section{Méthode expérimentale}
 
-Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi qu'un que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-controlleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
+Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-controlleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
 
-Pour comparer deux techniques entre elles, nous lancons plusieurs simulations à la suite l'une de l'autre pour chacune d'elles. % TODO : define plusieurs
+Pour comparer deux techniques entre elles, nous lançons plusieurs simulations à la suite l'une de l'autre pour chacune d'elles. % TODO : define plusieurs
 Et nous attribuons un score à chaque simulation selon les métriques définies en \ref{section:metrics} et le score final d'une méthode est défini comme la moyenne des scores des différentes simulations.
 
 Une simulation consiste en :
 \begin{itemize}
-    \item Le système est remis à zero : toutes les lampes sont éteintes et le capteur indique 0 lux.
+    \item Le système est remis à zéro : toutes les lampes sont éteintes et le capteur indique 0 lux.
     \item L'algorithme de contrôle est lancé avec comme consigne de stabiliser le système à 500 lux.
     \item Après 10 secondes, la seconde LED est allumée pour perturber le système
     \item 10 secondes après l'allumage de la seconde LED, la simulation est arrêtée.
@@ -363,13 +356,28 @@ $$
 
 
 \section{Résultats}
-Résulatas pour chaque méthode
+Résultats pour chaque méthode
 
 pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
 pour tabu, discuter du nombre de tours à faire avant l'arrêt
 
 \chapter{Discussion}
 5.l’explication/discussion de ces résultats
+
+\section{Application en situation réelle}
+
+% TODO: Refactor les phrases, c'est vraiment juste du dump d'idées
+
+Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs:
+
+\begin{itemize}
+\item Une petite serre avec des plantes, dans laquelle la température, la luminosité et l'humidité (air et sol) étaient mesurées en temps réel.
+\item Une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux.
+\end{itemize}
+
+Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
+
+\section{Analyse des résultats}
 
 \chapter{Conclusion et perspectives}
 6.conclusions et perspectives.
