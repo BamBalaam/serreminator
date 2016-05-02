@@ -196,6 +196,9 @@ Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système e
 % TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
 
 \subsection{Recherche tabou}
+La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
+Le mot tabou vient du fait qu'il faut pouvoir sortir d'un extréma pour être sûr que ce n'en soit pas un local et garder une liste des points tabous, dans lesquels ne pas retourner car déjà visités.
+
 Il est possible de déterminer les pararmètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \ref{Karaboga569754}. Une autre implémentation citée dans \ref{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
 
 \subsection{Genetic}
