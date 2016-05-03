@@ -206,7 +206,7 @@ Une des critiques qui peut être faite à cette méthode est que dans la plupart
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
 Le mot tabou vient du fait qu'il faut pouvoir sortir d'un extréma pour être sûr que ce n'en soit pas un local et garder une liste des points tabous, dans lesquels ne pas retourner car déjà visités.
 
-Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \ref{Karaboga569754}. Une autre implémentation citée dans \ref{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
+Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \cite{Karaboga569754}. Une autre implémentation citée dans \cite{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
 
 \subsection{Algorithme génétique}
 
@@ -216,6 +216,8 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 \chapter{Méthodes implémentées}
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
+
+% TODO : parler de l'impel en python
 
 \section{Contrôle automatique}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
@@ -231,7 +233,7 @@ L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en param�
 
 Afin de réaliser cette opération, une fonction reçoit en paramètre la valeur mesurée, celle-ci est ensuite déduite à la valeur souhaitée afin de déterminer l'erreur. Cette erreur sera dès lors introduite dans l'équation de \emph{PID} et renverra alors une correction à appliquer.
 
-\section{Détermination des paramètres de PID} %TODO: refactor intro
+\section{Détermination des paramètres de PID} %TODO: refactor intro et bouger ceci dans l'état
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
@@ -297,6 +299,7 @@ Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la diff
 
 
 \subsection{Algorithmes génétiques}
+% TODO : plus de contexte
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
 Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chacun l'un des paramètres à déterminer.
 
