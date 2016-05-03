@@ -206,7 +206,7 @@ Une des critiques qui peut être faite à cette méthode est que dans la plupart
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
 Le mot tabou vient du fait qu'il faut pouvoir sortir d'un extréma pour être sûr que ce n'en soit pas un local et garder une liste des points tabous, dans lesquels ne pas retourner car déjà visités.
 
-Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \ref{Karaboga569754}. Une autre implémentation citée dans \ref{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
+Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \cite{Karaboga569754}. Une autre implémentation citée dans \cite{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
 
 \subsection{Algorithme génétique}
 
@@ -217,12 +217,15 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
+%TODO être sérieux
+Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
+
 \section{Contrôle automatique}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
 
 \subsection{\emph{Bang-bang}}
 
-L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (resp. diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
+L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 \subsection{PID}
 
@@ -231,7 +234,7 @@ L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en param�
 
 Afin de réaliser cette opération, une fonction reçoit en paramètre la valeur mesurée, celle-ci est ensuite déduite à la valeur souhaitée afin de déterminer l'erreur. Cette erreur sera dès lors introduite dans l'équation de \emph{PID} et renverra alors une correction à appliquer.
 
-\section{Détermination des paramètres de PID} %TODO: refactor intro
+\section{Détermination des paramètres de PID} %TODO: refactor intro et bouger ceci dans l'état
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
 \item la stabilité,
