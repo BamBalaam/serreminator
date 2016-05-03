@@ -73,7 +73,7 @@ Ce rapport présente ...
 
 2 pages
 
-\chapter{État de l'art}
+\chapter{Etat de l'art}
 
 Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme \emph{PID}, détaillé en \ref{PID}.
 
@@ -173,7 +173,7 @@ Contrairement à PID, MPC peut contrôler plusieurs variables, est facile à con
 Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte.
 De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
 
-Une comparaison entre APM\footnote{Asymptotic Predictive Method}, une variante simple de MPC et PID a été faite dans \cite{saletovic2014apm} et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID.
+Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm}, et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID.
 
 \section{Détermination des paramètres de PID}
 
@@ -301,16 +301,20 @@ Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la diff
 \subsection{Algorithmes génétiques}
 % TODO : plus de contexte
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
-Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous 3 ``loci'', représentant chacun l'un des paramètres à déterminer.
+Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous ici 3 emplacements, représentant chacun l'un des paramètres Kp, Ki ou Kd à déterminer.
 
-Chacun de ces chromosomes sera testé sur l'environnement et recevra un score suivant ses performances.
-En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer.
-Cette reproduction pourra éventuellement entraîner un ``enjambement'' entre ces chromosomes, leurs paramètres se mélangeant alors.
-Il peut également survenir une ``mutation'': les paramètres vont spontanément changer.
+Chaque chromosome sera alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci, et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
 
-Cette nouvelle population créée va recommencer le cycle précédent et régénérer une autre population, et ainsi de suite un certain nombre de fois.
+En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer: une nouvelle génération va être créée qui contiendra le même nombre de chromosome que la précédente. Pour ce faire:
+\begin{enumerate}
+  \item on choisit deux chromosomes selon une ``roulette wheel selection'': les chromosomes sont choisis aléatoirement, mais avec des probabilités plus importantes selon la grandeur de leur score;
+  \item ils vont se reproduire avec un possible ``crossing-over'': il y aura une probabilité faible que les paramètres des deux chromosomes soient choisis chez l'un ou l'autre pour être attribué au chromosome ``enfant'', sinon, l'enfant héritera des trois paramètres de son premier parent;
+  \item le chromosome enfant aura ensuite une faible probabilité de subir une ``mutation'': l'un de ses trois paramètres sera changé aléatoirement.
+\end{enumerate}
 
-À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score.
+La nouvelle population créée va recommencer le cycle précédent et régénérer une autre population, et ainsi de suite un certain nombre de fois.
+
+À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score, et ses paramètres seront utilisés par PID.
 
 
 

@@ -12,6 +12,7 @@ def tension2resistance(analogRead, resistance):
     if Rr == 0:
         Rr = 0.000000000000001
     Uref = 5
+    if not analogRead: analogRead = .000000000000001
 
     U2 = Uref * analogRead  # Sensor data to voltage
     Rb = (Rr * Uref) / U2 - Rr  # Resistor data
@@ -36,6 +37,6 @@ def resistance2celcius(resistance, Rat25, A1, B1, C1, D1):
 
     lnRRref = math.log(resistance / Rat25)
 
-    K = (A1 + B1 * lnRRref + C1 * lnRRref ** 2 + D1 * lnRRref ** 3) ** -1
+    K = (A1 + B1 * lnRRref + C1 * lnRRref**2 + D1 * lnRRref**3)** -1
     T = K - 273.15
     return round(T, 2)
