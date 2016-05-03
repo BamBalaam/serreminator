@@ -51,32 +51,45 @@ def humidity(analogRead):
 MAX_COMMANDS_PER_SEC = 10
 SENSORS = ["lux"]
 TRANSFORMERS = [luxmeter]
+MEAN = 10
 
 ANIMATIONS = ["strip_white"]
 
 def get_lux(hal):
-    return statistics.mean([luxmeter(hal.sensors.lux.value)] * 3)
+    val = []
+    for i in range(MEAN):
+        now = time()
+        try:
+            val.append(luxmeter(hal.sensors.lux.value))
+        except TypeError:
+            sleep(0.01)
+        delta = time() - now 
+        if delta < 0.1/MEAN:
+            sleep((0.1/MEAN)-delta)
+    if val == []:
+        return None
+    return statistics.mean(val)
 
-def simule(hal, controller):
+def simule(hal, controller, perturbation=True):
     MEAN_OVER_N = 3
-    PERTURBATION = 50
+    PERTURBATION = 50 if perturbation else 0
     start = time()
     hist = []
 
     for i in range(ITERATIONS):
         lux = get_lux(hal)
-        hist.append((lux, time() - start))
-        res = int(controller.compute(lux))
-        hal.animations.strip_white.upload([res])
-        sleep(0.1)
+        if lux:
+            hist.append((lux, time() - start))
+            res = int(controller.compute(lux))
+            hal.animations.strip_white.upload([res])
 
     for i in range(ITERATIONS):
         lux = get_lux(hal)
-        hist.append((lux, time() - start))
-        res = int(controller.compute(lux)) + PERTURBATION
-        res = min(res, 255)
-        hal.animations.strip_white.upload([res])
-        sleep(0.1)
+        if lux:
+            hist.append((lux, time() - start))
+            res = int(controller.compute(lux)) + PERTURBATION
+            res = min(res, 255)
+            hal.animations.strip_white.upload([res])
 
     return hist
 
