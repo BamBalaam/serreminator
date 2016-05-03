@@ -229,8 +229,7 @@ L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en param�
 \emph{PID} calcule une erreur en continu, qui est la différence entre une variable mesurée et un point de consigne à atteindre.
 \emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
 
-
-
+Afin de réaliser cette opération, une fonction reçoit en paramètre la valeur mesurée, celle-ci est ensuite déduite à la valeur souhaitée afin de déterminer l'erreur. Cette erreur sera dès lors introduite dans l'équation de \emph{PID} et renverra alors une correction à appliquer.
 
 \section{Détermination des paramètres de PID} %TODO: refactor intro
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :

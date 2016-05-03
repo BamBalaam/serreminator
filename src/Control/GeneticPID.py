@@ -98,10 +98,10 @@ class geneticPID:
         print("Testing with: ",c.name, " ", *c.get())
         hal = self.hal
 
-        hal.animations.led.upload([0])
+        hal.animations.strip_white.upload([0])
         sleep(0.1)
-        hal.animations.led.loopin2 = True
-        hal.animations.led.playing = True
+        hal.animations.strip_white.loopin2 = True
+        hal.animations.strip_white.playing = True
 
         i = 0
         while i < self.timesteps:
@@ -123,7 +123,7 @@ class geneticPID:
             logger.info("Obs=%s, PID asks %s", lux, res)
 
 
-            hal.animations.led.upload([res])
+            hal.animations.strip_white.upload([res])
             sleep(0.1)
             i += 1
         return self.genetic.fitness(pid.errors)
@@ -152,10 +152,10 @@ class geneticPID:
         print("The best:", self.population[max_index].name)
         return self.population[max_index].kp, self.population[max_index].ki, self.population[max_index].kd
 
-    async def run(self):
-        await asyncio.sleep(0.1)
+    def run(self):
+        sleep(0.1)
         print(self.find_parameters())
-        await asyncio.sleep(0.1)
+        sleep(0.1)
 
 
 def from_config(yaml_file):
@@ -168,9 +168,8 @@ def from_config(yaml_file):
         g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'], conf['mut_gain'])
         hal = HAL(conf['hal_path'])
         gpid = geneticPID(g, conf['default_point'], conf['kp_max'], conf['ki_max'], conf['kd_max'], conf['lifetime'], conf['max_runs'], hal)
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(gpid.run())
-        hal.run(loop=loop)
+        gpid.run()
+        #hal.run(loop=loop)
 
 if __name__ == '__main__':
     from_config("Control/config.yaml")

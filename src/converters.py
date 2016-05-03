@@ -9,6 +9,8 @@ def tension2resistance(analogRead, resistance):
     """
 
     Rr = resistance
+    if Rr == 0:
+        Rr = 0.000000000000001
     Uref = 5
 
     U2 = Uref * analogRead  # Sensor data to voltage
