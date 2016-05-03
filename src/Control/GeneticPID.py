@@ -1,4 +1,5 @@
 import asyncio
+import csv
 import logging
 import random
 from statistics import mean
@@ -90,7 +91,8 @@ class geneticPID:
                  timesteps=15,
                  max_runs=1,
                  hal=HAL("/tmp/hal"),
-                 score_func="ISE"):
+                 score_func="ISE",
+                 dump_file=None):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
@@ -100,6 +102,7 @@ class geneticPID:
             random.uniform(0, kp_max), random.uniform(0, ki_max),
             random.uniform(0, kd_max)) for _ in range(self.genetic.pop_size)]
         self.hal = hal
+        self.dump = dump_file
 
     def runPID(self, index):
         """It's just a simple PID that virtually runs a lot of times"""
@@ -135,7 +138,11 @@ class geneticPID:
             hal.animations.strip_white.upload([res])
             sleep(0.1)
             i += 1
-        return self.genetic.fitness(pid.errors, self.score_func)
+        fit = self.genetic.fitness(pid.errors, self.score_func)
+        dump_errors = [(self.defaultPoint - e, t) for e, t in pid.errors]
+        self.dump.writerow([self.gen_number, index, c.name, c.kd, c.ki, c.kd,
+                            fit, dump_errors])
+        return fit
 
     def next_generation(self):
         next_gen = []
@@ -155,7 +162,7 @@ class geneticPID:
         self.population = next_gen
 
     def find_parameters(self):
-        for _ in range(self.max_runs - 1):
+        for self.gen_number in range(self.max_runs - 1):
             self.next_generation()
         fitnesses = []
         for i in range(self.genetic.pop_size):
@@ -178,14 +185,27 @@ def from_config(yaml_file):
     except FileNotFoundError:
         print("No such file")
     else:
-        g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'],
-                    conf['mut_gain'])
-        hal = HAL(conf['hal_path'])
-        gpid = geneticPID(g, conf['default_point'], conf['kp_max'],
-                          conf['ki_max'], conf['kd_max'], conf['lifetime'],
-                          conf['max_runs'], hal, conf['score_func'])
-        gpid.run()
-        #hal.run(loop=loop)
+        try:
+            csvfile = open('dump.csv', 'w', newline='')
+            dump = csv.writer(csvfile,
+                              delimiter=',',
+                              quotechar='"',
+                              quoting=csv.QUOTE_MINIMAL)
+            g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'],
+                        conf['mut_gain'])
+            hal = HAL(conf['hal_path'])
+            gpid = geneticPID(g, conf['default_point'], conf['kp_max'],
+                              conf['ki_max'], conf['kd_max'], conf['lifetime'],
+                              conf['max_runs'], hal, conf['score_func'], dump)
+            gpid.run()
+            close(csvfile)
+            #hal.run(loop=loop)
+        except:
+            print('it excepted, d\'oh!')
+            try:
+                close(csvfile)
+            except:
+                pass
 
 
 def MSE(dx):

@@ -217,14 +217,15 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
-% TODO : parler de l'impel en python
+%TODO être sérieux
+Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
 \section{Contrôle automatique}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
 
 \subsection{\emph{Bang-bang}}
 
-L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (resp. diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
+L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 \subsection{PID}
 
@@ -299,7 +300,6 @@ Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la diff
 
 
 \subsection{Algorithmes génétiques}
-% TODO : plus de contexte
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
 Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous ici 3 emplacements, représentant chacun l'un des paramètres Kp, Ki ou Kd à déterminer.
 
