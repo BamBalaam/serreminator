@@ -101,13 +101,11 @@ def ise(datas, target):
 def itse(datas, target):
     return sum(map(lambda x:x[1] * (target - x[0])**2, datas))
 
+FNS = [mse, itae, iae, ise, itse]
 def score(simulation, target):
-    score = []
-    score.append(mse(simulation, target))
-    score.append(itae(simulation, target))
-    score.append(iae(simulation, target))
-    score.append(ise(simulation, target))
-    score.append(itse(simulation, target))
+    score = {}
+    for fn in FNS:
+        score[fn] = fn(simulation, target)
     return score
 
 if __name__ == '__main__':
