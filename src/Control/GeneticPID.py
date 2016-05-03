@@ -62,7 +62,7 @@ class Genetic:
                 5: (c2.kp, c2.ki, c2.kd)
                 }[random.randint(1,5)])
 
-    def fitness(self, dx, score="ise"):
+    def fitness(self, dx, score):
         return 1./eval("%s(dx)" % score)
 
     def selection(self, fs):
@@ -84,7 +84,7 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, kp_max, ki_max, kd_max, timesteps=15, max_runs=1, hal=HAL("/tmp/hal"), score_func):
+    def __init__(self, genetic, defaultPoint, kp_max, ki_max, kd_max, timesteps=15, max_runs=1, hal=HAL("/tmp/hal"), score_func="ise"):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
