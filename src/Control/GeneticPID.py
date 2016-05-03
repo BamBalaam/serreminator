@@ -6,7 +6,8 @@ from Control.pid import PID
 import converters
 import logging
 from sys import stdout
-from time import sleep
+from time import sleep, time
+from statistics import mean
 import yaml
 
 logging.basicConfig(
@@ -61,8 +62,8 @@ class Genetic:
                 5: (c2.kp, c2.ki, c2.kd)
                 }[random.randint(1,5)])
 
-    def fitness(self, dx):
-        return 1/sum(d*d for d in dx)**.5
+    def fitness(self, dx, score="ise"):
+        return 1./eval("%s(dx)" % score)
 
     def selection(self, fs):
         norm = (lambda s: [f / s for f in fs])(sum(fs))
@@ -83,11 +84,12 @@ class Genetic:
         return newPop
 
 class geneticPID:
-    def __init__(self, genetic, defaultPoint, kp_max, ki_max, kd_max, timesteps=15, max_runs=1, hal=HAL("/tmp/hal")):
+    def __init__(self, genetic, defaultPoint, kp_max, ki_max, kd_max, timesteps=15, max_runs=1, hal=HAL("/tmp/hal"), score_func):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
+        self.score_func = score_func
         self.population = [Chromosome(random.uniform(0, kp_max), random.uniform(0, ki_max), random.uniform(0, kd_max)) for _ in range(self.genetic.pop_size)]
         self.hal = hal
 
@@ -126,13 +128,14 @@ class geneticPID:
             hal.animations.strip_white.upload([res])
             sleep(0.1)
             i += 1
-        return self.genetic.fitness(pid.errors)
+        return self.genetic.fitness(pid.errors, self.score_func)
 
     def next_generation(self):
         next_gen = []
         fitnesses = []
+        now = time()
         for i in range(self.genetic.pop_size):
-            fitnesses.append(self.runPID(i))
+            fitnesses.append((self.runPID(i), time() - now))
 
         for i in range(self.genetic.pop_size):
             p1, p2 = self.genetic.selection(fitnesses)
@@ -167,9 +170,24 @@ def from_config(yaml_file):
     else:
         g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'], conf['mut_gain'])
         hal = HAL(conf['hal_path'])
-        gpid = geneticPID(g, conf['default_point'], conf['kp_max'], conf['ki_max'], conf['kd_max'], conf['lifetime'], conf['max_runs'], hal)
+        gpid = geneticPID(g, conf['default_point'], conf['kp_max'], conf['ki_max'], conf['kd_max'], conf['lifetime'], conf['max_runs'], hal, conf['score_func'])
         gpid.run()
         #hal.run(loop=loop)
+
+def mse(dx):
+    return mean(d * d for d, _ in dx)
+
+def itae(dx):
+    return sum(t * abs(d) for d, t in dx)
+
+def iae(dx):
+    return sum(abs(d) for d, _ in dx)
+
+def ise(dx):
+    return sum(d * d for d, _ in dx)
+
+def itse(dx):
+    return sum(t * d * d for d, t in dx)
 
 if __name__ == '__main__':
     from_config("Control/config.yaml")
