@@ -10,3 +10,4 @@ max_runs: 150
 mut_gain: 1.0
 mut_prob: 0.1
 pop_size: 100
+score_func: ISE

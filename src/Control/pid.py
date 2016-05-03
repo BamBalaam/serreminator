@@ -37,7 +37,6 @@ class PID:
         self.previous_error = 0
         self.previous_state = 0
         self.lastTime = time()
-        self.savedPoints = []
         self.errors = []
 
     def compute(self, measured, now=None, genetic=False):
@@ -45,7 +44,7 @@ class PID:
             now = time()
         deltaTime = now - self.lastTime
         error = self.defaultPoint - measured
-        if genetic: self.errors.append(error)
+        if genetic: self.errors.append((error, now))
         self.integral += error * deltaTime
         derivative = (error - self.previous_error)/ (deltaTime * 1000)
         res = self.kp * error + self.ki * self.integral + self.kd * derivative
@@ -59,7 +58,6 @@ class PID:
         self.lastMeasured = measured
         self.lastTime = now
 
-        self.savedPoints.append([now,res])
         return res
 
     def setKp(self,inputKp):
