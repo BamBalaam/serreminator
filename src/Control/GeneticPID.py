@@ -90,16 +90,15 @@ class geneticPID:
                  timesteps=15,
                  max_runs=1,
                  hal=HAL("/tmp/hal"),
-                 score_func="ise"):
+                 score_func="ISE"):
         self.genetic = genetic
         self.defaultPoint = defaultPoint
         self.timesteps = timesteps
         self.max_runs = max_runs
         self.score_func = score_func
         self.population = [Chromosome(
-            random.uniform(0, kp_max), random.uniform(
-                0, ki_max), random.uniform(0, kd_max))
-                           for _ in range(self.genetic.pop_size)]
+            random.uniform(0, kp_max), random.uniform(0, ki_max),
+            random.uniform(0, kd_max)) for _ in range(self.genetic.pop_size)]
         self.hal = hal
 
     def runPID(self, index):
@@ -189,23 +188,23 @@ def from_config(yaml_file):
         #hal.run(loop=loop)
 
 
-def mse(dx):
+def MSE(dx):
     return mean(d * d for d, _ in dx)
 
 
-def itae(dx):
+def ITAE(dx):
     return sum(t * abs(d) for d, t in dx)
 
 
-def iae(dx):
+def IAE(dx):
     return sum(abs(d) for d, _ in dx)
 
 
-def ise(dx):
+def ISE(dx):
     return sum(d * d for d, _ in dx)
 
 
-def itse(dx):
+def ITSE(dx):
     return sum(t * d * d for d, t in dx)
 
 
