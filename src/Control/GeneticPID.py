@@ -7,6 +7,7 @@ from sys import stdout
 from time import sleep, time
 
 import converters
+from simplescript import get_lux
 import names
 import yaml
 from Control.pid import PID
@@ -118,29 +119,16 @@ class geneticPID:
 
         i = 0
         while i < self.timesteps:
-            mean = 0
-            for _ in range(3):
-                analogRead = None
-                while analogRead is None:
-                    try:
-                        analogRead = hal.sensors.lux.value
-                    except TypeError:
-                        pass
-                resistance = converters.tension2resistance(analogRead, 10000)
-                lux = converters.resistance2lux(resistance, **LUXMETER)
-                mean += lux
-                sleep(0.01)
-            lux = round(mean / 3, 2)
+            lux = get_lux(hal)
 
             res = int(pid.compute(lux, genetic=True))
             logger.info("Obs=%s, PID asks %s", lux, res)
 
             hal.animations.strip_white.upload([res])
-            sleep(0.1)
             i += 1
         fit = self.genetic.fitness(pid.errors, self.score_func)
         dump_errors = [(self.defaultPoint - e, t) for e, t in pid.errors]
-        self.dump.writerow([self.gen_number, index, c.name, c.kd, c.ki, c.kd,
+        self.dump.writerow([self.gen_number, index, c.kp, c.ki, c.kd,
                             fit, dump_errors])
         return fit
 
@@ -191,6 +179,7 @@ def from_config(yaml_file):
                               delimiter=',',
                               quotechar='"',
                               quoting=csv.QUOTE_MINIMAL)
+            dump.writerow(["gen", "ord", "kp", "ki", "kd", "fit", "data"])
             g = Genetic(conf['pop_size'], conf['mut_prob'], conf['cross_rate'],
                         conf['mut_gain'])
             hal = HAL(conf['hal_path'])
