@@ -224,15 +224,19 @@ puis se met à osciller avec une amplitude d'oscillation qui décroit linéairem
 Elle n'est donc pas utilisable dans tout les système
  et est particulièrement déconseillée lorsque le système ne peut pas dépasser fortement la valeur cible \cite{silva2007pid}.
 
-\subsection{Recherche tabou}
+\subsection{Recherche Tabou}
 
-Il est aussi possible de déterminer des paramètres pour PID à l'aide la méthode de la recherche tabou.
+Il est aussi possible de déterminer des paramètres pour PID à l'aide la méthode de la recherche Tabou.
 
-La recherche tabou est une méthode heuristique d'optimisation utilisée quand l'expression analytique de la fonction à minimiser n'est pas connue (comme dans le cas de PID si le système à stabiliser n'a pas été modélisé mathématiquement ou physiquement).
+La recherche Tabou est une méthode heuristique d'optimisation utilisée quand l'expression analytique de la fonction à minimiser n'est pas connue
+(comme dans le cas de PID si le système à stabiliser n'a pas été modélisé mathématiquement ou physiquement).
 
-La recherche tabou est une recherche locale qui part d'un point arbitraire et compare ses points proches afin de tenter de trouver le minima de celle-ci. Le mot tabou vient du fait qu'il faut pas tomber dans un minima local et y rester : cet algorithme garde donc une liste des minimas locaux, la liste des tabous, pour ne pas y retomber.
+La recherche Tabou est une recherche locale qui part d'un point arbitraire et compare ses points proches afin de tenter de trouver le minima de celle-ci.
+Le mot Tabou vient du fait qu'il faut pas tomber dans un minima local et y rester :
+cet algorithme garde donc une liste des minimas locaux, la liste des tabous, pour ne pas y retomber.
 
-Il est possible de déterminer les paramètres de PID à partir d'une recherche tabou. Une comparaison des résultats obtenus avec la méthode de Ziegler-Nichols se trouve dans \cite{Karaboga569754}. Une autre implémentation citée dans \cite{bagis2011tabu} compare la recherche tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
+Une comparaison entre résultats obtenus avec la méthode de Ziegler-Nichols et la recherche Tabou se trouve dans \cite{Karaboga569754}.
+Une autre implémentation citée dans \cite{bagis2011tabu} compare la recherche Tabou avec plusieurs autres algorithmes et démontre l'efficacité de la méthode.
 
 \subsection{Algorithme génétique}
 
