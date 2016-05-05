@@ -116,30 +116,32 @@ De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une 
 \label{PID}
 
 \emph{PID} est le régulateur le plus connu et le plus utilisé dans le domaine industriel : il serait utilisé dans plus de 95\% des systèmes \cite{Kinnaert2013, aastrom2002control}.
-Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée. PID est défini par :
+Il porte ce nom à cause de son fonctionnement qui est découpé en trois actions : l'action proportionnelle, l'action intégrale et l'action dérivée.
+
+PID est défini par la fonction suivante:
 
 \begin{equation}
-  u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de}{dt}
+  u(t) =
+    \underbrace{K_p e(t)}_{\text{P}} +
+    \underbrace{K_i \int_{0}^{t} e(\tau) d\tau}_{\text{I}} +
+    \underbrace{K_d \frac{de}{dt}.}_{\text{\textbff{D}}}
 \end{equation}
+
+Dans laquelle $u(t)$ est la sortie de PID qui doit être appliquée à l'élément à contrôler et P, I et D sont les trois composantes ci-dessous :
 \begin{description} %TODO: syntaxe, où es-tu ?
 \item[Action proportionnelle (P) :]
-    cette valeur est proportionnelle à l'erreur de contrôle courante ($K_p e(t)$ ).
+    cette valeur est proportionnelle à l'erreur de contrôle courante.
 \item[Action intégrale (I) :]
-    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle ($K_i \int_{0}^{t} e(\tau) d\tau$).
+    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle.
 \item[Action dérivée (D) :]
-    Basée sur les valeurs futures estimées pour l'erreur de contrôle ($K_d \frac{de}{dt}$ ).
+    Basée sur les valeurs futures estimées pour l'erreur de contrôle.
 \end{description}
 
 Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
 
-Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de \emph{PID}, il maintient son fonctionnement de base et a simplement évolué avec le temps :
-il existe à présent soit en tant que bloc fonctionnel dans des contrôleurs logiques programmables, soit en tant que contrôleur ``standalone''.
+Malgré le fait que de nombreuses autres techniques ont été inventées depuis la création de \emph{PID}, il maintient son fonctionnement de base et a simplement évolué avec le temps et sert parfois de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}
 
-\emph{PID} maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par \emph{PID}. % TODO source
-
-\emph{PID} sert aussi de composant de base à d'autres contrôleurs plus complexes \cite{ang2005pid} \cite{visioli2006practical}. % TODO trop court
-
-Étant donné que \emph{PID} se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent, il a énormément d'applications différentes \cite{bennett1993history}.
+Il maintient sa popularité car il est souvent admis qu'aucun autre contrôleur n'égale la simplicité, le fonctionnement clair, la facilité d'application et d'utilisation offerte par \emph{PID}. Cette facilité d'utilisation vient du fait qu'il se base uniquement sur des variables mesurées, sans connaissance du procédé sous-jacent et qu'il a donc énormément d'applications différentes \cite{bennett1993history}.
 
 Il est aussi possible dans quelques applications de PID que certaines actions soient inutiles.
 Dans ce cas-là, on parle de contrôleurs PI, PD, P ou I.
