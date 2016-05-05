@@ -327,21 +327,22 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
 \end{figure}
 
 \subsection{Algorithmes génétiques}
-Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
-Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous ici 3 emplacements, représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
+Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle un algorithme génétique.
+Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci})représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
 
-Chaque chromosome sera alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci, et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
+Chaque chromosome est ensuite alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
 
-En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer: une nouvelle génération va être créée qui contiendra le même nombre de chromosome que la précédente. Pour ce faire:
+En fonction de ce score, les chromosomes auront plus ou moins de chance d'être choisis et procréer: une nouvelle génération va être créée qui contiendra le même nombre de chromosome que la précédente.
+
+Pour ce faire nous appliquons l'algorithme suivant :
 \begin{enumerate}
-  \item on choisit deux chromosomes selon une ``roulette wheel selection'': les chromosomes sont choisis aléatoirement, mais avec des probabilités plus importantes selon la grandeur de leur score;
-  \item ils vont se reproduire avec un possible ``crossing-over'': il y aura une probabilité faible que les paramètres des deux chromosomes soient choisis chez l'un ou l'autre pour être attribué au chromosome ``enfant'', sinon, l'enfant héritera des trois paramètres de son premier parent;
-  \item le chromosome enfant aura ensuite une faible probabilité de subir une ``mutation'': l'un de ses trois paramètres sera changé aléatoirement.
+  \item Deux chromosomes sont choisis selon une \textit{roulette wheel selection} : les chromosomes sont choisis aléatoirement, mais avec des probabilités plus importantes selon la grandeur de leur score;
+  \item Lors de la reproduction, il y a une forte chance (dans notre cas, 90\%) que le chromosome enfant soit un clone de l'un de ses parents. Si ce n'est pas le cas, il se produit un \textit{crossing-over} : pour chaque \textit{loci} a une chance sur deux de venir du père et une chance sur deux de venir de la mère.
+  \item Le chromosome enfant aura ensuite une faible probabilité de subir une ``mutation'': l'un de ses trois paramètres sera remplacé par une valeur aléatoire.
 \end{enumerate}
 
-La nouvelle population créée va recommencer le cycle précédent et régénérer une autre population, et ainsi de suite un certain nombre de fois.
-
-À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score, et ses paramètres seront utilisés par PID.
+La nouvelle population créée va recommencer le cycle précédent et régénérer une autre population et ainsi de suite un nombre arbitraire de fois.
+Une fois ce cycle fini le meilleur chromosome sera sélectionné en fonction de son score et ses paramètres pourront être utilisés par PID.
 
 
 \chapter{Résultats expérimentaux}
