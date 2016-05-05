@@ -61,7 +61,16 @@
 \end{titlepage}
 
 \begin{abstract}
-Ce rapport présente ...
+
+Le but de ce rapport est d'analyser des algorithmes de contrôle et leurs améliorations possibles, tout comme présenter une implémentation de ceux-ci qui a été faite dans le cadre du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique).
+
+Les algorithmes de contrôle étudiés sont Bang bang, PID (ainsi que ses variantes) et MPC. Suite au choix d'implémenter les deux premiers, les diverses techniques pour améliorer PID on été étudiées et comparées. Ces techniques ont pour but de chercher des paramètres optimaux minimisant une fonction de score. Diverses métriques de score ont été utilisées.
+
+-- RÉSULTATS ICI --
+
+Ces algorithmes ont été implémentés dans une situation réelle, la création d'une serre qui fonctionne en autogestion. Celle-ci utilise les algorithmes de contrôle étudiés pour garder la température, luminosité et humidité du sol proches d'une valeur cible.
+
+
 \end{abstract}
 
 
@@ -73,7 +82,7 @@ Ce rapport présente ...
 
 2 pages
 
-\chapter{Etat de l'art}
+\chapter{État de l'art}
 
 Cet état de l'art est séparé en deux parties : la première détaille les différentes méthodes de régulation automatique et la seconde étudie les différentes méthodes pour configurer l'algorithme \emph{PID}, détaillé en \ref{PID}.
 
@@ -198,9 +207,10 @@ L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématiq
 Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
-Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
-
-% TODO : Légèrement détailler (peut-être s'inspirer de l'explication)
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations.
+De plus, cette méthode se rapproche de la valeur souhaitée avec une erreur décroissante équivalent à l'erreur précédente divisée par 4.
+Elle n'est donc pas utilisable dans tout les systèmes (particulièrement pas conseillée lorsque le système ne peut dépasser la valeur cible).
+\cite{silva2007pid}
 
 \subsection{Recherche tabou}
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
@@ -256,7 +266,6 @@ L'algorithme se déroule en 4 étapes:
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
-
 
 Elle débute comme la méthode manuelle :
 \begin{enumerate}
@@ -319,14 +328,13 @@ La nouvelle population créée va recommencer le cycle précédent et régénér
 À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score, et ses paramètres seront utilisés par PID.
 
 
-
 \chapter{Résultats expérimentaux}
 
 Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons comparés grâce à un dispositif expérimental que nous avons créé.
 
 \section{Méthode expérimentale}
 \label{sec:methode}
-Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-controlleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
+Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
 
