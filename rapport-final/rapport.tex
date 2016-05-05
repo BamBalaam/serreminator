@@ -207,7 +207,10 @@ L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématiq
 Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
-Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations.
+De plus, cette méthode se rapproche de la valeur souhaitée avec une erreur décroissante équivalent à l'erreur précédente divisée par 4.
+Elle n'est donc pas utilisable dans tout les systèmes (particulièrement pas conseillée lorsque le système ne peut dépasser la valeur cible).
+\cite{silva2007pid}
 
 \subsection{Recherche tabou}
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
