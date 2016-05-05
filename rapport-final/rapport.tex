@@ -495,9 +495,7 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 \end{table}
 
 \subsection{Manuelle}
-La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une excellente croissance vers la consigne et des oscillations contenues aux alentours de celle-ci.
-Cette méthode aura cependant pris beaucoup de temps pour être réalisable, demandant beaucoup d'essais et d'erreurs afin de trouver le meilleur résultat satisfaisant.
-À noter que notre technicien avoue avoir eu un peu de chance pour l'obtention d'un tel résultat. %TODO to keep ?
+La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Manuelle.eps}
@@ -505,7 +503,8 @@ Cette méthode aura cependant pris beaucoup de temps pour être réalisable, dem
 \end{figure}
 
 \subsection{Ziegler-Nichols}
-La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées. Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer.
+La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
+Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Ziegler.eps}
@@ -515,7 +514,7 @@ La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, mont
 \subsection{Génétique}
 L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
-Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres.
+Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres, mais à l'avantage de ne nécessiter aucun technicien et d'être facilement parallélisable.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Genetic.eps}
