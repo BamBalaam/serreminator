@@ -205,7 +205,7 @@ Nous encourageons le lecteur à se référer à \cite{shahrokhi2013comparison} q
 
 La méthode manuelle est une technique où un opérateur humain modifie les paramètres manuellement, sans algorithme déterminé, jusqu'à obtenir un résultat satisfaisant. Cette technique s'applique sur un système en fonctionnement.
 
-L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complexe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initiale, stabilité, délai d'attente jusqu'à la stabilité, dépassement...). \cite{zhong2006pid}
+L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématique complexe. Cependant, elle requiert l'interaction d'un technicien expérimenté, étant donné que chaque variation des paramètres implique de très nombreuses modifications sur le résultat obtenu (croissance initiale, stabilité, délai d'attente jusqu'à la stabilité, dépassement, ...). \cite{zhong2006pid}
 
 
 \subsection{Ziegler–Nichols}
@@ -215,10 +215,13 @@ L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématiq
 Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
-Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations.
-De plus, cette méthode se rapproche de la valeur souhaitée avec une erreur décroissante équivalent à l'erreur précédente divisée par 4.
-Elle n'est donc pas utilisable dans tout les systèmes (particulièrement pas conseillée lorsque le système ne peut dépasser la valeur cible).
-\cite{silva2007pid}
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné,
+menant à un mauvaise stabilité et un faible amortissement des perturbations.
+
+De plus, cette méthode produit systématiquement un dépassement lors de la montée initiale et
+puis se met à osciller avec une amplitude d'oscillation qui décroit linéairement au cours du temps.
+Elle n'est donc pas utilisable dans tout les système
+ et est particulièrement déconseillée lorsque le système ne peut pas dépasser fortement la valeur cible \cite{silva2007pid}.
 
 \subsection{Recherche tabou}
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
