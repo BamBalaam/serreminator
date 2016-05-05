@@ -326,24 +326,6 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
     \label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Recherche Tabou}
-
-Une autre manière utilisée pour déterminer ces paramètres est d'utiliser la recherche tabou. Le but de cette méta-heuristique itérative est de trouver des minimums locaux pour une fonction objectif.
-
-Pour se faire, nous appliquons l'algorithme suivant:
-\begin{enumerate}
-    \item prendre un point au hasard comme solution,
-    \item Évaluer les points voisins,
-    \item Choisir le meilleur point admissible parmi ces voisins n'étant pas dans la tabou liste,
-    \item Si le le meilleur point admissible est meilleur que notre solution, on remplace notre solution par ce nouveau point,
-    \item Nous l'ajoutons à notre liste tabou,
-    \item Nous retournons en 2 tant que nous ne rencontrons pas notre condition d'arrêt.
-\end{enumerate}
-
-Des conditions d'arrêts sont par exemple une limite de temps ou lorsque la différence de score entre deux solutions est inférieure à un certain palier. \cite{glover2007principles}
-\cite{bagis2011tabu}
-
-
 \subsection{Algorithmes génétiques}
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
 Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous ici 3 emplacements, représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
