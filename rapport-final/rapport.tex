@@ -507,7 +507,7 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \begin{enumerate}
 \item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
 \item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
-\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software aurait pu être envisagé (PID fonctionnant mieux sans bruit).
+\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software (tel qu'un filtre de Kalman) aurait pu être envisagé (PID fonctionnant mieux sans bruit).
 \end{enumerate}
 
 
