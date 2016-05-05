@@ -273,6 +273,8 @@ La luminosité ambiante est mesurée grâce aux variations de résistance du cap
 
 La puissance d'éclairage, quant à elle est contrôlée par des pulsations plus ou moins espacées (en fonction de la puissance demandée) envoyées en 5 volts par une des sorties de l'Arduino et qui sont ensuite amplifiées en 12 volts par le transistor de puissance.
 
+Ensuite, nous avons mis en place un protocole de communication via le port série de l'Arduino pour permettre à un PC de lui envoyer des ordres (par exemple : ``allumer la LED 2 à 55\%'') ainsi que de récupérer la valeur des capteurs (par exemple ``récupérer la résistance de la photo-résistance 4''). Cette interface de communication a ensuite été adaptée pour être utilisable facilement en Python depuis une librairie intuitive utilisable dans la partie suivante.
+
 
 \section{Implémentation software}
 
