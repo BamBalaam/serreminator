@@ -563,15 +563,13 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 
 La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace.
 
-Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
+Ce projet aurait pu être étendu de plusieurs manières:
 
-Z-L : Détection d'oscillations
-
-Utiliser MPC
-
-Améliorer circuits
-
-Filtrage hardware et software (PID fonctionne mieux sans bruit)
+\begin{enumerate}
+\item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
+\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une intéraction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré <SI ANTHONY ME DIT QUOI FOUTRE ICI >
+\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software aurait pu être envisagé (PID fonctionnant mieux sans bruit).
+\end{enumerate}
 
 
 \bibliographystyle{apalike}
