@@ -11,6 +11,8 @@
 \usepackage{tabularx}
 \usepackage{csquotes}
 \usepackage{fullpage}
+\usepackage[toc]{multitoc}
+\usepackage{blindtext}
 
 \usepackage[pdftex,
             pdfauthor={A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine},
@@ -74,9 +76,7 @@ Ces algorithmes ont été implémentés dans une situation réelle, la création
 
 \end{abstract}
 
-
 \tableofcontents
-
 
 \chapter{Introduction}
 
@@ -256,37 +256,46 @@ De plus, un mauvais choix de la fonction de score (\ref{section:metrics}) pourra
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
-\chapter{Méthodes implémentées}
+\chapter{Implémentation}
 \label{chap:impl}
+
+
+\section{Implémentation hardware}
+
+Arduino et capteurs
+
+\section{Implémentation firmware}
+
+\section{Implémentation software}
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 %TODO être sérieux
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
-\section{Contrôle automatique}
+\subsection{Contrôle automatique}
 \label{sec:contr-implem}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
-\subsection{\emph{Bang-bang}}
+\subsubsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
 
-\subsection{PID}
+\subsubsection{PID}
 
 \emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
 Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
 Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la formule de PID et les pondérer à l'aide des paramètres ($K_p$, $K_i$ et $K_d$) qui ont été spécifiés pour l'instance du contrôleur et la sortie de cette formule nous donnera la correction à appliquer.
 
-De plus, quand la correction à appliquer dépasse la valeur maximale de que le composant physique peut accepter (par exemple, on ne peut demander à une ampoule allumée à fond de briller plus), pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique.
+De plus, quand la correction à appliquer dépasse la valeur maximale de ce que le composant physique peut accepter, pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique. Par exemple, on ne peut demander à une ampoule allumée à fond de briller plus.
 
-\section{Détermination des paramètres de PID}
+\subsection{Détermination des paramètres de PID}
 
 Nous avons implémenté plusieurs méthodes pour déterminer des bons paramètres pour PID. Celles-ci vont de la méthode manuelle qui ne nécessite pas de code et uniquement quelques calculs aux algorithmes génétiques qui nécessitent plusieurs dizaines d'heures de simulation.
 
-\subsection{La méthode manuelle}
+\subsubsection{La méthode manuelle}
 
 Cette méthode est effectuée à la main par un technicien expérimenté.
 L'algorithme se déroule en 4 étapes:
@@ -298,7 +307,7 @@ L'algorithme se déroule en 4 étapes:
     \item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre à nouveau la consigne après une perturbation extérieure.
 \end{enumerate}
 
-\subsection{Ziegler–Nichols}
+\subsubsection{Ziegler–Nichols}
 La méthode de Ziegler–Nichols quant à elle peut soit être effectuée à la main soit avec l'aide d'un ordinateur qui effectue les calculs ou de manière autonome, si on implémente un algorithme de détection d'oscillations.
 
 Elle fonctionne comme ceci :
@@ -326,22 +335,23 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
     \label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Algorithmes génétiques}
-Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle ``un algorithme génétique''.
-Le principe est de générer une population de chromosomes, des êtres virtuels qui possèdent tous ici 3 emplacements, représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
+\subsubsection{Algorithmes génétiques}
+Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle un algorithme génétique.
+Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci})représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
 
-Chaque chromosome sera alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci, et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
+Chaque chromosome est ensuite alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
 
-En fonction de ce score, les chromosomes vont être choisis avec plus ou moins de chance, et procréer: une nouvelle génération va être créée qui contiendra le même nombre de chromosome que la précédente. Pour ce faire:
+En fonction de ce score, les chromosomes auront plus ou moins de chance d'être choisis et procréer: une nouvelle génération va être créée qui contiendra le même nombre de chromosome que la précédente.
+
+Pour ce faire nous appliquons l'algorithme suivant :
 \begin{enumerate}
-  \item on choisit deux chromosomes selon une ``roulette wheel selection'': les chromosomes sont choisis aléatoirement, mais avec des probabilités plus importantes selon la grandeur de leur score;
-  \item ils vont se reproduire avec un possible ``crossing-over'': il y aura une probabilité faible que les paramètres des deux chromosomes soient choisis chez l'un ou l'autre pour être attribué au chromosome ``enfant'', sinon, l'enfant héritera des trois paramètres de son premier parent;
-  \item le chromosome enfant aura ensuite une faible probabilité de subir une ``mutation'': l'un de ses trois paramètres sera changé aléatoirement.
+  \item Deux chromosomes sont choisis selon une \textit{roulette wheel selection} : les chromosomes sont choisis aléatoirement, mais avec des probabilités plus importantes selon la grandeur de leur score;
+  \item Lors de la reproduction, il y a une forte chance (dans notre cas, 90\%) que le chromosome enfant soit un clone de l'un de ses parents. Si ce n'est pas le cas, il se produit un \textit{crossing-over} : pour chaque \textit{loci} a une chance sur deux de venir du père et une chance sur deux de venir de la mère.
+  \item Le chromosome enfant aura ensuite une faible probabilité de subir une ``mutation'': l'un de ses trois paramètres sera remplacé par une valeur aléatoire.
 \end{enumerate}
 
-La nouvelle population créée va recommencer le cycle précédent et régénérer une autre population, et ainsi de suite un certain nombre de fois.
-
-À la fin de toutes ces itérations, le meilleur dernier chromosome sera sélectionné en fonction de son score, et ses paramètres seront utilisés par PID.
+La nouvelle population créée va recommencer le cycle précédent et régénérer une autre population et ainsi de suite un nombre arbitraire de fois.
+Une fois ce cycle fini le meilleur chromosome sera sélectionné en fonction de son score et ses paramètres pourront être utilisés par PID.
 
 
 \chapter{Résultats expérimentaux}
@@ -555,10 +565,23 @@ La mise en situation réelle lors du Printemps des Sciences nous a permis de tes
 
 Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
 
+Z-L : Détection d'oscillations
+
+Utiliser MPC
+
+Améliorer circuits
+
+Filtrage hardware et software (PID fonctionne mieux sans bruit)
+
 
 \bibliographystyle{apalike}
 
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
+
+
+\appendix
+
+\chapter{Résultats graphés}
 
 \end{document}
