@@ -11,6 +11,8 @@
 \usepackage{tabularx}
 \usepackage{csquotes}
 \usepackage{fullpage}
+\usepackage[toc]{multitoc}
+\usepackage{blindtext}
 
 \usepackage[pdftex,
             pdfauthor={A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine},
@@ -74,9 +76,7 @@ Ces algorithmes ont été implémentés dans une situation réelle, la création
 
 \end{abstract}
 
-
 \tableofcontents
-
 
 \chapter{Introduction}
 
@@ -256,25 +256,34 @@ De plus, un mauvais choix de la fonction de score (voir \ref{section:metrics}) p
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
-\chapter{Méthodes implémentées}
+\chapter{Implémentation}
 \label{chap:impl}
+
+
+\section{Implémentation hardware}
+
+Arduino et capteurs
+
+\section{Implémentation firmware}
+
+\section{Implémentation software}
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 %TODO être sérieux
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
-\section{Contrôle automatique}
+\subsection{Contrôle automatique}
 \label{sec:contr-implem}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
-\subsection{\emph{Bang-bang}}
+\subsubsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
 
-\subsection{PID}
+\subsubsection{PID}
 
 \emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
 Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
@@ -282,11 +291,11 @@ Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la 
 
 De plus, quand la correction à appliquer dépasse la valeur maximale de ce que le composant physique peut accepter, pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique. Par exemple, on ne peut demander à une ampoule allumée à fond de briller plus.
 
-\section{Détermination des paramètres de PID}
+\subsection{Détermination des paramètres de PID}
 
 Nous avons implémenté plusieurs méthodes pour déterminer des bons paramètres pour PID. Celles-ci vont de la méthode manuelle qui ne nécessite pas de code et uniquement quelques calculs aux algorithmes génétiques qui nécessitent plusieurs dizaines d'heures de simulation.
 
-\subsection{La méthode manuelle}
+\subsubsection{La méthode manuelle}
 
 Cette méthode est effectuée à la main par un technicien expérimenté.
 L'algorithme se déroule en 4 étapes:
@@ -298,7 +307,7 @@ L'algorithme se déroule en 4 étapes:
     \item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre à nouveau la consigne après une perturbation extérieure.
 \end{enumerate}
 
-\subsection{Ziegler–Nichols}
+\subsubsection{Ziegler–Nichols}
 La méthode de Ziegler–Nichols quant à elle peut soit être effectuée à la main soit avec l'aide d'un ordinateur qui effectue les calculs ou de manière autonome, si on implémente un algorithme de détection d'oscillations.
 
 Elle fonctionne comme ceci :
@@ -326,7 +335,7 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
     \label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Algorithmes génétiques}
+\subsubsection{Algorithmes génétiques}
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle un algorithme génétique.
 Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci})représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
 
@@ -426,20 +435,21 @@ pour genetic : comparer en fct du nombre de générations (et le de taille de la
 pour tabu, discuter du nombre de tours à faire avant l'arrêt
 
 \subsection{Comparaison BangBang et P/PI/PID}
-Methode de tuning utilisée: Ziegler Nichols
+P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
 \begin{table}[h]
     \begin{center}
         \begin{tabular}{r l}
-            BANG BANG & 548741.789524\\
-            P & 45025.847078\\
-            PI & 47964.221429\\
-            PID & 40209.886443
+            BANG & 537059.647837\\
+            P &   21905.614676\\
+            PI &  22395.081191\\
+            PID & 20987.178223
         \end{tabular}
     \end{center}
     \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
 \subsubsection{BangBang}
+Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des variables continues telles que l'intensité de la lumière.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{BangBang.eps}
@@ -447,6 +457,7 @@ Methode de tuning utilisée: Ziegler Nichols
 \end{figure}
 
 \subsubsection{P}
+L'algorithme P nous montre sur la figure \ref{fig:p} déjà un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne. Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{P.eps}
@@ -455,6 +466,7 @@ Methode de tuning utilisée: Ziegler Nichols
 Forte oscillation
 
 \subsubsection{PI}
+L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement monter un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PI.eps}
@@ -463,6 +475,7 @@ Forte oscillation
 Offset
 
 \subsubsection{PID}
+L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PID.eps}
@@ -484,13 +497,17 @@ Perfect
 \end{table}
 
 \subsection{Manuelle}
+La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une excellente croissance vers la consigne et des oscillations contenues aux alentours de celle-ci.
+Cette méthode aura cependant pris beaucoup de temps pour être réalisable, demandant beaucoup d'essais et d'erreurs afin de trouver le meilleur résultat satisfaisant.
+À noter que notre technicien avoue avoir eu un peu de chance pour l'obtention d'un tel résultat. %TODO to keep ?
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Manuelle.eps}
    \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
 \end{figure}
 
-\subsection{Ziegler Nichols}
+\subsection{Ziegler-Nichols}
+La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées. Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Ziegler.eps}
@@ -498,6 +515,9 @@ Perfect
 \end{figure}
 
 \subsection{Génétique}
+L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
+Son score est également le plus bas, indiquant le meilleur contrôle.
+Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Genetic.eps}
@@ -511,9 +531,10 @@ Nous avons fait tourné notre algorithme génétique sur 14 générations avec 5
     \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
 \end{figure}
 
-Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des kp ki kd.
+Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des paramètres, comme indiqués sur la figure \ref{fig:convergence}.
 
-De plus, nous pouvons voir une convergence de Kp et Ki au cours des génération. Kd a une médiane qui est quasiment constante au cours du temps;
+
+De plus, nous pouvons voir une convergence de Kp (fig. \ref{fig:kpbox}) et Ki (fig. \ref{fig:kibox}) au cours des génération. Kd a une médiane qui est quasiment constante au cours du temps (fig. \ref{fig:kdbox}).
 
 \begin{figure}[hb!]
    \centering
@@ -556,10 +577,23 @@ La mise en situation réelle lors du Printemps des Sciences nous a permis de tes
 
 Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
 
+Z-L : Détection d'oscillations
+
+Utiliser MPC
+
+Améliorer circuits
+
+Filtrage hardware et software (PID fonctionne mieux sans bruit)
+
 
 \bibliographystyle{apalike}
 
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
+
+
+\appendix
+
+\chapter{Résultats graphés}
 
 \end{document}
