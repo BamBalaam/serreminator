@@ -457,22 +457,21 @@ Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne f
 \end{figure}
 
 \subsubsection{P}
-L'algorithme P nous montre sur la figure \ref{fig:p} déjà un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne. Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
+L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
+Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{P.eps}
    \caption{\label{fig:p} Contrôle de la luminosité par P}
 \end{figure}
-Forte oscillation
 
 \subsubsection{PI}
-L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement monter un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
+L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement croître un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PI.eps}
    \caption{\label{fig:pi} Contrôle de la luminosité par PI}
 \end{figure}
-Offset
 
 \subsubsection{PID}
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
@@ -481,7 +480,6 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
    \includegraphics[scale=0.35]{PID.eps}
    \caption{\label{fig:pid} Contrôle de la luminosité par PID}
 \end{figure}
-Perfect
 
 
 \section{Comapraison Methode de tuning}
