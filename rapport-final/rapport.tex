@@ -65,13 +65,13 @@
 \renewcommand{\abstractname}{Abstract}
 \begin{abstract}
 
-Le but de ce rapport est d'analyser des algorithmes de contrôle et leurs améliorations possibles, tout comme présenter une implémentation de ceux-ci qui a été faite dans le cadre du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique).
+Ce rapport présente différents algorithmes de contrôle automatique et compare leurs performance dans le cas où ils sont utilisés pour réguler la luminosité d'un système physique régulé en boucle fermée.
 
-Les algorithmes de contrôle étudiés sont Bang bang, PID (ainsi que ses variantes) et MPC. Suite au choix d'implémenter les deux premiers, les diverses techniques pour améliorer PID on été étudiées et comparées. Ces techniques ont pour but de chercher des paramètres optimaux minimisant une fonction de score. Diverses métriques de score ont été utilisées.
+Les algorithmes de contrôle étudiés sont Bang bang, PID, ses variantes P et PI ainsi que MPC. Suite au choix d'implémenter les quatre premiers, plusieurs techniques pour améliorer PID on été étudiées et comparées. Ces techniques ont pour but de trouver des paramètres optimaux maximisant la performance de PID.
 
--- RÉSULTATS ICI --
+Pour comparer les performances des algorithmes, nous présentons différentes métriques de scores et nous évaluerons leur corrélation.
 
-Ces algorithmes ont été implémentés dans une situation réelle, la création d'une serre qui fonctionne en autogestion. Celle-ci utilise les algorithmes de contrôle étudiés pour garder la température, luminosité et humidité du sol proches d'une valeur consigne.
+Ces algorithmes ont été implémentés en Python pour être testés et comparés. Ils ont ensuite été utilisés dans des conditions réelles : une serre autonome qui a été présentée lors du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique). Celle-ci utilise les algorithmes de contrôle présentés ci-dessus pour contrôler la température, la luminosité et humidité du sol et les stabiliser au plus près de leur valeur idéale pour les plantes s'y trouvant.
 
 
 \end{abstract}
@@ -486,7 +486,7 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 \begin{table}[h]
     \begin{center}
         \begin{tabular}{r l}
-            Manuelle & 25107.027529\\
+            Manuelle & 28401.057240\\
             Ziegler Nichols & 39108.362240\\
             Génétique & 22262.563821
         \end{tabular}
@@ -576,7 +576,7 @@ Ce projet aurait pu être étendu de plusieurs manières:
 
 \begin{enumerate}
 \item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
-\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une intéraction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré <SI ANTHONY ME DIT QUOI FOUTRE ICI >
+\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
 \item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software aurait pu être envisagé (PID fonctionnant mieux sans bruit).
 \end{enumerate}
 
