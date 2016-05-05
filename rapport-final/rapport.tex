@@ -199,6 +199,13 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 \emph{PID} étant inefficace et donc inutile si ses paramètres (les constantes $K_p$, $K_i$, $K_d$) sont mal fixés, il nous semble important d'aussi étudier les différentes méthodes pour les déterminer. Il existe énormément de méthodes différentes pour configurer \emph{PID}.
 
+Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
+\begin{enumerate}
+\item la stabilité,
+\item la précision (l'erreur même quand l'équilibre est atteint),
+\item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
+\end{enumerate}
+
 Nous étudierons ici trois méthodes manuelles ainsi que deux méthodes heuristiques.
 
 Nous encourageons le lecteur à se référer à \cite{shahrokhi2013comparison} qui fait une revue plus détaillée et complète des différentes méthodes pour déterminer les paramètres.
@@ -277,16 +284,13 @@ Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la 
 
 De plus, quand la correction à appliquer dépasse la valeur maximale de que le composant physique peut accepter (par exemple, on ne peut demander à une ampoule allumée à fond de briller plus), pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique.
 
-\section{Détermination des paramètres de PID} %TODO: refactor intro et bouger ceci dans l'état
-Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
-\begin{enumerate}
-\item la stabilité,
-\item la précision (l'erreur même quand l'équilibre est atteint),
-\item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
-\end{enumerate}
+\section{Détermination des paramètres de PID}
+
+Nous avons implémenté plusieurs méthodes pour déterminer des bons paramètres pour PID. Celles-ci vont de la méthode manuelle qui ne nécessite pas de code et uniquement quelques calculs aux algorithmes génétiques qui nécessitent plusieurs dizaines d'heures de simulation.
 
 \subsection{La méthode manuelle}
 
+Cette méthode est effectuée à la main par un technicien expérimenté.
 L'algorithme se déroule en 4 étapes:
 \begin{enumerate}
     \item Les valeurs des 3 paramètres sont fixées à $0$.
@@ -297,14 +301,15 @@ L'algorithme se déroule en 4 étapes:
 \end{enumerate}
 
 \subsection{Ziegler–Nichols}
+La méthode de Ziegler–Nichols quant à elle peut soit être effectuée à la main soit avec l'aide d'un ordinateur qui effectue les calculs ou de manière autonome, si on implémente un algorithme de détection d'oscillations.
 
-Elle débute comme la méthode manuelle :
+Elle fonctionne comme ceci :
 \begin{enumerate}
     \item Les valeurs des 3 paramètres sont fixées à $0$.
-    \item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (comme précédemment).
+    \item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (cette détection peut être manuelle au automatique).
 \end{enumerate}
 
-Par contre, cette fois-ci, on va nommer la valeur de $K_p$ ainsi obtenue $K_u$ et la période de l'oscillation $P_u$.
+Une fois que l'oscillation est détectée, la valeur de $K_p$ ainsi obtenue est gardée et nommée $K_u$ ainsi que la période de l'oscillation : $P_u$.
 Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:ZieglerNicholsTuningFormulas}
 
 \def\tabularxcolumn#1{m{#1}}
@@ -549,7 +554,7 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 
 \chapter{Conclusion et perspectives}
 
-La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace. 
+La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace.
 
 Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
 
