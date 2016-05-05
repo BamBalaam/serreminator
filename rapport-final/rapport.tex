@@ -515,7 +515,16 @@ Nous pouvons constater qu'en fonction du phénomène à contrôler, les différe
 En effet, pour des phénomènes rémanents tels que la diffusion de chaleur, Bang bang est amplement suffisant.
 Par contre, pour des phénomènes spontanés comme la luminosité, nécessitent un contrôle plus subtile jouant sur l'intensité, et c'est là que PID montre tout son intérêt.
 
-Nos résultats montrent 
+Nos résultats montrent que malgré la facilité de paramétrisation de P et PI, PID reste le  plus efficace dans le contrôle.
+
+Cependant, celui-ci doit être bien calibré.
+Nous avons donc comparé plusieurs techniques de calibrations.
+Nous avons démontré que parmi ces techniques de calibrations, les trois présentent des avantages et inconvénients:
+\begin{itemize}
+    \item La méthode manuelle peut donner un résultat assez précis mais nécessite l'action d'un technicien lors de la calibration
+    \item Ziegler-Nichols est plus rapide a exécuter mais donne des résultats moins précis.
+    \item L'algorithme génétique donne les meilleurs résultats mais nécessite beaucoup de temps. Cependant, il ne requière guère aucune interaction humaine.
+\end{itemize}
 
 La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace.
 
