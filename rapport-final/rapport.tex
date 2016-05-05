@@ -1,7 +1,7 @@
 \documentclass[a4paper,10pt]{report}
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[left=2.5cm,top=2cm,right=2.5cm,nohead,nofoot]{geometry}
+\usepackage[left=2.5cm,top=2cm,right=2.5cm,nohead]{geometry}
 \usepackage{url}
 \usepackage[T1]{fontenc}
 \usepackage{float}
@@ -273,6 +273,8 @@ La luminosité ambiante est mesurée grâce aux variations de résistance du cap
 
 La puissance d'éclairage, quant à elle est contrôlée par des pulsations plus ou moins espacées (en fonction de la puissance demandée) envoyées en 5 volts par une des sorties de l'Arduino et qui sont ensuite amplifiées en 12 volts par le transistor de puissance.
 
+Ensuite, nous avons mis en place un protocole de communication via le port série de l'Arduino pour permettre à un PC de lui envoyer des ordres (par exemple : ``allumer la LED 2 à 55\%'') ainsi que de récupérer la valeur des capteurs (par exemple ``récupérer la résistance de la photo-résistance 4''). Cette interface de communication a ensuite été adaptée pour être utilisable facilement en Python depuis une librairie intuitive utilisable dans la partie suivante.
+
 
 \section{Implémentation software}
 
@@ -362,7 +364,7 @@ La nouvelle population créée va recommencer le cycle précédent et régénér
 Une fois ce cycle fini le meilleur chromosome sera sélectionné en fonction de son score et ses paramètres pourront être utilisés par PID.
 
 
-\chapter{Résultats expérimentaux et discussion}
+\chapter{Résultats et discussion}
 
 Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons comparés grâce à un dispositif expérimental que nous avons créé.
 
@@ -427,14 +429,14 @@ nous avons choisi pour la suite des expériences la plus simple à calculer et �
    \caption{\label{fig:correlation} Corrélation de rang entre les différentes fonctions de score}
 \end{figure}
 
-\subsection{Comparaison des méthodes de contrôle}
-
-Ensuite nous avons comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
-
-La première constatation est qu'en effet, le fait que \textit{Bang-bang} ne puisse avoir un état allumé ou éteint n'est pas du tout adapté pour réguler un phénomène avec si peu de rémanence comme la lumière.
 
 \section{Comparaison des résultats de BangBang et P/PI/PID}
+
+Nous avons ensuite comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
+
 P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
+
+% TODO : table sans intro ?
 
 \begin{table}[H]
 \begin{center}
@@ -469,6 +471,8 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeuvre: il nécessite la détermination de ses trois paramètres.
 
 \section{Comapraison Methode de tuning}
+
+% TODO : table sans intro ?
 
 \begin{table}[H]
 \begin{center}
@@ -529,11 +533,13 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
-\pagenumbering{gobble} % Stopper la numérotation de pages
-
 \appendix
-
+% TODO : proposer les notebooks quelque part
 \chapter{Application en situation réelle}
+
+\pagenumbering{gobble} % Stopper la numérotation de pages
+% TODO : ref dans l'intro OU bouger dans l'intro
+
 Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs:
 
 \begin{itemize}
