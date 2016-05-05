@@ -13,7 +13,6 @@
 \usepackage{fullpage}
 \usepackage[toc]{multitoc}
 \usepackage{blindtext}
-
 \usepackage[section]{placeins}
 
 \usepackage[pdftex,
@@ -430,24 +429,25 @@ nous avons choisi pour la suite des expériences la plus simple à calculer et �
    \caption{\label{fig:correlation} Corrélation de rang entre les différentes fonctions de score}
 \end{figure}
 
-\subsection{Comparaison des méthodes de contrôle}
+
+\section{Comparaison des résultats de BangBang et P/PI/PID}
 
 Ensuite nous avons comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
 
-La première constatation est qu'en effet, le fait que \textit{Bang-bang} ne puisse avoir un état allumé ou éteint n'est pas du tout adapté pour réguler un phénomène avec si peu de rémanence comme la lumière.
-
-\section{Comparaison des résultats de BangBang et P/PI/PID}
 P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{r l}
-            BANG & 537059.647837\\
-            P &   21905.614676\\
-            PI &  22395.081191\\
-            PID & 20987.178223
-        \end{tabular}
-    \end{center}
-    \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
+
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        Bang Bang & $53,7 \cdot 10^4$ \\ \hline
+        P         & $2,19 \cdot 10^4$ \\ \hline
+        PI        & $2,23 \cdot 10^4$ \\ \hline
+        PID       & $2,09 \cdot 10^4$ \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
 \subsection{BangBang}
@@ -468,17 +468,19 @@ L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble m
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
 Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeuvre: il nécessite la détermination de ses trois paramètres.
 
+\section{Comapraison Methode de tuning}
 
-\section{Comparaison des méthode de déterminisation des paramètres}
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{r l}
-            Manuelle & 28401.057240\\
-            Ziegler Nichols & 39108.362240\\
-            Génétique & 22262.563821
-        \end{tabular}
-    \end{center}
-    \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        Manuelle & $2,84 \cdot 10^4$ \\ \hline
+        Ziegler-Nichols & $3,91 \cdot 10^4$ \\ \hline
+        Génétique        & $2,22 \cdot 10^4$ \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+
 \end{table}
 
 \subsection{Méthode manuelle}
@@ -514,7 +516,7 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \begin{enumerate}
 \item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
 \item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
-\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software aurait pu être envisagé (PID fonctionnant mieux sans bruit).
+\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software (tel qu'un filtre de Kalman) aurait pu être envisagé (PID fonctionnant mieux sans bruit).
 \end{enumerate}
 
 
