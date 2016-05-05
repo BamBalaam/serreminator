@@ -460,22 +460,21 @@ Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne f
 \end{figure}
 
 \subsubsection{P}
-L'algorithme P nous montre sur la figure \ref{fig:p} déjà un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne. Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
+L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
+Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{P.eps}
    \caption{\label{fig:p} Contrôle de la luminosité par P}
 \end{figure}
-Forte oscillation
 
 \subsubsection{PI}
-L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement monter un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
+L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement croître un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PI.eps}
    \caption{\label{fig:pi} Contrôle de la luminosité par PI}
 \end{figure}
-Offset
 
 \subsubsection{PID}
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
@@ -484,14 +483,13 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
    \includegraphics[scale=0.35]{PID.eps}
    \caption{\label{fig:pid} Contrôle de la luminosité par PID}
 \end{figure}
-Perfect
 
 
 \section{Comapraison Methode de tuning}
 \begin{table}[h]
     \begin{center}
         \begin{tabular}{r l}
-            Manuelle & 25107.027529\\
+            Manuelle & 28401.057240\\
             Ziegler Nichols & 39108.362240\\
             Génétique & 22262.563821
         \end{tabular}
@@ -500,9 +498,7 @@ Perfect
 \end{table}
 
 \subsection{Manuelle}
-La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une excellente croissance vers la consigne et des oscillations contenues aux alentours de celle-ci.
-Cette méthode aura cependant pris beaucoup de temps pour être réalisable, demandant beaucoup d'essais et d'erreurs afin de trouver le meilleur résultat satisfaisant.
-À noter que notre technicien avoue avoir eu un peu de chance pour l'obtention d'un tel résultat. %TODO to keep ?
+La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Manuelle.eps}
@@ -510,7 +506,8 @@ Cette méthode aura cependant pris beaucoup de temps pour être réalisable, dem
 \end{figure}
 
 \subsection{Ziegler-Nichols}
-La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées. Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer.
+La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
+Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Ziegler.eps}
@@ -520,7 +517,7 @@ La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, mont
 \subsection{Génétique}
 L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
-Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres.
+Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres, mais à l'avantage de ne nécessiter aucun technicien et d'être facilement parallélisable.
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Genetic.eps}
@@ -582,7 +579,7 @@ Ce projet aurait pu être étendu de plusieurs manières:
 
 \begin{enumerate}
 \item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
-\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une intéraction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré <SI ANTHONY ME DIT QUOI FOUTRE ICI >
+\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
 \item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software aurait pu être envisagé (PID fonctionnant mieux sans bruit).
 \end{enumerate}
 
