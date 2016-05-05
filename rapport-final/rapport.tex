@@ -132,11 +132,11 @@ PID est défini par la fonction suivante:
 Dans laquelle $u(t)$ est la sortie de PID qui doit être appliquée à l'élément à contrôler et P, I et D sont les trois composantes ci-dessous :
 \begin{description} %TODO: syntaxe, où es-tu ?
 \item[Action proportionnelle (P) :]
-    cette valeur est proportionnelle à l'erreur de contrôle courante.
+    est proportionnelle à l'erreur de contrôle courante.
 \item[Action intégrale (I) :]
-    Fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle.
+    fait varier la réponse de PID en fonction des valeurs passées de l'erreur de contrôle.
 \item[Action dérivée (D) :]
-    Basée sur les valeurs futures estimées pour l'erreur de contrôle.
+    est basée sur les valeurs futures estimées pour l'erreur de contrôle.
 \end{description}
 
 Les premières analyses techniques de \emph{PID} datent de 1922, lorsque Nicolas Minorsky essaye de créer des systèmes de pilotage automatique pour la marine des États-Unis. \cite{minorsky1922directional}
@@ -242,6 +242,12 @@ Une autre implémentation citée dans \cite{bagis2011tabu} compare la recherche 
 
 \subsection{Algorithme génétique}
 
+Les algorithmes génétiques sont un type d'algorithme évolutif qui mimique la théorie de l'évolution afin de rafiner des résultats par un procédé iteratif aléatoire, ce qui en fait une méthode métaheuristique.
+
+Plusieurs avantages et inconvénients sont discutés dans \cite{Tabassum2014}.
+Par exemples, ces algorithmes permettent l'optimisation d'une large variété de problèmes et sont efficaces pour déterminer plusieurs paramètres à la fois.
+Cependant, ces algorithmes nécessite une grande taille de population et beaucoup de générations pour converger vers un bon résultat, ce qui peut tendre vers des temps d'exécutions assez élevés.
+De plus, un mauvais choix de la fonction de score (\ref{section:metrics}) pourra conduire à un résultat exécrable qui ne sera remarqué qu'à la fin de l'exécution de l'algorithme.
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
@@ -255,18 +261,21 @@ Ces implémentations ont été réalisées dans le langage de programmation Pyth
 
 \section{Contrôle automatique}
 \label{sec:contr-implem}
-Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
+Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
 \subsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
+L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
+
 \subsection{PID}
 
-\emph{PID} calcule une erreur en continu, qui est la différence entre une variable mesurée et un point de consigne à atteindre.
-\emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
+\emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
+Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
+Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la formule de PID et les pondérer à l'aide des paramètres ($K_p$, $K_i$ et $K_d$) qui ont été spécifiés pour l'instance du contrôleur et la sortie de cette formule nous donnera la correction à appliquer.
 
-Afin de réaliser cette opération, une fonction reçoit en paramètre la valeur mesurée, celle-ci est ensuite déduite à la valeur souhaitée afin de déterminer l'erreur. Cette erreur sera dès lors introduite dans l'équation de \emph{PID} et renverra alors une correction à appliquer.
+De plus, quand la correction à appliquer dépasse la valeur maximale de que le composant physique peut accepter (par exemple, on ne peut demander à une ampoule allumée à fond de briller plus), pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique.
 
 \section{Détermination des paramètres de PID} %TODO: refactor intro et bouger ceci dans l'état
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
@@ -556,8 +565,10 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 \section{Analyse des résultats}
 
 \chapter{Conclusion et perspectives}
-6.conclusions et perspectives.
 
+La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace. 
+
+Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
 
 
 \bibliographystyle{apalike}
