@@ -367,6 +367,27 @@ $$
 
 
 \section{Résultats}
+
+Pour commencer, nous avons comparé les différentes fonctions de score afin de choisir avec laquelle nous allions comparer nos différents résultats. Pour cela, nous avons exécuté 111 simulations de l'algorithme P avec des valeurs de $K_p$ variant entre 0.005 et 0.2.
+
+Nous avons ensuite comparé 2 à 2 chaque métrique de score et nous avons calculé le \textit{rho} de Spearman, pour chaque paire.
+
+% TODO bouger ça dans les méthodes expé ?
+
+Il est ressorti de cette expérience (comme on peut le voir dans la figure \ref{fig:correlation}) que toutes les métriques des scores ont une corrélation de rang assez élevée :
+les métriques \textbf{ISE} et \textbf{MSE} étant identiques à un facteur près, il est logique que leur correlation de rang soit parfaite.
+Ensuite, on remarque que les métriques \textbf{ITSE} et \textbf{ITAE} sont aussi fortement corrélées ce qui confirme que ces deux métriques qui prennent en compte le temps en plus de l'erreur sont fort semblables pour cette raison là.
+
+Toutes les métriques ordonnant chaque simulation presque dans le même ordre,
+nous avons choisi pour la suite des expériences la plus simple à calculer et à comprendre :
+\textbf{MSE}, la moyenne des carrés des erreurs.
+
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{correlation.eps}
+   \caption{\label{fig:correlation} Correlation de rang entre les différentes fonctions de score}
+\end{figure}
+
 Résultats pour chaque méthode
 
 pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
