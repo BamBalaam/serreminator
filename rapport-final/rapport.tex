@@ -396,6 +396,86 @@ Résultats pour chaque méthode
 pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
 pour tabu, discuter du nombre de tours à faire avant l'arrêt
 
+\subsection{Comparaison BangBang et P/PI/PID}
+Methode de tuning utilisée: Ziegler Nichols
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{r l}
+            BANG BANG & 548741.789524\\
+            P & 45025.847078\\
+            PI & 47964.221429\\
+            PID & 40209.886443
+        \end{tabular}
+    \end{center}
+    \caption{Score des différents algorithmes de controle (moyenne sur 5 simulations)}
+\end{table}
+
+\subsubsection{BangBang}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{BangBang.eps}
+   \caption{\label{fig:bangbang} Controle de la luminosité par BangBang}
+\end{figure}
+
+\subsubsection{P}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{P.eps}
+   \caption{\label{fig:p} Controle de la luminosité par P}
+\end{figure}
+Forte oscillation
+
+\subsubsection{PI}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{PI.eps}
+   \caption{\label{fig:pi} Controle de la luminosité par PI}
+\end{figure}
+Offset
+
+\subsubsection{PID}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{PID.eps}
+   \caption{\label{fig:pid} Controle de la luminosité par PID}
+\end{figure}
+Perfect
+
+
+\section{Comapraison Methode de tuning}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{r l}
+            Manuelle & 25107.027529\\
+            Ziegler Nichols & 39108.362240\\
+            Génétique & 22262.563821
+        \end{tabular}
+    \end{center}
+    \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+\end{table}
+
+\subsection{Manuelle}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Manuelle.eps}
+   \caption{\label{fig:manuelle} Controle de la luminosité avec PID tunné à la main}
+\end{figure}
+
+\subsection{Ziegler Nichols}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Ziegler.eps}
+   \caption{\label{fig:ziegler} Controle de la luminosité avec PID tunné avec Ziegler Nichols}
+\end{figure}
+
+\subsection{Génétique}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Genetic.eps}
+   \caption{\label{fig:genetique} Controle de la luminosité avec PID tunné avec un algorithme génétique}
+\end{figure}
+
+
 \chapter{Discussion}
 5.l’explication/discussion de ces résultats
 
