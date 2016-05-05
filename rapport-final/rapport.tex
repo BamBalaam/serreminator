@@ -80,12 +80,14 @@ Ces algorithmes ont été implémentés dans une situation réelle, la création
 
 \chapter{Introduction}
 
-Au vu de la pollution grimpant de façon astronomique dans les grandes villes et mégalopoles, de nombreuses méthodes pour baisser les émissions de gaz à effet de serre ont été crées depuis quelques années. L'une d'elles est de construire des serres dans les toits ou caves inutilisées d'immeubles.
+Le but du projet était de créer une serre fonctionnant de façon autonome. Au vu de la pollution grimpant de façon astronomique dans les grandes villes et mégalopoles, de nombreuses méthodes pour baisser les émissions de gaz à effet de serre ont été créées depuis quelques années. L'une d'elles est de construire des serres dans les toits ou caves inutilisées d'immeubles, et de préférence les automatiser.
 
 Cette technique a pour grand avantage, si exploitée de façon efficace, de réduire considérablement le nombre de camions entrant et sortant de la ville pour effectuer des livraisons. De plus, dans certains cas, le rendement est jusqu'à 100 fois plus grand, pour 40\% moins d'énergie consommée, 40\% moins de pertes d'aliments et 99\% moins d'utilisation d'eau que la production traditionnelle.
 
 % TO DO: Trouver source OU sourcer ça http://www.gereports.com/post/91250246340/lettuce-see-the-future-led-lighting-helps-farming/
 
+Pour construire une telle serre il était nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et mécanismes à créer pour analyser et modifier l'environnement de celle-ci en temps réel.
+Ensuite, il était important d'étudier et analyser un type d'algorithmes dits de ``contrôle'', qui nous permettraient de créer l'aspect automatisé de la serre.
 
 
 \chapter{État de l'art}
@@ -122,9 +124,9 @@ PID est défini par la fonction suivante:
 
 \begin{equation}
   u(t) =
-    \underbrace{K_p e(t)}_{\text{P}} +
-    \underbrace{K_i \int_{0}^{t} e(\tau) d\tau}_{\text{I}} +
-    \underbrace{K_d \frac{de}{dt}.}_{\text{\textbff{D}}}
+    \underbrace{K_p e(t)}_{P} +
+    \underbrace{K_i \int_{0}^{t} e(\tau) d\tau}_{I} +
+    \underbrace{K_d \frac{de}{dt}.}_{D}
 \end{equation}
 
 Dans laquelle $u(t)$ est la sortie de PID qui doit être appliquée à l'élément à contrôler et P, I et D sont les trois composantes ci-dessous :
@@ -259,18 +261,21 @@ Ces implémentations ont été réalisées dans le langage de programmation Pyth
 
 \section{Contrôle automatique}
 \label{sec:contr-implem}
-Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
+Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
 \subsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
+L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
+
 \subsection{PID}
 
-\emph{PID} calcule une erreur en continu, qui est la différence entre une variable mesurée et un point de consigne à atteindre.
-\emph{PID} tente de minimiser l'erreur au long du temps en s'ajustant peu à peu.
+\emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
+Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
+Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la formule de PID et les pondérer à l'aide des paramètres ($K_p$, $K_i$ et $K_d$) qui ont été spécifiés pour l'instance du contrôleur et la sortie de cette formule nous donnera la correction à appliquer.
 
-Afin de réaliser cette opération, une fonction reçoit en paramètre la valeur mesurée, celle-ci est ensuite déduite à la valeur souhaitée afin de déterminer l'erreur. Cette erreur sera dès lors introduite dans l'équation de \emph{PID} et renverra alors une correction à appliquer.
+De plus, quand la correction à appliquer dépasse la valeur maximale de que le composant physique peut accepter (par exemple, on ne peut demander à une ampoule allumée à fond de briller plus), pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique.
 
 \section{Détermination des paramètres de PID} %TODO: refactor intro et bouger ceci dans l'état
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
@@ -434,6 +439,96 @@ Résultats pour chaque méthode
 pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
 pour tabu, discuter du nombre de tours à faire avant l'arrêt
 
+\subsection{Comparaison BangBang et P/PI/PID}
+Methode de tuning utilisée: Ziegler Nichols
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{r l}
+            BANG BANG & 548741.789524\\
+            P & 45025.847078\\
+            PI & 47964.221429\\
+            PID & 40209.886443
+        \end{tabular}
+    \end{center}
+    \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
+\end{table}
+
+\subsubsection{BangBang}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{BangBang.eps}
+   \caption{\label{fig:bangbang} Contrôle de la luminosité par BangBang}
+\end{figure}
+
+\subsubsection{P}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{P.eps}
+   \caption{\label{fig:p} Contrôle de la luminosité par P}
+\end{figure}
+Forte oscillation
+
+\subsubsection{PI}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{PI.eps}
+   \caption{\label{fig:pi} Contrôle de la luminosité par PI}
+\end{figure}
+Offset
+
+\subsubsection{PID}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{PID.eps}
+   \caption{\label{fig:pid} Contrôle de la luminosité par PID}
+\end{figure}
+Perfect
+
+
+\section{Comapraison Methode de tuning}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{r l}
+            Manuelle & 25107.027529\\
+            Ziegler Nichols & 39108.362240\\
+            Génétique & 22262.563821
+        \end{tabular}
+    \end{center}
+    \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+\end{table}
+
+\subsection{Manuelle}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Manuelle.eps}
+   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
+\end{figure}
+
+\subsection{Ziegler Nichols}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Ziegler.eps}
+   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID tunné avec Ziegler Nichols}
+\end{figure}
+
+\subsection{Génétique}
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{Genetic.eps}
+   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID tunné avec un algorithme génétique}
+\end{figure}
+
+Nous avons fait tourné notre algorithme génétique sur 14 générations avec 50 chromosomes par génération.
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{GeneticBoxplot.eps}
+    \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
+\end{figure}
+
+Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des kp kd ki.
+
+
+
 \chapter{Discussion}
 5.l’explication/discussion de ces résultats
 
@@ -453,7 +548,11 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 \section{Analyse des résultats}
 
 \chapter{Conclusion et perspectives}
-6.conclusions et perspectives.
+
+La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs, et la correction était faite de façon rapide et efficace. 
+
+Il aurait été possible d'améliorer génétique % voir tirade d'Anthony qui avait l'air super scientifique mais qu'il veut pas me répéter.
+
 
 \bibliographystyle{apalike}
 
