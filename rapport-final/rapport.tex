@@ -444,21 +444,21 @@ Methode de tuning utilisée: Ziegler Nichols
             PID & 40209.886443
         \end{tabular}
     \end{center}
-    \caption{Score des différents algorithmes de controle (moyenne sur 5 simulations)}
+    \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
 \subsubsection{BangBang}
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{BangBang.eps}
-   \caption{\label{fig:bangbang} Controle de la luminosité par BangBang}
+   \caption{\label{fig:bangbang} Contrôle de la luminosité par BangBang}
 \end{figure}
 
 \subsubsection{P}
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{P.eps}
-   \caption{\label{fig:p} Controle de la luminosité par P}
+   \caption{\label{fig:p} Contrôle de la luminosité par P}
 \end{figure}
 Forte oscillation
 
@@ -466,7 +466,7 @@ Forte oscillation
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PI.eps}
-   \caption{\label{fig:pi} Controle de la luminosité par PI}
+   \caption{\label{fig:pi} Contrôle de la luminosité par PI}
 \end{figure}
 Offset
 
@@ -474,7 +474,7 @@ Offset
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{PID.eps}
-   \caption{\label{fig:pid} Controle de la luminosité par PID}
+   \caption{\label{fig:pid} Contrôle de la luminosité par PID}
 \end{figure}
 Perfect
 
@@ -495,22 +495,32 @@ Perfect
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Manuelle.eps}
-   \caption{\label{fig:manuelle} Controle de la luminosité avec PID tunné à la main}
+   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
 \end{figure}
 
 \subsection{Ziegler Nichols}
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Ziegler.eps}
-   \caption{\label{fig:ziegler} Controle de la luminosité avec PID tunné avec Ziegler Nichols}
+   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID tunné avec Ziegler Nichols}
 \end{figure}
 
 \subsection{Génétique}
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{Genetic.eps}
-   \caption{\label{fig:genetique} Controle de la luminosité avec PID tunné avec un algorithme génétique}
+   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID tunné avec un algorithme génétique}
 \end{figure}
+
+Nous avons fait tourné notre algorithme génétique sur 14 générations avec 50 chromosomes par génération.
+\begin{figure}[hb!]
+   \centering
+   \includegraphics[scale=0.35]{GeneticBoxplot.eps}
+    \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
+\end{figure}
+
+Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des kp kd ki.
+
 
 
 \chapter{Discussion}
@@ -533,6 +543,8 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 
 \chapter{Conclusion et perspectives}
 6.conclusions et perspectives.
+
+
 
 \bibliographystyle{apalike}
 
