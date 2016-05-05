@@ -13,7 +13,6 @@
 \usepackage{fullpage}
 \usepackage[toc]{multitoc}
 \usepackage{blindtext}
-
 \usepackage[section]{placeins}
 
 \usepackage[pdftex,
@@ -441,16 +440,19 @@ pour tabu, discuter du nombre de tours à faire avant l'arrêt
 
 \subsection{Comparaison BangBang et P/PI/PID}
 P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{r l}
-            BANG & 537059.647837\\
-            P &   21905.614676\\
-            PI &  22395.081191\\
-            PID & 20987.178223
-        \end{tabular}
-    \end{center}
-    \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
+
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        Bang Bang & $53,7 \cdot 10^4$ \\ \hline
+        P         & $2,19 \cdot 10^4$ \\ \hline
+        PI        & $2,23 \cdot 10^4$ \\ \hline
+        PID       & $2,09 \cdot 10^4$ \\
+        \hline
+    \end{tabular}
+\end{center}
+\caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
 \subsubsection{BangBang}
@@ -472,15 +474,17 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 
 
 \section{Comapraison Methode de tuning}
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{r l}
-            Manuelle & 28401.057240\\
-            Ziegler Nichols & 39108.362240\\
-            Génétique & 22262.563821
-        \end{tabular}
-    \end{center}
-    \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+
+\begin{table}[H]
+\begin{center}
+    \begin{tabular}{|l|l|}
+        \hline
+        Manuelle & $2,84 \cdot 10^4$ \\ \hline
+        Ziegler-Nichols & $3,91 \cdot 10^4$ \\ \hline
+        Génétique        & $2,22 \cdot 10^4$ \\ \hline
+    \end{tabular}
+\end{center}
+\caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
 \end{table}
 
 \subsection{Manuelle}
