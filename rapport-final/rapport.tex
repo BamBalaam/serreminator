@@ -14,6 +14,8 @@
 \usepackage[toc]{multitoc}
 \usepackage{blindtext}
 
+\usepackage[section]{placeins}
+
 \usepackage[pdftex,
             pdfauthor={A. Caccia, A. Madeira Cortes, N. Marchant, R. Fontaine},
             pdftitle={Contrôle automatique d'une serre},
@@ -87,7 +89,7 @@ Le fait de faire pousser de la nourriture localement dans les grandes villes a p
 
 Nous avons donc choisi comme projet de fabriquer une serre qui régule la température, l'humidité du sol et la luminosité du sol de manière autonome.
 
-Pour construire une telle serre il est nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et l'électronique à créer pour mesurer et agir sur l'environnement de la serre en temps quasi réel.
+Pour construire une telle serre, il est nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et l'électronique à créer pour mesurer et agir sur l'environnement de la serre en temps quasi réel.
 Il est aussi important d'étudier et analyser un type d'algorithmes dits de ``contrôle'', qui nous permettraient de créer l'aspect automatisé de la serre.
 
 
@@ -453,36 +455,20 @@ P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
 
 \subsubsection{BangBang}
 Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des variables continues telles que l'intensité de la lumière.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{BangBang.eps}
-   \caption{\label{fig:bangbang} Contrôle de la luminosité par BangBang}
-\end{figure}
+
 
 \subsubsection{P}
+
 L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
 Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{P.eps}
-   \caption{\label{fig:p} Contrôle de la luminosité par P}
-\end{figure}
 
 \subsubsection{PI}
+
 L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement croître un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{PI.eps}
-   \caption{\label{fig:pi} Contrôle de la luminosité par PI}
-\end{figure}
 
 \subsubsection{PID}
+
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{PID.eps}
-   \caption{\label{fig:pid} Contrôle de la luminosité par PID}
-\end{figure}
 
 
 \section{Comapraison Methode de tuning}
@@ -498,59 +484,25 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 \end{table}
 
 \subsection{Manuelle}
+
 La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{Manuelle.eps}
-   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
-\end{figure}
 
 \subsection{Ziegler-Nichols}
+
 La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
 Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{Ziegler.eps}
-   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID tunné avec Ziegler Nichols}
-\end{figure}
 
 \subsection{Génétique}
 L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
+
 Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres, mais à l'avantage de ne nécessiter aucun technicien et d'être facilement parallélisable.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{Genetic.eps}
-   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID tunné avec un algorithme génétique}
-\end{figure}
 
 Nous avons fait tourné notre algorithme génétique sur 14 générations avec 50 chromosomes par génération.
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{GeneticBoxplot.eps}
-    \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
-\end{figure}
 
 Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des paramètres, comme indiqués sur la figure \ref{fig:convergence}.
 
-
 De plus, nous pouvons voir une convergence de Kp (fig. \ref{fig:kpbox}) et Ki (fig. \ref{fig:kibox}) au cours des génération. Kd a une médiane qui est quasiment constante au cours du temps (fig. \ref{fig:kdbox}).
-
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{KpBoxplot.eps}
-    \caption{\label{fig:kpbox} Convergence de Kp génétique au cours des génération.}
-\end{figure}
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{KiBoxplot.eps}
-    \caption{\label{fig:kibox} Convergence de Ki génétique au cours des génération.}
-\end{figure}
-\begin{figure}[hb!]
-   \centering
-   \includegraphics[scale=0.35]{KdBoxplot.eps}
-    \caption{\label{fig:kdbox} Convergence de Kd génétique au cours des génération.}
-\end{figure}
 
 
 \chapter{Discussion}
@@ -589,9 +541,74 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
+\pagenumbering{gobble} % Stopper la numérotation de pages
 
 \appendix
 
 \chapter{Résultats graphés}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{BangBang.eps}
+   \caption{\label{fig:bangbang} Contrôle de la luminosité par BangBang}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{P.eps}
+   \caption{\label{fig:p} Contrôle de la luminosité par P}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{PI.eps}
+   \caption{\label{fig:pi} Contrôle de la luminosité par PI}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{PID.eps}
+   \caption{\label{fig:pid} Contrôle de la luminosité par PID}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{Manuelle.eps}
+   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{Ziegler.eps}
+   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID tunné avec Ziegler-Nichols}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{Genetic.eps}
+   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID tunné avec un algorithme génétique}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{GeneticBoxplot.eps}
+    \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
+\end{figure}
+
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{KpBoxplot.eps}
+    \caption{\label{fig:kpbox} Convergence de Kp génétique au cours des génération.}
+\end{figure}
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{KiBoxplot.eps}
+    \caption{\label{fig:kibox} Convergence de Ki génétique au cours des génération.}
+\end{figure}
+\begin{figure}[htb!]
+   \centering
+   \includegraphics[scale=0.35]{KdBoxplot.eps}
+    \caption{\label{fig:kdbox} Convergence de Kd génétique au cours des génération.}
+\end{figure}
 
 \end{document}
