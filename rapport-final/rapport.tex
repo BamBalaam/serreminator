@@ -256,25 +256,34 @@ De plus, un mauvais choix de la fonction de score (\ref{section:metrics}) pourra
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
-\chapter{Méthodes implémentées}
+\chapter{Implémentation}
 \label{chap:impl}
+
+
+\section{Implémentation hardware}
+
+Arduino et capteurs
+
+\section{Implémentation firmware}
+
+\section{Implémentation software}
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 %TODO être sérieux
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
-\section{Contrôle automatique}
+\subsection{Contrôle automatique}
 \label{sec:contr-implem}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
-\subsection{\emph{Bang-bang}}
+\subsubsection{\emph{Bang-bang}}
 
 L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
 
-\subsection{PID}
+\subsubsection{PID}
 
 \emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
 Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
@@ -282,11 +291,11 @@ Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la 
 
 De plus, quand la correction à appliquer dépasse la valeur maximale de ce que le composant physique peut accepter, pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique. Par exemple, on ne peut demander à une ampoule allumée à fond de briller plus.
 
-\section{Détermination des paramètres de PID}
+\subsection{Détermination des paramètres de PID}
 
 Nous avons implémenté plusieurs méthodes pour déterminer des bons paramètres pour PID. Celles-ci vont de la méthode manuelle qui ne nécessite pas de code et uniquement quelques calculs aux algorithmes génétiques qui nécessitent plusieurs dizaines d'heures de simulation.
 
-\subsection{La méthode manuelle}
+\subsubsection{La méthode manuelle}
 
 Cette méthode est effectuée à la main par un technicien expérimenté.
 L'algorithme se déroule en 4 étapes:
@@ -298,7 +307,7 @@ L'algorithme se déroule en 4 étapes:
     \item Si nécessaire, $K_d$ est augmenté jusqu'au moment où la boucle est suffisamment rapide pour atteindre à nouveau la consigne après une perturbation extérieure.
 \end{enumerate}
 
-\subsection{Ziegler–Nichols}
+\subsubsection{Ziegler–Nichols}
 La méthode de Ziegler–Nichols quant à elle peut soit être effectuée à la main soit avec l'aide d'un ordinateur qui effectue les calculs ou de manière autonome, si on implémente un algorithme de détection d'oscillations.
 
 Elle fonctionne comme ceci :
@@ -326,7 +335,7 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
     \label{tab:ZieglerNicholsTuningFormulas}
 \end{figure}
 
-\subsection{Algorithmes génétiques}
+\subsubsection{Algorithmes génétiques}
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle un algorithme génétique.
 Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci})représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
 
@@ -569,5 +578,10 @@ Filtrage hardware et software (PID fonctionne mieux sans bruit)
 
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
+
+
+\appendix
+
+\chapter{Résultats graphés}
 
 \end{document}
