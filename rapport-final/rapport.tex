@@ -70,9 +70,9 @@ Ce rapport présente différents algorithmes de contrôle automatique et compare
 
 Les algorithmes de contrôle étudiés sont Bang bang, PID, ses variantes P et PI ainsi que MPC. Suite au choix d'implémenter les quatre premiers, plusieurs techniques pour améliorer PID on été étudiées et comparées. Ces techniques ont pour but de trouver des paramètres optimaux maximisant la performance de PID.
 
-Pour comparer les performances des algorithmes, nous présentons différentes métriques de scores et nous évaluerons leur corrélation.
+Pour comparer les performances des algorithmes, nous présentons différentes métriques de scores et nous évaluerons leurs corrélations.
 
-Ces algorithmes ont été implémentés en Python pour être testés et comparés. Ils ont ensuite été utilisés dans des conditions réelles : une serre autonome qui a été présentée lors du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique). Celle-ci utilise les algorithmes de contrôle présentés ci-dessus pour contrôler la température, la luminosité et humidité du sol et les stabiliser au plus près de leur valeur idéale pour les plantes s'y trouvant.
+Ces algorithmes ont été implémentés en Python pour être testés et comparés. Ils ont ensuite été utilisés dans des conditions réelles : une serre autonome présentée lors du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique). Celle-ci utilisait les algorithmes de contrôle présentés ci-dessus pour gérer la température, la luminosité et l'humidité du sol et les stabiliser au plus près de leurs valeurs idéales pour les plantes s'y trouvant.
 
 
 \end{abstract}
@@ -113,7 +113,7 @@ Des exemples très classiques d'utilisation de ce type de contrôleur sont les t
 
 Nonobstant la facilité d'implémentation et de mise en place de cet algorithme, son utilisation ne peut être généralisée au contrôle de phénomènes spontanés. En effet, si l'on prend l'exemple du contrôle de la luminosité, \emph{bang bang} ne pourra qu'allumer ou éteindre des lampes, il ne pourra influer sur leur intensité. \cite{Burghes2004}
 
-De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une fois la correction atteinte, \emph{Bang bang} agira plus jusqu'à ce que les perturbations soient trop importantes et cela produira une oscillation permanente. \cite{ballard1993pid}
+De plus, cet algorithme ne permet pas une stabilité suffisante : en effet, une fois la correction atteinte, \emph{Bang bang} n'agira plus jusqu'à ce que les perturbations soient trop importantes et cela produira une oscillation permanente. \cite{ballard1993pid}
 
 
 \subsection{\emph{PID}}
@@ -358,7 +358,7 @@ La nouvelle population créée va recommencer le cycle précédent et régénér
 Une fois ce cycle fini le meilleur chromosome sera sélectionné en fonction de son score et ses paramètres pourront être utilisés par PID.
 
 
-\chapter{Résultats expérimentaux}
+\chapter{Résultats expérimentaux et discussion}
 
 Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons comparés grâce à un dispositif expérimental que nous avons créé.
 
@@ -401,8 +401,6 @@ $$
 $$
 
 
-\section{Résultats}
-
 \subsection{Comparaison des métriques de score}
 
 Pour commencer, nous avons comparé les différentes fonctions de score afin de choisir avec laquelle nous allions comparer nos différents résultats. Pour cela, nous avons exécuté 111 simulations de l'algorithme P avec des valeurs de $K_p$ variant entre 0.005 et 0.2.
@@ -431,14 +429,7 @@ Ensuite nous avons comparé les différentes méthodes de contrôle décrites da
 
 La première constatation est qu'en effet, le fait que \textit{Bang-bang} ne puisse avoir un état allumé ou éteint n'est pas du tout adapté pour réguler un phénomène avec si peu de rémanence comme la lumière.
 
-\subsection{Comparaison des méthodes d'optimisation des paramètres}
-
-Résultats pour chaque méthode
-
-pour genetic : comparer en fct du nombre de générations (et le de taille de la pop)
-pour tabu, discuter du nombre de tours à faire avant l'arrêt
-
-\subsection{Comparaison BangBang et P/PI/PID}
+\section{Comparaison des résultats de BangBang et P/PI/PID}
 P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
 
 \begin{table}[H]
@@ -455,23 +446,23 @@ P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
 \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
-\subsubsection{BangBang}
+\subsection{BangBang}
 Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des variables continues telles que l'intensité de la lumière.
 
 
-\subsubsection{P}
+\subsection{P}
 
 L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
 Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
 
-\subsubsection{PI}
+\subsection{PI}
 
 L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement croître un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
 
-\subsubsection{PID}
+\subsection{PID}
 
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
-
+Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeuvre: il nécessite la détermination de ses trois paramètres.
 
 \section{Comapraison Methode de tuning}
 
@@ -485,18 +476,19 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
     \end{tabular}
 \end{center}
 \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
+
 \end{table}
 
-\subsection{Manuelle}
+\subsection{Méthode manuelle}
 
 La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
 
-\subsection{Ziegler-Nichols}
+\subsection{Méthode de Ziegler-Nichols}
 
 La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
 Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 
-\subsection{Génétique}
+\subsection{Algorithme génétique}
 L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
 
@@ -508,22 +500,6 @@ Nous pouvons voir une convergence du score assez rapide dans notre cas pour la d
 
 De plus, nous pouvons voir une convergence de Kp (fig. \ref{fig:kpbox}) et Ki (fig. \ref{fig:kibox}) au cours des génération. Kd a une médiane qui est quasiment constante au cours du temps (fig. \ref{fig:kdbox}).
 
-
-\chapter{Discussion}
-5.l’explication/discussion de ces résultats
-
-\section{Application en situation réelle}
-
-% TODO: Refactor les phrases, c'est vraiment juste du dump d'idées
-
-Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs:
-
-\begin{itemize}
-\item Une petite serre avec des plantes, dans laquelle la température, la luminosité et l'humidité (air et sol) étaient mesurées en temps réel.
-\item Une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux.
-\end{itemize}
-
-Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
 
 \section{Analyse des résultats}
 
@@ -548,6 +524,16 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \pagenumbering{gobble} % Stopper la numérotation de pages
 
 \appendix
+
+\chapter{Application en situation réelle}
+Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs:
+
+\begin{itemize}
+\item Une petite serre avec des plantes, dans laquelle la température, la luminosité et l'humidité (air et sol) étaient mesurées en temps réel.
+\item Une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux.
+\end{itemize}
+
+Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
 
 \chapter{Résultats graphés}
 
