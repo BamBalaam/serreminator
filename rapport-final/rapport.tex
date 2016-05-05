@@ -264,12 +264,16 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 \chapter{Implémentation}
 \label{chap:impl}
 
+L'implémentation de ce projet a été découpé en trois phases : premièrement nous avons construit un prototype physique d'un serre et de son système de contrôle (capteurs, lumières, ...); ensuite nous avons implémenté en software un protocole de communication ainsi qu'un driver pour communiquer avec le hardware et le contrôler; pour finir, nous avons implémenté en Python différents algorithmes de contrôle.
 
-\section{Implémentation hardware}
+\section{Implémentation hardware et firmware}
 
-Arduino et capteurs
+La partie hardware de ce projet qui a été utilisée pour l'étude de l'efficacité des algorithmes de contrôle est composée d'un Arduino connecté à une photo-résistance ainsi qu'à un transistor de puissance qui contrôle de puissantes LED.
 
-\section{Implémentation firmware}
+La luminosité ambiante est mesurée grâce aux variations de résistance du capteur de luminosité qui, mise en valeur par notre circuit, est mesurée comme un changement de tension aux bornes du convertisseur digital-analogique de l'Arduino.
+
+La puissance d'éclairage, quant à elle est contrôlée par des pulsations plus ou moins espacées (en fonction de la puissance demandée) envoyées en 5 volts par une des sorties de l'Arduino et qui sont ensuite amplifiées en 12 volts par le transistor de puissance.
+
 
 \section{Implémentation software}
 
@@ -460,6 +464,7 @@ L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble m
 \subsection{PID}
 
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
+Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeuvre: il nécessite la détermination de ses trois paramètres.
 
 
 \section{Comparaison des méthode de déterminisation des paramètres}
