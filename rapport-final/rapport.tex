@@ -166,14 +166,15 @@ Ces contrôleurs sont 50\% plus lents qu'un contrôleur P seul, mais plus rapide
 En effet, si l'on compare son équation avec celle du P controller, le terme $p_0$ a été remplacé par une correction intégrale, ce qui corrige l'erreur automatiquement.
 
 \subsection{MPC controller}
-\emph{MPC} est un contrôleur permettant la prédiction des futurs états de différentes variables dans un système.
-Celui-ci utilise des stratégies prédictives afin de calculer les prochaines valeurs de sorties possibles.
+\emph{MPC} est un contrôleur permettant la régulation de différentes variables dans un système.
+Celui-ci utilise à la fois des stratégies prédictives et l'état actuel afin de calculer les prochaines états possibles \cite{RICHALET1978413}.
 
-Contrairement à PID, MPC peut contrôler plusieurs variables, est facile à configurer et peut gérer des changements dans la structure du circuit. % TODO : circuit ?
+Contrairement à PID, MPC accepte des systèmes ayant de multiples valeurs d'entrées et devant sortir également plusieurs valeurs.
 Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ouverte.
-De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects.
+Il demande également plus de ressources à la fois logicielles et matérielles \cite{saletovic2014apm}.
+De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects \cite{Richalet2016}.
 
-Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm}, et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID.
+Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm}, et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID, mais PID a requis moins de ressources et possède un temps de stabilisation plus court.
 
 \section{Détermination des paramètres de PID}
 
