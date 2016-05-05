@@ -66,7 +66,7 @@ Le but de ce rapport est d'analyser des algorithmes de contrôle et leurs améli
 
 Les algorithmes de contrôle étudiés sont Bang bang, PID (ainsi que ses variantes) et MPC. Suite au choix d'implémenter les deux premiers, les diverses techniques pour améliorer PID on été étudiées et comparées. Ces techniques ont pour but de chercher des paramètres optimaux minimisant une fonction de score. Diverses métriques de score ont été utilisées.
 
--- RÉSULTATS ICI -- 
+-- RÉSULTATS ICI --
 
 Ces algorithmes ont été implémentés dans une situation réelle, la création d'une serre qui fonctionne en autogestion. Celle-ci utilise les algorithmes de contrôle étudiés pour garder la température, luminosité et humidité du sol proches d'une valeur cible.
 
@@ -206,7 +206,10 @@ L'avantage de cette technique est qu'elle ne nécessite aucun calcul mathématiq
 Comme la méthode manuelle, Ziegler–Nichols s'applique aussi sur un système en fonctionnement. Cependant, elle utilise des calculs un peu plus complexes que la méthode manuelle mais son avantage est qu'elle nécessite des techniciens moins expérimentés.\cite{ziegler1942optimum}
 En effet, cette méthode requiert peu d'informations sur le système en fonctionnement, étant donné que les formules utilisées découlent d'un nombre exhaustif de simulations de systèmes stables et simples. \cite{silva2007pid}
 
-Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations. \cite{silva2007pid}
+Une des critiques qui peut être faite à cette méthode est que dans la plupart du temps elle donne des bons résultats mais dans certains cas le résultat est fort erroné, menant à un mauvaise stabilité et un faible amortissement des perturbations.
+De plus, cette méthode se rapproche de la valeur souhaitée avec une erreur décroissante équivalent à l'erreur précédente divisée par 4.
+Elle n'est donc pas utilisable dans tout les systèmes (particulièrement pas conseillée lorsque le système ne peut dépasser la valeur cible).
+\cite{silva2007pid}
 
 \subsection{Recherche tabou}
 La recherche tabou est une recherche locale qui part d'un point et compare ses points proches afin de tenter d'optimiser une fonction.
@@ -220,6 +223,7 @@ Il est possible de déterminer les paramètres de PID à partir d'une recherche 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique et a montré un temps de réponse beaucoup plus rapide avec cet algorithme dans \cite{thomas2009position}.
 
 \chapter{Méthodes implémentées}
+\label{chap:impl}
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
@@ -227,6 +231,7 @@ Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que 
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
 \section{Contrôle automatique}
+\label{sec:contr-implem}
 Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi de ne n'étudier en détail que ces deux-ci.
 
 \subsection{\emph{Bang-bang}}
@@ -327,7 +332,7 @@ La nouvelle population créée va recommencer le cycle précédent et régénér
 Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons comparés grâce à un dispositif expérimental que nous avons créé.
 
 \section{Méthode expérimentale}
-
+\label{sec:methode}
 Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
@@ -367,6 +372,8 @@ $$
 
 \section{Résultats}
 
+\subsection{Comparaison des métriques de score}
+
 Pour commencer, nous avons comparé les différentes fonctions de score afin de choisir avec laquelle nous allions comparer nos différents résultats. Pour cela, nous avons exécuté 111 simulations de l'algorithme P avec des valeurs de $K_p$ variant entre 0.005 et 0.2.
 
 Nous avons ensuite comparé 2 à 2 chaque métrique de score et nous avons calculé le \textit{rho} de Spearman, pour chaque paire.
@@ -374,7 +381,7 @@ Nous avons ensuite comparé 2 à 2 chaque métrique de score et nous avons calcu
 % TODO bouger ça dans les méthodes expé ?
 
 Il est ressorti de cette expérience (comme on peut le voir dans la figure \ref{fig:correlation}) que toutes les métriques des scores ont une corrélation de rang assez élevée :
-les métriques \textbf{ISE} et \textbf{MSE} étant identiques à un facteur près, il est logique que leur correlation de rang soit parfaite.
+les métriques \textbf{ISE} et \textbf{MSE} étant identiques à un facteur près, il est logique que leur corrélation de rang soit parfaite.
 Ensuite, on remarque que les métriques \textbf{ITSE} et \textbf{ITAE} sont aussi fortement corrélées ce qui confirme que ces deux métriques qui prennent en compte le temps en plus de l'erreur sont fort semblables pour cette raison là.
 
 Toutes les métriques ordonnant chaque simulation presque dans le même ordre,
@@ -384,8 +391,16 @@ nous avons choisi pour la suite des expériences la plus simple à calculer et �
 \begin{figure}[hb!]
    \centering
    \includegraphics[scale=0.35]{correlation.eps}
-   \caption{\label{fig:correlation} Correlation de rang entre les différentes fonctions de score}
+   \caption{\label{fig:correlation} Corrélation de rang entre les différentes fonctions de score}
 \end{figure}
+
+\subsection{Comparaison des méthodes de contrôle}
+
+Ensuite nous avons comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
+
+La première constatation est qu'en effet, le fait que \textit{Bang-bang} ne puisse avoir un état allumé ou éteint n'est pas du tout adapté pour réguler un phénomène avec si peu de rémanence comme la lumière.
+
+\subsection{Comparaison des méthodes d'optimisation des paramètres}
 
 Résultats pour chaque méthode
 
