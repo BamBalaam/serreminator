@@ -135,7 +135,7 @@ PID est défini par la fonction suivante:
 \end{equation}
 
 Dans laquelle $u(t)$ est la sortie de PID qui doit être appliquée à l'élément à contrôler et P, I et D sont les trois composantes ci-dessous :
-\begin{description} %TODO: syntaxe, où es-tu ?
+\begin{description}
 \item[Action proportionnelle (P) :]
     est proportionnelle à l'erreur de contrôle courante.
 \item[Action intégrale (I) :]
@@ -376,7 +376,7 @@ Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumi
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
 
-Pour comparer deux techniques entre elles, nous lançons plusieurs simulations à la suite l'une de l'autre pour chacune d'elles. % TODO : define plusieurs
+Pour comparer deux techniques entre elles, nous lançons 5 simulations à la suite l'une de l'autre pour chacune d'elles.
 Et nous attribuons un score à chaque simulation selon les métriques définies en \ref{section:metrics} et le score final d'une méthode est défini comme la moyenne des scores des différentes simulations.
 
 Une simulation consiste en :
@@ -386,9 +386,9 @@ Une simulation consiste en :
     \item Après 10 secondes, la seconde LED est allumée pour perturber le système
     \item 10 secondes après l'allumage de la seconde LED, la simulation est arrêtée.
     \item Un score est assigné à la simulation en fonction de sa performance.
+    \\
 \end{itemize}
 
-\subsection{Métriques de score}
 \label{section:metrics}
 Pour nous permettre de comparer les différentes méthodes, nous devons introduire des métriques permettant d'attribuer un score à ces méthodes.
 Nous utiliserons ici les métriques utilisées par \cite{griffin2003line, mirzal2012pid} :
@@ -408,14 +408,13 @@ $$
 \textbf{ITSE} = \int t \cdot e(t)^2 dt
 $$
 
+\section{Résultats}
 
-\subsection{Comparaison des métriques de score}
+\subsection{Métriques de score}
 
 Pour commencer, nous avons comparé les différentes fonctions de score afin de choisir avec laquelle nous allions comparer nos différents résultats. Pour cela, nous avons exécuté 111 simulations de l'algorithme P avec des valeurs de $K_p$ variant entre 0.005 et 0.2.
 
 Nous avons ensuite comparé 2 à 2 chaque métrique de score et nous avons calculé le \textit{rho} de Spearman, pour chaque paire.
-
-% TODO bouger ça dans les méthodes expé ?
 
 Il est ressorti de cette expérience (comme on peut le voir dans la figure \ref{fig:correlation}) que toutes les métriques des scores ont une corrélation de rang assez élevée :
 les métriques \textbf{ISE} et \textbf{MSE} étant identiques à un facteur près, il est logique que leur corrélation de rang soit parfaite.
@@ -432,13 +431,12 @@ nous avons choisi pour la suite des expériences la plus simple à calculer et �
 \end{figure}
 
 
-\section{Comparaison des résultats de BangBang et P/PI/PID}
+\subsection{Méthodes de contrôle}
 
 Nous avons ensuite comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
+PID et ses variantes ont été paramétrés grâce à la méthode de Ziegler-Nichols.
 
-P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
-
-% TODO : table sans intro ?
+Nous avons obtenu les résultats suivants :
 
 \begin{table}[H]
 \begin{center}
@@ -454,27 +452,21 @@ P, PI et PID ont été paramétrés grâce à la méthode de Ziegler-Nichols
 \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
-\subsection{BangBang}
-Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, cet algorithme ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des variables continues telles que l'intensité de la lumière.
 
-
-\subsection{P}
+Comme nous pouvons le voir sur la figure en annexe \ref{fig:bangbang}, Bang-Bang ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des phénomènes non rémanents tels que l'intensité de la lumière.
 
 L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
 Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
 
-\subsection{PI}
+PI quant à lui, montre un contrôle moins bon que celui réalisé par l'algorithme P :
+la courbe semble croître trop haut et prendre plus de temps pour s'aligner sur la valeur souhaitée.
+Il est cependant à noter que la montée initiale est plus rapide que celle de P (voir la figure \ref{fig:pi}).
 
-L'algorithme PI nous montre sur la figure \ref{fig:pi} un contrôle qui semble moins bon que celui réalisé par l'algorithme P. Il est cependant à noter que la courbe atteint plus rapidement la consigne. De plus, cette courbe semble simplement croître un peu trop haut, et prendre plus de temps pour s'aligner sur la valeur souhaitée.
+L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne et plus stable.
 
-\subsection{PID}
-
-L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne; et plus stable aux alentours de la consigne.
-Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeuvre: il nécessite la détermination de ses trois paramètres.
-
-\section{Comparaison méthodes de tuning}
-
-% TODO : table sans intro ?
+\subsection{Détermination des paramètres}
+L'algorithme PID ayant montré sa supériorité, il est important de pouvoir déterminer correctement ses trois paramètres.
+Pour cela, nous avons comparé plusieurs méthodes et nous sommes parvenus aux résultats suivants :
 
 \begin{table}[H]
 \begin{center}
@@ -489,17 +481,17 @@ Bien que son score soit le meilleur, il reste le plus difficile à mettre en oeu
 
 \end{table}
 
-\subsection{Méthode manuelle}
+\subsubsection{Méthode manuelle}
 
-La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
+La méthode manuelle, illustrée sur la figure en annexe \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si ces résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
 
-\subsection{Méthode de Ziegler-Nichols}
+\subsubsection{Méthode de Ziegler-Nichols}
 
 La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
 Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 
-\subsection{Algorithme génétique}
-L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
+\subsubsection{Algorithme génétique}
+L'utilisation d'un algorithme génétique, illustrée sur la figure en annexe \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
 
 Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres, mais à l'avantage de ne nécessiter aucun technicien et d'être facilement parallélisable.
