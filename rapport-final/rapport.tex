@@ -202,11 +202,11 @@ Par contre, de nombreux modèles MPC ne supportent que les circuits en boucle ou
 Il demande également plus de ressources à la fois logicielles et matérielles \cite{saletovic2014apm}.
 De plus, ils nécessitent un grand nombre de modèles pour interpoler la réponse et si la commande prédictive est erronée, les performances vont être faibles même si les modèles sont corrects \cite{Richalet2016}.
 
-Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm} et montre qu'avec des configurations optimales, APM a apporté un meilleur contrôle que PID, mais PID a requis moins de ressources et possède un temps de stabilisation plus court.
+Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans \cite{saletovic2014apm} et montre qu'avec des configurations optimales, APM apporte un meilleur contrôle que PID, mais PID requière moins de ressources et possède un temps de stabilisation plus court.
 
 \section{Détermination des paramètres de PID}
 
-\emph{PID} étant inefficace et donc inutile si ses paramètres (les constantes $K_p$, $K_i$, $K_d$) sont mal fixés, il nous semble important d'aussi étudier les différentes méthodes pour les déterminer. Il existe énormément de méthodes différentes pour configurer \emph{PID}.
+\emph{PID} étant inefficace et donc inutile si ses paramètres (les constantes $K_p$, $K_i$, $K_d$) sont mal fixés, il nous semble important d'aussi étudier les différentes méthodes pour les déterminer. Il existe plusieurs méthodes différentes pour configurer \emph{PID}.
 
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
@@ -215,7 +215,7 @@ Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre a
 \item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
 
-Nous étudierons ici trois méthodes manuelles ainsi que deux méthodes heuristiques.
+Nous étudierons ici deux méthodes manuelles ainsi que deux méthodes heuristiques.
 
 Nous encourageons le lecteur à se référer à \cite{shahrokhi2013comparison} qui fait une revue plus détaillée et complète des différentes méthodes pour déterminer les paramètres.
 
@@ -239,7 +239,7 @@ menant à un mauvaise stabilité et un faible amortissement des perturbations.
 
 De plus, cette méthode produit systématiquement un dépassement lors de la montée initiale et
 puis se met à osciller avec une amplitude d'oscillation qui décroit linéairement au cours du temps.
-Elle n'est donc pas utilisable dans tout les système
+Elle n'est donc pas utilisable dans tous les systèmes
  et est particulièrement déconseillée lorsque le système ne peut pas dépasser fortement la valeur cible \cite{silva2007pid}.
 
 \subsection{Recherche Tabou}
@@ -263,7 +263,7 @@ Les algorithmes génétiques sont un type d'algorithme évolutif qui mimique la 
 Plusieurs avantages et inconvénients sont discutés dans \cite{Tabassum2014}.
 Ces algorithmes permettent l'optimisation d'une large variété de problèmes et sont efficaces pour déterminer plusieurs paramètres à la fois.
 Cependant, ces algorithmes nécessitent une grande population et beaucoup de générations pour converger vers un bon résultat, ce qui peut rendre les temps d'exécutions assez élevés.
-De plus, un mauvais choix de la fonction de score (voir \ref{section:metrics}) pourra conduire à un résultat médiocre voir tout à fait faux qui ne sera remarqué qu'à la fin de l'exécution de l'algorithme.
+De plus, un mauvais choix de la fonction de score (voir \ref{section:metrics}) pourra conduire à un résultat médiocre, voire tout à fait faux qui ne sera remarqué qu'à la fin de l'exécution de l'algorithme.
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique est disponible dans \cite{thomas2009position} et a montré un temps de réponse bien meilleur pour l'algorithme génétique.
 
@@ -276,7 +276,7 @@ L'implémentation de ce projet a été découpé en trois phases : premièrement
 
 La partie hardware de ce projet qui a été utilisée pour l'étude de l'efficacité des algorithmes de contrôle est composée d'un Arduino connecté à une photo-résistance ainsi qu'à un transistor de puissance qui contrôle de puissantes LED.
 
-La luminosité ambiante est mesurée grâce aux variations de résistance du capteur de luminosité qui, mise en valeur par notre circuit, est mesurée comme un changement de tension aux bornes du convertisseur digital-analogique de l'Arduino.
+La luminosité ambiante est mesurée grâce aux variations de résistance du capteur de luminosité qui, mise en valeur par notre circuit, est mesurée comme un changement de tension aux bornes du convertisseur analogique-digital de l'Arduino.
 
 La puissance d'éclairage, quant à elle est contrôlée par des pulsations plus ou moins espacées (en fonction de la puissance demandée) envoyées en 5 volts par une des sorties de l'Arduino et qui sont ensuite amplifiées en 12 volts par le transistor de puissance.
 
@@ -302,7 +302,7 @@ L'implémentation que nous avons écrite fonctionne simplement : à chaque fois 
 \subsubsection{PID}
 
 \emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
-Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
+Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivée de l'erreur à l'instant présent.
 Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la formule de PID et les pondérer à l'aide des paramètres ($K_p$, $K_i$ et $K_d$) qui ont été spécifiés pour l'instance du contrôleur et la sortie de cette formule nous donnera la correction à appliquer.
 
 De plus, quand la correction à appliquer dépasse la valeur maximale de ce que le composant physique peut accepter, pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique. Par exemple, on ne peut demander à une ampoule allumée à fond de briller plus.
