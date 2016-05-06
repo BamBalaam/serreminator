@@ -295,7 +295,7 @@ Le contrôle automatique étant dominé par la combinaison de \textit{Bang Bang}
 
 \subsubsection{\emph{Bang Bang}}
 
-L'implémentation de \emph{Bang Bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
+L'implémentation de \emph{Bang Bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la valeur de la variable. Elle renvoie ensuite en conséquence un état binaire : allumé ou éteint.
 
 L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
 
