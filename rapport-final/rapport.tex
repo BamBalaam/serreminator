@@ -283,7 +283,6 @@ Ensuite, nous avons mis en place un protocole de communication via le port séri
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
-%TODO être sérieux
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
 \subsection{Contrôle automatique}
@@ -387,9 +386,9 @@ Une simulation consiste en :
     \item Après 10 secondes, la seconde LED est allumée pour perturber le système
     \item 10 secondes après l'allumage de la seconde LED, la simulation est arrêtée.
     \item Un score est assigné à la simulation en fonction de sa performance.
+    \\
 \end{itemize}
 
-\subsection{Métriques de score}
 \label{section:metrics}
 Pour nous permettre de comparer les différentes méthodes, nous devons introduire des métriques permettant d'attribuer un score à ces méthodes.
 Nous utiliserons ici les métriques utilisées par \cite{griffin2003line, mirzal2012pid} :
@@ -409,8 +408,9 @@ $$
 \textbf{ITSE} = \int t \cdot e(t)^2 dt
 $$
 
+\section{Résultats}
 
-\subsection{Comparaison des métriques de score}
+\subsection{Métriques de score}
 
 Pour commencer, nous avons comparé les différentes fonctions de score afin de choisir avec laquelle nous allions comparer nos différents résultats. Pour cela, nous avons exécuté 111 simulations de l'algorithme P avec des valeurs de $K_p$ variant entre 0.005 et 0.2.
 
@@ -431,7 +431,7 @@ nous avons choisi pour la suite des expériences la plus simple à calculer et �
 \end{figure}
 
 
-\section{Comparaison des méthodes de contrôle}
+\subsection{Méthodes de contrôle}
 
 Nous avons ensuite comparé les différentes méthodes de contrôle décrites dans la section \ref{sec:contr-implem} ainsi que les variantes \textit{P} et \textit{PI} avec le protocole expérimental décrit dans la section \ref{sec:methode}.
 PID et ses variantes ont été paramétrés grâce à la méthode de Ziegler-Nichols.
@@ -453,7 +453,7 @@ Nous avons obtenu les résultats suivants :
 \end{table}
 
 
-Comme nous pouvons le voir sur la figure \ref{fig:bangbang}, Bang-Bang ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des phénomènes non rémanents tels que l'intensité de la lumière.
+Comme nous pouvons le voir sur la figure en annexe \ref{fig:bangbang}, Bang-Bang ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des phénomènes non rémanents tels que l'intensité de la lumière.
 
 L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
 Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
@@ -464,9 +464,9 @@ Il est cependant à noter que la montée initiale est plus rapide que celle de P
 
 L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup plus précis, atteignant plus rapidement la consigne et plus stable.
 
-\section{Comparaison méthodes de tuning}
-
-% TODO : table sans intro ?
+\subsection{Détermination des paramètres}
+L'algorithme PID ayant montré sa supériorité, il est important de pouvoir déterminer correctement ses trois paramètres.
+Pour cela, nous avons comparé plusieurs méthodes et nous sommes parvenus aux résultats suivants :
 
 \begin{table}[H]
 \begin{center}
@@ -481,17 +481,17 @@ L'algorithme PID nous montre sur la figure \ref{fig:pid} un contrôle beaucoup p
 
 \end{table}
 
-\subsection{Méthode manuelle}
+\subsubsection{Méthode manuelle}
 
-La méthode manuelle, illustrée sur la figure \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si c'est résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
+La méthode manuelle, illustrée sur la figure en annexe \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si ces résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
 
-\subsection{Méthode de Ziegler-Nichols}
+\subsubsection{Méthode de Ziegler-Nichols}
 
 La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
 Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 
-\subsection{Algorithme génétique}
-L'utilisation d'un algorithme génétique, illustrée sur la figure \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
+\subsubsection{Algorithme génétique}
+L'utilisation d'un algorithme génétique, illustrée sur la figure en annexe \ref{fig:genetique}, montre également une croissance très rapide vers la consigne et des oscillations qui restent très proches de celle-ci.
 Son score est également le plus bas, indiquant le meilleur contrôle.
 
 Il s'agit cependant la méthode qui aura pris le plus de temps pour déterminer les paramètres, mais à l'avantage de ne nécessiter aucun technicien et d'être facilement parallélisable.
