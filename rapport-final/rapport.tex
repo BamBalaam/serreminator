@@ -81,7 +81,7 @@ Pour comparer les performances des algorithmes, nous présentons différentes m�
 Ces algorithmes ont été implémentés en Python pour être testés et comparés. Ils ont ensuite été utilisés dans des conditions réelles : une serre autonome présentée lors du Printemps des Sciences de l'Université Libre de Bruxelles (Belgique). Celle-ci utilisait les algorithmes de contrôle présentés ci-dessus pour gérer la température, la luminosité et l'humidité du sol et les stabiliser au plus près de leurs valeurs idéales pour les plantes s'y trouvant.
 
 Cette étude montrera l'efficacité de PID pour le contrôle de phénomènes spontanés, telles que la gestion de l'intensité de la lumière, tout en soulignant la suffisance de Bang Bang pour des contrôles plus simples, comme le contrôle de la température.
-Elle démontrera également les avantages et inconvénients des méthodes de détermination des paramètres de PID.
+Elle démontrera également les avantages et inconvénients des méthodes de détermination des paramètres de PID étudiées.
 \end{abstract}
 
 \tableofcontents
@@ -181,7 +181,7 @@ Un tel contrôleur est caractérisé dans \cite{svrcek2014real} par l'équation
 où $MV_{0}$ correspond à la correction biaisée de P controller,
 $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$ et $T_{i}$ est le temps intégral défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
 
-Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur inférieur à l'utilisation d'un P controller seul \cite{svrcek2014real}.
+Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur à l'utilisation d'un P controller seul \cite{svrcek2014real}.
 
 \subsection{PI controller}
 Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale.
