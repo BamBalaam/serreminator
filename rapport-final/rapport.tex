@@ -239,7 +239,7 @@ menant à un mauvaise stabilité et un faible amortissement des perturbations.
 
 De plus, cette méthode produit systématiquement un dépassement lors de la montée initiale et
 puis se met à osciller avec une amplitude d'oscillation qui décroit linéairement au cours du temps.
-Elle n'est donc pas utilisable dans tout les système
+Elle n'est donc pas utilisable dans tous les systèmes
  et est particulièrement déconseillée lorsque le système ne peut pas dépasser fortement la valeur cible \cite{silva2007pid}.
 
 \subsection{Recherche Tabou}
@@ -263,7 +263,7 @@ Les algorithmes génétiques sont un type d'algorithme évolutif qui mimique la 
 Plusieurs avantages et inconvénients sont discutés dans \cite{Tabassum2014}.
 Ces algorithmes permettent l'optimisation d'une large variété de problèmes et sont efficaces pour déterminer plusieurs paramètres à la fois.
 Cependant, ces algorithmes nécessitent une grande population et beaucoup de générations pour converger vers un bon résultat, ce qui peut rendre les temps d'exécutions assez élevés.
-De plus, un mauvais choix de la fonction de score (voir \ref{section:metrics}) pourra conduire à un résultat médiocre voir tout à fait faux qui ne sera remarqué qu'à la fin de l'exécution de l'algorithme.
+De plus, un mauvais choix de la fonction de score (voir \ref{section:metrics}) pourra conduire à un résultat médiocre, voire tout à fait faux qui ne sera remarqué qu'à la fin de l'exécution de l'algorithme.
 
 Une comparaison des performances obtenues entre un PID paramétré via la méthode de Ziegler-Nichols et via un algorithme génétique est disponible dans \cite{thomas2009position} et a montré un temps de réponse bien meilleur pour l'algorithme génétique.
 
@@ -302,7 +302,7 @@ L'implémentation que nous avons écrite fonctionne simplement : à chaque fois 
 \subsubsection{PID}
 
 \emph{PID} tentant de minimiser l'erreur au long du temps en s'ajustant peu à peu, son implémentation est un peu plus complexe : à chaque appel à la fonction de contrôle, l'erreur courante ainsi que le temps sont enregistrés.
-Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivé de l'erreur à l'instant présent.
+Il est ensuite possible de calculer l'intégrale des erreurs du passé ainsi que la dérivée de l'erreur à l'instant présent.
 Nous pouvons donc utiliser ces différentes valeurs pour les introduire dans la formule de PID et les pondérer à l'aide des paramètres ($K_p$, $K_i$ et $K_d$) qui ont été spécifiés pour l'instance du contrôleur et la sortie de cette formule nous donnera la correction à appliquer.
 
 De plus, quand la correction à appliquer dépasse la valeur maximale de ce que le composant physique peut accepter, pour éviter qu'une erreur qui n'est pas complètement corrigeable à cause de limitations physiques ne pénalise trop la partie intégrale dans le futur, nous tronquons la valeur ajoutée à cette intégrale à la limite physique. Par exemple, on ne peut demander à une ampoule allumée à fond de briller plus.
