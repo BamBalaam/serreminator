@@ -90,14 +90,14 @@ Elle démontrera également les avantages et inconvénients des méthodes de dé
 
 Au vu de la pollution grimpant de façon astronomique dans les grandes villes et mégalopoles, de nombreuses méthodes pour baisser les émissions de gaz à effet de serre ont été créées depuis quelques années. L'une d'elles est de construire des serres dans les toits ou caves inutilisées d'immeubles. L'entretien et la maintenance de ces serres étant relativement coûteuse en moyens humains, il est intéressant de pouvoir automatiser une partie du travail.
 
-
 Le fait de faire pousser de la nourriture localement dans les grandes villes a pour grand avantage de réduire considérablement le nombre de camions entrant et sortant de la ville pour effectuer des livraisons. De plus, dans certains cas, le rendement est jusqu'à 100 fois plus grand pour une même surface pour 40\% moins d'énergie consommée, 40\% moins de pertes d'aliments et 99\% moins d'utilisation d'eau que la production traditionnelle. \cite{GEReports}
 
-Nous avons donc choisi comme projet de fabriquer une serre qui régule la température, l'humidité du sol et la luminosité du sol de manière autonome.
+Nous avons donc choisi comme projet pour le Printemps des Sciences de l'Université Libre de Bruxelles de fabriquer une serre qui régule la température, l'humidité du sol et la luminosité de manière autonome. Lors de cet évènement, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs: Le premier était une serre contenant des plantes, dans laquelle les variables citées plus haut étaient régulées en direct. Le deuxième dispositif était une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux, utilisée pour démonter la régulation de la température sans perturber les plantes se trouvant dans la serre.
 
 Pour construire une telle serre, il est nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et l'électronique à créer pour mesurer et agir sur l'environnement de la serre en temps quasi réel.
 Il est aussi important d'étudier et analyser un type d'algorithmes dits de ``contrôle'', qui nous permettraient de créer l'aspect automatisé de la serre.
 
+Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
 
 \chapter{État de l'art}
 
@@ -542,22 +542,10 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \addcontentsline{toc}{chapter}{Bibliographie}
 
 \appendix
-\chapter{Application en situation réelle}
-
-\pagenumbering{gobble} % Stopper la numérotation de pages
-
-% TODO : ref dans l'intro OU bouger dans l'intro
-
-Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs:
-
-\begin{itemize}
-\item Une petite serre avec des plantes, dans laquelle la température, la luminosité et l'humidité (air et sol) étaient mesurées en temps réel.
-\item Une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux.
-\end{itemize}
-
-Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
 
 \chapter{Graphes des simulations intéressantes}
+
+\pagenumbering{gobble} % Stopper la numérotation de pages
 
 Cette annexe sert de support aux conclusions auxquelles nous sommes arrivés dans le chapitre \ref{chap:res} et présente des graphes des simulations que nous avons considéré comme intéressantes.
 
