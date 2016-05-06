@@ -504,7 +504,7 @@ Nous avons fait tourner notre algorithme génétique pendant 14 générations av
 
 Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des paramètres, comme indiqués sur la figure \ref{fig:convergence}.
 
-De plus, nous pouvons voir une convergence de $K_p$ (fig. \ref{fig:kpbox}) et $K_i$ (fig. \ref{fig:kibox}) au cours des génération. $K_d$ a une médiane qui est quasiment constante au cours du temps (fig. \ref{fig:kdbox}).
+De plus, quand nous observons uns à uns les paramètres des chromosomes au cours des générations, nous observons que ceux-ci convergent individuellement vers une valeur optimale comme nous pouvons le voir dans la figure \ref{fig:kibox}.
 
 
 \chapter{Conclusion et perspectives}
@@ -556,7 +556,9 @@ Lors du Printemps des Sciences de l'Université Libre de Bruxelles, deux disposi
 
 Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en plastique il s'agissait de Bang Bang. Les visiteurs pouvaient voir les données mesurées sur un écran, et donc voir en temps réel lorsque le système subissait une perturbation (et la correction qui était appliquée).
 
-\chapter{Résultats graphés}
+\chapter{Graphes des simulations intéressantes}
+
+Cette annexe sert de support aux conclusions auxquelles nous sommes arrivés dans le chapitre \ref{chap:res} et présente des graphes des simulations que nous avons considéré comme intéressantes.
 
 \begin{figure}[htb!]
    \centering
@@ -585,41 +587,32 @@ Dans la serre, l'algorithme PID était appliqué, tandis que dans la boite en pl
 \begin{figure}[htb!]
    \centering
    \includegraphics[scale=0.35]{Manuelle.eps}
-   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID tunné à la main}
+   \caption{\label{fig:manuelle} Contrôle de la luminosité avec PID paramétré à la main}
 \end{figure}
 
 \begin{figure}[htb!]
    \centering
    \includegraphics[scale=0.35]{Ziegler.eps}
-   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID tunné avec Ziegler-Nichols}
+   \caption{\label{fig:ziegler} Contrôle de la luminosité avec PID paramétré avec Ziegler-Nichols}
 \end{figure}
 
 \begin{figure}[htb!]
    \centering
    \includegraphics[scale=0.35]{Genetic.eps}
-   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID tunné avec un algorithme génétique}
+   \caption{\label{fig:genetique} Contrôle de la luminosité avec PID paramétré avec un algorithme génétique}
 \end{figure}
 
 \begin{figure}[htb!]
    \centering
    \includegraphics[scale=0.35]{GeneticBoxplot.eps}
-    \caption{\label{fig:convergence} Convergence de l'algorithme génétique au cours des génération.}
+    \caption{\label{fig:convergence} Convergence des scores des chromosomes au cours des générations (algorithme génétique)}
 \end{figure}
 
 \begin{figure}[htb!]
    \centering
-   \includegraphics[scale=0.35]{KpBoxplot.eps}
-    \caption{\label{fig:kpbox} Convergence de Kp génétique au cours des génération.}
-\end{figure}
-\begin{figure}[htb!]
-   \centering
    \includegraphics[scale=0.35]{KiBoxplot.eps}
-    \caption{\label{fig:kibox} Convergence de Ki génétique au cours des génération.}
+    \caption{\label{fig:kibox} Convergence de $K_i$ des chromosomes au cours des générations.}
 \end{figure}
-\begin{figure}[htb!]
-   \centering
-   \includegraphics[scale=0.35]{KdBoxplot.eps}
-    \caption{\label{fig:kdbox} Convergence de Kd génétique au cours des génération.}
-\end{figure}
+
 
 \end{document}
