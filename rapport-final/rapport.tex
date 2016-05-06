@@ -270,7 +270,7 @@ Une comparaison des performances obtenues entre un PID paramétré via la métho
 \chapter{Implémentation}
 \label{chap:impl}
 
-L'implémentation de ce projet a été découpé en trois phases : premièrement nous avons construit un prototype physique d'un serre et de son système de contrôle (capteurs, lumières, ...); ensuite nous avons implémenté en software un protocole de communication ainsi qu'un driver pour communiquer avec le hardware et le contrôler; pour finir, nous avons implémenté en Python différents algorithmes de contrôle.
+L'implémentation de ce projet a été séparée en trois phases : premièrement nous avons construit un prototype physique d'un serre et de son système de contrôle (capteurs, lumières, ...); ensuite nous avons implémenté en software un protocole de communication ainsi qu'un driver pour communiquer avec le hardware et le contrôler; pour finir, nous avons implémenté en Python différents algorithmes de contrôle.
 
 \section{Implémentation hardware et firmware}
 
@@ -377,7 +377,7 @@ Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons 
 
 \section{Méthode expérimentale}
 \label{sec:methode}
-Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
+Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ et qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
 
@@ -505,7 +505,7 @@ Nous avons fait tourner notre algorithme génétique pendant 14 générations av
 
 Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des paramètres, comme indiqués sur la figure \ref{fig:convergence}.
 
-De plus, quand nous observons uns à uns les paramètres des chromosomes au cours des générations, nous observons que ceux-ci convergent individuellement vers une valeur optimale comme nous pouvons le voir dans la figure \ref{fig:kibox}.
+De plus, quand nous observons un à un les paramètres des chromosomes au cours des générations, nous observons que ceux-ci convergent individuellement vers une valeur optimale comme nous pouvons le voir dans la figure \ref{fig:kibox}.
 
 
 \chapter{Conclusion et perspectives}
