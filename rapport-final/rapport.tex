@@ -14,6 +14,7 @@
 \usepackage{blindtext}
 \usepackage[section]{placeins}
 
+\usepackage[titletoc]{appendix}
 \usepackage[toc]{multitoc}
 \renewcommand*{\multicolumntoc}{2}
 \setlength{\columnseprule}{0.5pt}
@@ -92,7 +93,7 @@ Au vu de la pollution grimpant de façon astronomique dans les grandes villes et
 
 Le fait de faire pousser de la nourriture localement dans les grandes villes a pour grand avantage de réduire considérablement le nombre de camions entrant et sortant de la ville pour effectuer des livraisons. De plus, dans certains cas, le rendement est jusqu'à 100 fois plus grand pour une même surface pour 40\% moins d'énergie consommée, 40\% moins de pertes d'aliments et 99\% moins d'utilisation d'eau que la production traditionnelle. \cite{GEReports}
 
-Nous avons donc choisi comme projet pour le Printemps des Sciences de l'Université Libre de Bruxelles de fabriquer une serre qui régule la température, l'humidité du sol et la luminosité de manière autonome. Lors de cet évènement, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs: Le premier était une serre contenant des plantes, dans laquelle les variables citées plus haut étaient régulées en direct. Le deuxième dispositif était une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux, utilisée pour démonter la régulation de la température sans perturber les plantes se trouvant dans la serre.
+Nous avons donc choisi comme projet pour le Printemps des Sciences de l'Université Libre de Bruxelles de fabriquer une serre qui régule la température, l'humidité du sol et la luminosité de manière autonome. Lors de cet événement, deux dispositifs pédagogiques ont été crées pour expliquer le projet aux visiteurs: Le premier était une serre contenant des plantes, dans laquelle les variables citées plus haut étaient régulées en direct. Le deuxième dispositif était une boite en plastique, modifiée pour accommoder un capteur de température, des ventilateurs et un sèche cheveux, utilisée pour démonter la régulation de la température sans perturber les plantes se trouvant dans la serre.
 
 Pour construire une telle serre, il est nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et l'électronique à créer pour mesurer et agir sur l'environnement de la serre en direct.
 Il est aussi important d'étudier et analyser un type d'algorithmes dits de ``contrôle'', qui nous permettraient de créer l'aspect automatisé de la serre.
@@ -377,7 +378,7 @@ Après avoir implémenté les algorithmes présentés ci-dessus, nous les avons 
 
 \section{Méthode expérimentale}
 \label{sec:methode}
-Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ est qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
+Nous avons fabriqué une boite opaque dans laquelle se trouve un capteur de lumière ainsi que deux LEDs de puissance. Le capteur ainsi que la première LED sont reliés à un Arduino\footnote{Un Arduino est un micro-contrôleur programmable en c++ et qui peut communiquer avec un ordinateur par une liaison série} qui fait suivre la valeur du capteur à un programme Python que nous avons écrit et qui récupère la valeur de sortie de ce programme pour contrôler la puissance de la LED.
 
 La seconde LED est utilisée pour perturber le système et ainsi pouvoir mesurer la résistance aux perturbations de nos algorithmes.
 
@@ -387,7 +388,7 @@ Et nous attribuons un score à chaque simulation selon les métriques définies 
 Une simulation consiste en :
 \begin{itemize}
     \item Le système est remis à zéro : toutes les lampes sont éteintes et le capteur indique 0 lux.
-    \item L'algorithme de contrôle est lancé avec comme consigne de stabiliser le système à 500 lux.
+    \item L'algorithme de contrôle est lancé avec comme consigne de stabiliser le système à 1000 lux.
     \item Après 10 secondes, la seconde LED est allumée pour perturber le système
     \item 10 secondes après l'allumage de la seconde LED, la simulation est arrêtée.
     \item Un score est assigné à la simulation en fonction de sa performance.
@@ -454,6 +455,7 @@ Nous avons obtenu les résultats suivants :
         \hline
     \end{tabular}
 \end{center}
+    \label{tab:methode}
 \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
@@ -478,14 +480,14 @@ Pour cela, nous avons comparé plusieurs méthodes et nous sommes parvenus aux r
     \begin{tabular}{|l|l|}
         \hline
         Manuelle & $2,84 \cdot 10^4$ \\ \hline
-        Ziegler-Nichols & $3,91 \cdot 10^4$ \\ \hline
+        Ziegler-Nichols\footnotemark & $3,91 \cdot 10^4$\\ \hline
         Génétique        & $2,22 \cdot 10^4$ \\ \hline
     \end{tabular}
 \end{center}
 \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
 
 \end{table}
-
+\footnotetext{Le résultat obtenu ici est différent du résultat obtenu dans le tableau~\ref{tab:methode} car les simulations n'ont pas été lancées dans la même batterie de test.}
 \subsubsection{Méthode manuelle}
 
 La méthode manuelle, illustrée sur la figure en annexe \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si ces résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
@@ -511,7 +513,7 @@ De plus, quand nous observons un à un les paramètres des chromosomes au cours 
 \chapter{Conclusion et perspectives}
 
 Nous pouvons constater qu'en fonction du phénomène à contrôler, les différents algorithmes analysés présentent des avantages et inconvénients.
-En effet, pour des phénomènes rémanents ou tels que la diffusion de chaleur, Bang Bang est amplement suffisant tant que leur inertie n'est pas trop grande.
+En effet, pour des phénomènes rémanents tels que la diffusion de chaleur, Bang Bang est amplement suffisant tant que leur inertie n'est pas trop grande.
 Par contre, pour des phénomènes spontanés comme la luminosité qui nécessitent un contrôle plus subtile jouant sur l'intensité, PID montre tout son intérêt.
 
 Nos résultats montrent que malgré la facilité de paramétrisation de P et PI, PID reste le  plus efficace dans le contrôle.
@@ -527,13 +529,13 @@ Nous avons démontré que parmi ces techniques de calibrations, les trois prése
 
 La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs et la correction était faite de façon rapide et efficace.
 
-Ce projet aurait pu être étendu de plusieurs manières:
+Ce projet aurait pu être étendu de plusieurs manières. Premièrement, il aurait été possible d'implémenter le contrôleur MPC ou d'autres algorithmes prédictifs qui, d'après la littérature sont bien plus précis et permettent de contrecarrer les problèmes de PID.
 
-\begin{enumerate}
-\item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
-\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
-\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software (tel qu'un filtre de Kalman) aurait pu être envisagé (PID fonctionnant mieux sans bruit).
-\end{enumerate}
+Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols : actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche automatisée de la détection pourrait être implémentée pour que notre algorithme Ziegler-Nichols soit complètement autonome.
+
+De plus, une amélioration intéressante pourrait être appliquée à l'algorithme génétique : il pourrait être raffiné pour qu'il y ait des différences de probabilité au niveau du taux de crossing-over et de mutations entre générations.
+
+Finalement, côté hardware, il serait possible d'améliorer les circuits pour réduire le phénomène de bruit auxquels PID est fort sensible. Il serait possible de limiter celui-ci grâce à un filtrage hardware, à l'aide de filtres passe-bas et passe-haut ainsi qu'a l'aide d'amplification. Une approche software peut aussi être empruntée : il est par exemple possible de lisser le signal à l'aide de filtres de Kalman \cite{kalman1960new}.
 
 
 \bibliographystyle{apalike}
@@ -541,7 +543,7 @@ Ce projet aurait pu être étendu de plusieurs manières:
 \bibliography{biblio}
 \addcontentsline{toc}{chapter}{Bibliographie}
 
-\appendix
+\begin{appendices}
 
 \chapter{Graphes des simulations intéressantes}
 
@@ -603,5 +605,7 @@ Cette annexe sert de support aux conclusions auxquelles nous sommes arrivés dan
     \caption{\label{fig:kibox} Convergence de $K_i$ des chromosomes au cours des générations.}
 \end{figure}
 
+
+\end{appendices}
 
 \end{document}
