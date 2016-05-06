@@ -97,7 +97,7 @@ Nous avons donc choisi comme projet pour le Printemps des Sciences de l'Universi
 Pour construire une telle serre, il est nécessaire d'étudier en détail le matériel requis pour l'automatiser, notamment les capteurs et l'électronique à créer pour mesurer et agir sur l'environnement de la serre en direct.
 Il est aussi important d'étudier et analyser un type d'algorithmes dits de ``contrôle'', qui nous permettraient de créer l'aspect automatisé de la serre.
 
-Les visiteurs pouvaient voir les données mesurées sur un écran et donc voir en direct lorsque le système subissait une perturbation (et la correction qui était appliquée).
+Les visiteurs pouvaient voir les données mesurées sur un écran et donc voir en direct lorsque le système subissait une perturbation et la correction qui était appliquée.
 
 \chapter{État de l'art}
 
@@ -109,7 +109,7 @@ L’automatique permet de contrôler un système en respectant un cahier des cha
 
 L'automatique était un sujet assez vaste, nous nous limiterons ici à l'étude des différentes méthodes de contrôle permettant de stabiliser l'état d'un système au plus proche d'une valeur consigne.
 
-Nous étudierons premièrement \emph{BangBang}, l'algorithme le plus simpliste, utilisé dans les thermostats.
+Nous étudierons premièrement \emph{Bang bang}, l'algorithme le plus simpliste, utilisé dans les thermostats.
 Ensuite nous étudierons \emph{PID} ainsi que ses variantes.
 Pour finir nous survolerons \emph{MPC}, un algorithme prédictif plus avancé.
 
@@ -285,17 +285,17 @@ Ensuite, nous avons mis en place un protocole de communication via le port séri
 
 \section{Implémentation software}
 
-Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
+Nous avons décidé d'implémenter \textit{Bang bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
 \subsection{Contrôle automatique}
 \label{sec:contr-implem}
-Le contrôle automatique étant dominé par la combinaison de \textit{Bang-bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
+Le contrôle automatique étant dominé par la combinaison de \textit{Bang bang} et \textit{PID}, nous avons choisi d'étudier en détail ces deux-ci ainsi que les variantes \textit{P} et \textit{PI}.
 
-\subsubsection{\emph{Bang-bang}}
+\subsubsection{\emph{Bang bang}}
 
-L'implémentation de \emph{Bang-bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
+L'implémentation de \emph{Bang bang} est simple: une fonction reçoit en paramètre la variable à contrôler et observe si celle-ci est en-dessous (respectivement au-dessus) d'un seuil dans le cas où la correction tend à augmenter (respectivement diminuer) la variable. Elle renvoie ensuite en conséquence un état: allumé ou éteint.
 
 L'implémentation que nous avons écrite fonctionne simplement : à chaque fois que la fonction de contrôle est appelée, elle regarde si l'entrée est trop basse et si oui, la sortie est l'état activé, si non, l'état désactivé.
 
@@ -458,7 +458,7 @@ Nous avons obtenu les résultats suivants :
 \end{table}
 
 
-Comme nous pouvons le voir sur la figure en annexe \ref{fig:bangbang}, Bang-Bang ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des phénomènes non rémanents tels que l'intensité de la lumière.
+Comme nous pouvons le voir sur la figure en annexe \ref{fig:bang bang}, Bang Bang ne fait qu'osciller au-dessus et en-dessous de la courbe, montrant clairement sa faiblesse pour contrôler des phénomènes non rémanents tels que l'intensité de la lumière.
 
 L'algorithme P nous montre déjà sur la figure \ref{fig:p} un très bon contrôle de la lumière, oscillant faiblement aux alentours de la consigne.
 Si la variable contrôlée ne nécessite pas une grande précision de contrôle, cette méthode peut-être largement suffisante et beaucoup plus facile à paramétrer, ne possédant qu'une seule constante à déterminer.
@@ -551,8 +551,8 @@ Cette annexe sert de support aux conclusions auxquelles nous sommes arrivés dan
 
 \begin{figure}[htb!]
    \centering
-   \includegraphics[scale=0.35]{BangBang.eps}
-   \caption{\label{fig:bangbang} Contrôle de la luminosité par BangBang}
+   \includegraphics[scale=0.35]{Bang bang.eps}
+   \caption{\label{fig:bang bang} Contrôle de la luminosité par Bang bang}
 \end{figure}
 
 \begin{figure}[htb!]
