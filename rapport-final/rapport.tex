@@ -511,7 +511,7 @@ De plus, quand nous observons uns à uns les paramètres des chromosomes au cour
 \chapter{Conclusion et perspectives}
 
 Nous pouvons constater qu'en fonction du phénomène à contrôler, les différents algorithmes analysés présentent des avantages et inconvénients.
-En effet, pour des phénomènes rémanents ou tels que la diffusion de chaleur, Bang Bang est amplement suffisant tant que leur inertie n'est pas trop grande.
+En effet, pour des phénomènes rémanents tels que la diffusion de chaleur, Bang Bang est amplement suffisant tant que leur inertie n'est pas trop grande.
 Par contre, pour des phénomènes spontanés comme la luminosité qui nécessitent un contrôle plus subtile jouant sur l'intensité, PID montre tout son intérêt.
 
 Nos résultats montrent que malgré la facilité de paramétrisation de P et PI, PID reste le  plus efficace dans le contrôle.
@@ -527,13 +527,14 @@ Nous avons démontré que parmi ces techniques de calibrations, les trois prése
 
 La mise en situation réelle lors du Printemps des Sciences nous a permis de tester nos algorithmes et résultats. La serre était suffisamment réactive lors des perturbations simulées pendant les démonstrations faites aux visiteurs et la correction était faite de façon rapide et efficace.
 
-Ce projet aurait pu être étendu de plusieurs manières:
+Ce projet aurait pu être étendu de plusieurs manières. Premièrement, il aurait été possible d'implémenter le contrôleur MPC ou d'autres algorithmes prédictifs qui, d'après la littérature sont bien plus précis et permettent de contrecarrer les problèmes de PID.
 
-\begin{enumerate}
-\item Premièrement, il aurait été possible d'implémenter le contrôleur MPC, mais celui-ci demandait plus de ressources matérielles.
-\item Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols. En effet, actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche plus automatisée de celles-ci aurait pu être créée pour améliorer l'algorithme Ziegler-Nichols. Également, l'algorithme génétique aurait pu être amélioré en raffinant pour qu'il y ait des différences de probabilité, au niveau du taux de crossing-over et de mutation, entre générations.
-\item Côté hardware, il aurait été possible d'améliorer les circuits pour réduire le phénomène de bruit. Ce bruit était parfois légèrement représentatif, donc un filtrage hardware et/ou software (tel qu'un filtre de Kalman) aurait pu être envisagé (PID fonctionnant mieux sans bruit).
-\end{enumerate}
+Pour ce qui est des méthodes de sélection des paramètres de PID, il serait possible d'automatiser entièrement l'algorithme de Ziegler-Nichols : actuellement celui-ci est automatique à l'exception d'une interaction humaine ponctuelle lors de la phase de détection d'oscillations. Une approche automatisée de la détection pourrait être implémentée pour que notre algorithme Ziegler-Nichols soit complètement autonome.
+
+De plus, une amélioration intéressante pourrait être appliquée à l'algorithme génétique : il pourrait être raffiné pour qu'il y ait des différences de probabilité au niveau du taux de crossing-over et de mutations entre générations.
+
+Finalement, côté hardware, il serait possible d'améliorer les circuits pour réduire le phénomène de bruit auxquels PID est fort sensible. Il serait possible de limiter celui-ci grâce à un filtrage hardware, à l'aide de filtres passe-bas et passe-haut ainsi qu'a l'aide d'amplification. Une approche software peut aussi être empruntée : il est par exemple possible de lisser le signal à l'aide de filtres de Kalman \cite{kalman1960new}.
+\end{itemize}
 
 
 \bibliographystyle{apalike}
