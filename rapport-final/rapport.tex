@@ -492,7 +492,7 @@ La méthode manuelle, illustrée sur la figure en annexe \ref{fig:manuelle}, mon
 
 \subsubsection{Méthode de Ziegler-Nichols}
 
-La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle-aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
+La méthode de Ziegler-Nichols, illustrée sur la figure \ref{fig:ziegler}, montre elle aussi d'assez bons résultats, mais reste cependant la moins bonne des trois méthodes utilisées.
 Sa croissance initiale est moins rapide et ses variations un peu plus grandes, mais elle fut bien plus simple et rapide à appliquer, car une fois la courbe attendue obtenue, il suffit d'appliquer trois opérations pour connaître les valeurs des paramètres.
 
 \subsubsection{Algorithme génétique}
@@ -505,14 +505,14 @@ Nous avons fait tourner notre algorithme génétique pendant 14 générations av
 
 Nous pouvons voir une convergence du score assez rapide dans notre cas pour la détermination des paramètres, comme indiqués sur la figure \ref{fig:convergence}.
 
-De plus, quand nous observons uns à uns les paramètres des chromosomes au cours des générations, nous observons que ceux-ci convergent individuellement vers une valeur optimale comme nous pouvons le voir dans la figure \ref{fig:kibox}.
+De plus, quand nous observons un à un les paramètres des chromosomes au cours des générations, nous observons que ceux-ci convergent individuellement vers une valeur optimale comme nous pouvons le voir dans la figure \ref{fig:kibox}.
 
 
 \chapter{Conclusion et perspectives}
 
 Nous pouvons constater qu'en fonction du phénomène à contrôler, les différents algorithmes analysés présentent des avantages et inconvénients.
-En effet, pour des phénomènes rémanents tels que la diffusion de chaleur, Bang Bang est amplement suffisant.
-Par contre, pour des phénomènes spontanés comme la luminosité, nécessitent un contrôle plus subtile jouant sur l'intensité et c'est là que PID montre tout son intérêt.
+En effet, pour des phénomènes rémanents ou tels que la diffusion de chaleur, Bang Bang est amplement suffisant tant que leur inertie n'est pas trop grande.
+Par contre, pour des phénomènes spontanés comme la luminosité qui nécessitent un contrôle plus subtile jouant sur l'intensité, PID montre tout son intérêt.
 
 Nos résultats montrent que malgré la facilité de paramétrisation de P et PI, PID reste le  plus efficace dans le contrôle.
 
