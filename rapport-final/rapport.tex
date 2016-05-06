@@ -177,7 +177,7 @@ Un tel contrôleur est caractérisé dans \cite{svrcek2014real} par l'équation
 où $MV_{0}$ correspond à la correction biaisée de P controller,
 $\int e dt$ représente l'intégrale des erreurs sur l'intervalle de temps $dt$ et $T_{i}$ est le temps intégral défini comme le temps nécessaire pour changer la sortie du contrôleur d'une quantité égale à l'erreur.
 
-Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix inférieur inférieur à l'utilisation d'un P controller seul \cite{svrcek2014real}.
+Bien que ce contrôleur propose une correction aux décalages, on observe un temps de réponse jusqu'à dix fois inférieur inférieur à l'utilisation d'un P controller seul \cite{svrcek2014real}.
 
 \subsection{PI controller}
 Un contrôleur PI utilise à la fois l'action proportionnelle et l'action intégrale.
@@ -206,8 +206,8 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
-\item la stabilité,
-\item la précision (l'erreur même quand l'équilibre est atteint),
+\item la stabilité (),
+\item la précision (la tendance à rester autour de ),
 \item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
 
@@ -283,7 +283,6 @@ Ensuite, nous avons mis en place un protocole de communication via le port séri
 
 Nous avons décidé d'implémenter \textit{Bang-bang} et \textit{PID} ainsi que différentes méthodes pour déterminer les paramètres de \textit{PID} afin de pouvoir les comparer par la suite.
 
-%TODO être sérieux
 Ces implémentations ont été réalisées dans le langage de programmation Python, afin de tirer parti de sa rapidité de développement et ses librairies de calcul scientifique, telles que Numpy et Scipy.
 
 \subsection{Contrôle automatique}
