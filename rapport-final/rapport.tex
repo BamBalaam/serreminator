@@ -454,6 +454,7 @@ Nous avons obtenu les résultats suivants :
         \hline
     \end{tabular}
 \end{center}
+    \label{tab:methode}
 \caption{Score des différents algorithmes de contrôle (moyenne sur 5 simulations)}
 \end{table}
 
@@ -478,14 +479,14 @@ Pour cela, nous avons comparé plusieurs méthodes et nous sommes parvenus aux r
     \begin{tabular}{|l|l|}
         \hline
         Manuelle & $2,84 \cdot 10^4$ \\ \hline
-        Ziegler-Nichols & $3,91 \cdot 10^4$ \\ \hline
+        Ziegler-Nichols\footnotemark & $3,91 \cdot 10^4$\\ \hline
         Génétique        & $2,22 \cdot 10^4$ \\ \hline
     \end{tabular}
 \end{center}
 \caption{Score de différentes méthodes de tuning de PID (moyenne sur 5 simulations)}
 
 \end{table}
-
+\footnotetext{Le résultat obtenu ici est différent du résultat obtenu dans le tableau~\ref{tab:methode} car les simulations n'ont pas été lancées dans la même batterie de test.} 
 \subsubsection{Méthode manuelle}
 
 La méthode manuelle, illustrée sur la figure en annexe \ref{fig:manuelle}, montre une courbe croissant assez lentement vers la consigne, mais restant relativement stable à ses alentours. Même si ces résultats sont assez bons, cette méthode présente le désavantage de nécessiter la présence d'un technicien, ce qui peut prendre un temps considérable si les réactions du phénomène sont lentes.
