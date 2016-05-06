@@ -206,8 +206,8 @@ Une comparaison entre APM (une variante simple de MPC) et PID a été faite dans
 
 Les effets (positifs ou négatifs) de l'ajustement des paramètres sont, entre autres \cite{zhong2006pid} :
 \begin{enumerate}
-\item la stabilité (),
-\item la précision (la tendance à rester autour de ),
+\item la stabilité (la tendance à rester dans un interval de valeurs),
+\item la précision (la tendance à rester autour de la consigne),
 \item la rapidité (le temps d'attente avant que le système n'arrive à la stabilité)
 \end{enumerate}
 
@@ -325,7 +325,7 @@ La méthode de Ziegler–Nichols quant à elle peut soit être effectuée à la 
 Elle fonctionne comme ceci :
 \begin{enumerate}
     \item Les valeurs des 3 paramètres sont fixées à $0$.
-    \item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (cette détection peut être manuelle au automatique).
+    \item $K_p$ est augmenté jusqu'à ce que la sortie de la boucle oscille (cette détection peut être manuelle ou automatique).
 \end{enumerate}
 
 Une fois que l'oscillation est détectée, la valeur de $K_p$ ainsi obtenue est gardée et nommée $K_u$ ainsi que la période de l'oscillation : $P_u$.
@@ -349,7 +349,7 @@ Ensuite, les autres paramètres sont déterminés à l'aide du tableau \ref{tab:
 
 \subsubsection{Algorithmes génétiques}
 Il est également possible de déterminer ces paramètres à l'aide de ce que l'on appelle un algorithme génétique.
-Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci})représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
+Le principe est de générer aléatoirement une population de chromosomes qui possèdent dans notre cas 3 emplacements (ou \textit{loci}) représentant chacun l'un des paramètres $K_p$, $K_i$ ou $K_d$ à déterminer.
 
 Chaque chromosome est ensuite alors testé: un algorithme PID sera exécuté par chromosome en spécifiant les paramètres de celui-ci et recevra ensuite un score indiquant ses performances (voir \ref{section:metrics}).
 
